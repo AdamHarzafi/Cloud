@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informativa sulla Privacy Dettagliata - Harzafi Cloud</title>
+    <link rel="icon" href="index.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-color: #0f172a; 
+            --primary-accent: #3A8DFF;
+            --primary-accent-rgb: 58, 141, 255;
+            --secondary-accent: #2563eb;
+            --secondary-accent-rgb: 37, 99, 235;
+            --highlight-accent: #60a5fa; 
+            --text-light: #f1f5f9; 
+            --text-medium: #94a3b8; 
+            --card-bg: #1e293b; 
+            --card-bg-lighter: #293649;
+            --border-color: rgba(59, 130, 246, 0.2); 
+            --border-color-rgb: 59, 130, 246;
+            --header-height-desktop: 74px; 
+            --header-height-mobile: 70px;
+            --input-bg: #2d3748; 
+            --input-border: #4a5568;
+            --success-color: #48bb78;
+            --success-color-rgb: 72, 187, 120;
+            --warning-color: #f59e0b;
+            --warning-color-rgb: 245, 158, 11;
+            --error-color: #e53e3e;
+            --container-border-radius: 18px;
+            --button-border-radius: 8px;
+            --transition-speed: 0.3s;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            line-height: 1.8;
+            overflow-x: hidden;
+            padding-top: var(--header-height-desktop);
+            position: relative;
+        }
+        body::before, body::after { 
+            content: ''; position: fixed; border-radius: 50%; filter: blur(150px); z-index: -1; opacity: 0.1; animation: subtlePulse 20s infinite alternate;
+        }
+        body::before { width: 700px; height: 700px; background: var(--primary-accent); top: -200px; left: -250px; }
+        body::after { width: 600px; height: 600px; background: var(--secondary-accent); bottom: -150px; right: -200px; animation-delay: 5s; }
+
+        @keyframes subtlePulse {
+            0% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.05); opacity: 0.18; }
+            100% { transform: scale(1); opacity: 0.1; }
+        }
+        
+        .container { width: 90%; max-width: 950px; margin: 0 auto; padding: 0 15px; }
+
+        /* Header (consistent with other pages) */
+        .main-header {
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            height: var(--header-height-desktop);
+        }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .logo a { display: flex; align-items: center; text-decoration: none; color: var(--text-light); font-size: 24px; font-weight: 700; }
+        .logo img { width: 32px; height: 32px; margin-right: 10px; border-radius: 50%; padding: 2px; background: radial-gradient(circle, var(--primary-accent) 0%, transparent 70%); transition: transform 0.3s ease; }
+        .logo a:hover img { transform: rotate(360deg) scale(1.1); }
+        .header-nav-group { display: flex; align-items: center; }
+        nav.desktop-main-nav ul { list-style: none; display: flex; align-items: center; padding: 0; margin: 0; }
+        nav.desktop-main-nav ul li { margin-left: 30px; }
+        nav.desktop-main-nav ul li a { text-decoration: none; color: var(--text-medium); font-weight: 500; font-size: 0.95rem; transition: color 0.3s ease, transform 0.3s ease; position: relative; padding-bottom: 5px; }
+        nav.desktop-main-nav ul li a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--primary-accent); transition: width 0.3s ease; }
+        nav.desktop-main-nav ul li a:hover { color: var(--text-light); transform: translateY(-2px); }
+        nav.desktop-main-nav ul li a.active-link { color: var(--text-light); }
+        nav.desktop-main-nav ul li a:hover::after, nav.desktop-main-nav ul li a.active-link::after { width: 100%; }
+        .btn { padding: 10px 25px; border-radius: var(--button-border-radius); text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block; text-align: center; border: 2px solid transparent; font-size: 0.9rem; }
+        .btn-primary { background: linear-gradient(95deg, var(--primary-accent), var(--secondary-accent)); color: var(--text-light); box-shadow: 0 5px 15px rgba(var(--primary-accent-rgb), 0.25); }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 20px rgba(var(--primary-accent-rgb), 0.35); }
+        .desktop-nav-button { margin-left: 35px; display: inline-block; }
+        
+        .menu-toggle { 
+            display: none; 
+            background: none; border: none;
+            color: var(--text-light); font-size: 1.8rem;
+            cursor: pointer; padding: 5px; z-index: 1001;
+        }
+        nav#mobileNavMenu {
+            display: none; flex-direction: column; align-items: center; 
+            width: 100%; background-color: rgba(15, 23, 42, 0.99); 
+            position: fixed; top: var(--header-height-mobile); left: 0;
+            height: calc(100vh - var(--header-height-mobile)); 
+            padding: 20px 0; box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            border-top: 1px solid var(--border-color); z-index: 999;
+            overflow-y: auto; 
+        }
+        nav#mobileNavMenu.active { display: flex; }
+        nav#mobileNavMenu ul { list-style: none; padding: 0; margin: 0; flex-direction: column; width: 100%; align-items: center; }
+        nav#mobileNavMenu ul li { margin: 0; width: 100%; text-align: center; }
+        nav#mobileNavMenu ul li a { display: block; padding: 15px 20px; width: 100%; font-size: 1.1rem; text-decoration: none; color: var(--text-medium); transition: color 0.3s ease, background-color 0.3s ease; }
+        nav#mobileNavMenu ul li a:hover, nav#mobileNavMenu ul li a.active-link { color: var(--text-light); background-color: rgba(var(--primary-accent-rgb), 0.1); }
+        .mobile-nav-button { display: block; margin-top: 25px; padding: 12px 25px; width: calc(80% - 40px); max-width: 250px; box-sizing: border-box; text-align: center; font-size: 1rem; }
+
+        .page-title-section {
+            padding: 80px 0 60px; text-align: center;
+            background: linear-gradient(135deg, rgba(var(--secondary-accent-rgb),0.05) 0%, rgba(var(--primary-accent-rgb),0.1) 100%);
+        }
+        .page-title-section h1 {
+            font-size: 3.2rem; font-weight: 800; color: var(--text-light);
+            margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: slideDown 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s forwards; opacity: 0;
+        }
+        .page-title-section .page-subtitle {
+            font-size: 1.3rem; color: var(--text-medium); max-width: 800px;
+            margin: 0 auto 30px auto; font-weight: 300;
+            animation: fadeInUp 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.4s forwards; opacity: 0;
+        }
+        .last-updated {
+            font-style: italic; font-size: 0.9em; color: var(--text-medium);
+            animation: fadeInUp 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.5s forwards; opacity: 0;
+        }
+
+        .policy-main-content { padding: 50px 0; }
+        .policy-section {
+            background-color: var(--card-bg); padding: 30px 35px;
+            border-radius: var(--container-border-radius); margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 1px solid var(--border-color);
+            animation: fadeInContainer 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            opacity: 0; transform: translateY(20px);
+        }
+        .policy-section:nth-child(odd) { animation-delay: 0.2s; }
+        .policy-section:nth-child(even) { animation-delay: 0.35s; }
+
+        .policy-section h2 {
+            font-size: 1.7em; font-weight: 600; color: var(--highlight-accent);
+            margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center;
+        }
+        .policy-section h2 i { margin-right: 12px; font-size: 0.9em; }
+        .policy-section h3 {
+            font-size: 1.3em; font-weight: 500; color: var(--text-light);
+            margin-top: 25px; margin-bottom: 10px;
+        }
+        .policy-section p, .policy-section ul { font-size: 0.95em; color: var(--text-medium); margin-bottom: 15px; }
+        .policy-section strong { color: var(--text-light); font-weight: 600; }
+        .policy-section ul { margin-left: 20px; padding-left: 15px; }
+        .policy-section li { margin-bottom: 8px; padding-left: 10px; position: relative;}
+        .policy-section ul li::before {
+            content: "\f0da"; /* FontAwesome chevron-right */
+            font-family: "Font Awesome 6 Free"; font-weight: 900;
+            color: var(--primary-accent); position: absolute; left: -15px; top: 1px;
+        }
+        .policy-section a { color: var(--primary-accent); text-decoration: none; font-weight: 500; }
+        .policy-section a:hover { text-decoration: underline; color: var(--highlight-accent); }
+        .code-inline {
+            background-color: var(--input-bg); color: var(--text-light); padding: 2px 6px;
+            border-radius: 4px; font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em; border: 1px solid var(--input-border);
+        }
+
+        .main-footer { padding: 60px 0 40px; text-align: center; background-color: #0c1324; border-top: 1px solid var(--border-color); margin-top: 60px; }
+        .main-footer p { color: var(--text-medium); font-size: 0.9rem; margin-bottom: 10px; }
+        .main-footer .footer-links { margin-bottom: 20px; }
+        .main-footer .footer-links a { color: var(--text-medium); text-decoration: none; margin: 0 12px; transition: color 0.3s ease; font-size: 0.95rem; }
+        .main-footer .footer-links a:hover { color: var(--primary-accent); text-decoration: underline; }
+        .main-footer .logo-footer { display: flex; align-items: center; justify-content: center; margin-bottom: 15px; opacity: 0.8; }
+        .main-footer .logo-footer img { width: 28px; height: 28px; margin-right: 10px; }
+        .main-footer .logo-footer span { font-size: 1.2rem; font-weight: 600; color: var(--text-medium); }
+
+        @keyframes fadeInContainer { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 992px) {
+            .page-title-section h1 { font-size: 2.8rem; }
+            .page-title-section .page-subtitle { font-size: 1.15rem; }
+            .policy-section h2 { font-size: 1.5em; }
+            .policy-section h3 { font-size: 1.2em; }
+        }
+        @media (max-width: 768px) {
+            body { padding-top: var(--header-height-mobile); }
+            .main-header { height: var(--header-height-mobile); }
+            .header-nav-group { display: none; }
+            .menu-toggle { display: block; }
+            
+            .page-title-section { padding: 60px 0 40px; }
+            .page-title-section h1 { font-size: 2.2rem; }
+            .page-title-section .page-subtitle { font-size: 1rem; }
+            .policy-section { padding: 25px 20px; }
+            .policy-section h2 { font-size: 1.4em; }
+            .policy-section h3 { font-size: 1.15em; }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo"><a href="index.html"><img src="index.png" alt="Harzafi Cloud Logo"><span>Harzafi Cloud</span></a></div>
+            <div class="header-nav-group">
+                <nav class="desktop-main-nav">
+                    <ul>
+                        <li><a href="index.html#about">Scopri di più</a></li>
+                        <li><a href="index.html#features">Funzionalità</a></li>
+                        <li><a href="index.html#security">Sicurezza</a></li>
+                        <li><a href="index.html#pricing">Prezzi</a></li>
+                    </ul>
+                </nav>
+                <a href="accedi.html" class="btn btn-primary desktop-nav-button">Accedi</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false"><i class="fas fa-bars"></i></button>
+        </div>
+        <nav id="mobileNavMenu">
+            <ul>
+                <li><a href="index.html#about">Scopri di più</a></li>
+                <li><a href="index.html#features">Funzionalità</a></li>
+                <li><a href="index.html#security">Sicurezza</a></li>
+                <li><a href="index.html#pricing">Prezzi</a></li>
+            </ul>
+            <a href="accedi.html" class="btn btn-primary mobile-nav-button">Accedi</a>
+        </nav>
+    </header>
+
+    <div class="page-title-section">
+        <div class="container">
+            <h1><i class="fas fa-user-secret"></i> Informativa sulla Privacy</h1>
+            <p class="page-subtitle">La tua privacy è la nostra priorità. Questa informativa spiega in dettaglio come Harzafi Cloud raccoglie, utilizza, protegge e condivide le tue informazioni personali.</p>
+            <p class="last-updated">Ultimo aggiornamento: 27 Maggio 2025</p>
+        </div>
+    </div>
+
+    <main class="policy-main-content">
+        <div class="container">
+            <section class="policy-section" id="introduzione">
+                <h2><i class="fas fa-info-circle"></i>1. Introduzione e Ambito di Applicazione</h2>
+                <p>Benvenuto in Harzafi Cloud. La presente Informativa sulla Privacy si applica a tutti i dati personali raccolti e trattati da Harzafi ("noi", "nostro", "ci") attraverso il sito web Harzafi Cloud, le applicazioni mobili (se disponibili) e tutti i servizi correlati (collettivamente, il "Servizio"). Utilizzando il Servizio, acconsenti alle pratiche sui dati descritte in questa informativa.</p>
+                <p>Il nostro impegno è garantire la massima trasparenza e controllo sui tuoi dati, in conformità con le normative vigenti sulla protezione dei dati, incluso, ove applicabile, il Regolamento Generale sulla Protezione dei Dati (GDPR).</p>
+            </section>
+
+            <section class="policy-section" id="dati-raccolti">
+                <h2><i class="fas fa-database"></i>2. Informazioni che Raccogliamo</h2>
+                <p>Per fornirti e migliorare il Servizio, raccogliamo diverse categorie di informazioni:</p>
+                <h3>2.1. Informazioni Fornite Direttamente da Te</h3>
+                <ul>
+                    <li><strong>Dati di Registrazione Account:</strong> Quando crei un account Harzafi Cloud (come descritto in <code class="code-inline">registrazione.html</code>), raccogliamo informazioni essenziali quali: nome, cognome, data di nascita (per verifica dell'età minima di 18 anni), indirizzo email (che funge da identificatore univoco), password (memorizzata sotto forma di hash sicuro utilizzando bcryptjs), paese e, se fornita, regione/stato di residenza.</li>
+                    <li><strong>Immagine del Profilo:</strong> Se scegli di caricare un'immagine del profilo durante la registrazione o successivamente, questa immagine sarà associata al tuo account.</li>
+                    <li><strong>Contenuto Utente:</strong> Questo include tutti i file, documenti, foto, video e qualsiasi altro dato digitale che carichi, crei, archivi o condividi tramite il Servizio Harzafi Cloud. Nella versione demo attuale (<code class="code-inline">Harzafi Cloud.html</code>), questo contenuto è gestito localmente tramite LocalStorage.</li>
+                    <li><strong>Comunicazioni con Noi:</strong> Se ci contatti per supporto, feedback o altre richieste (es. tramite un futuro modulo di contatto o email), potremmo conservare una registrazione di tale corrispondenza e delle informazioni in essa contenute.</li>
+                </ul>
+                <h3>2.2. Informazioni Raccolte Automaticamente Durante l'Utilizzo del Servizio</h3>
+                <ul>
+                    <li><strong>Dati di Log e Utilizzo:</strong> Quando accedi o utilizzi il Servizio, i nostri server (o sistemi di analisi) possono registrare automaticamente informazioni ("dati di log"). Questi dati possono includere il tuo indirizzo IP, il tipo e le impostazioni del browser, il sistema operativo, le date e gli orari di accesso, le pagine visitate, le funzionalità utilizzate, i termini di ricerca e gli identificatori dei cookie. Il file <code class="code-inline">server.js</code>, ad esempio, logga tentativi di login e accesso a rotte protette.</li>
+                    <li><strong>Informazioni sul Dispositivo:</strong> Potremmo raccogliere informazioni specifiche sul dispositivo che utilizzi per accedere al Servizio, come il modello hardware, la versione del sistema operativo, identificatori univoci del dispositivo (UDID, indirizzo MAC), informazioni sulla rete mobile e tipo di browser.</li>
+                    <li><strong>Cookie e Tecnologie Simili:</strong> Utilizziamo cookie e tecnologie di tracciamento simili (come web beacon, pixel) per fornire e migliorare il Servizio, personalizzare la tua esperienza e analizzare l'utilizzo.
+                        <ul>
+                            <li><strong>Cookie Essenziali:</strong> Necessari per il funzionamento del Servizio, come i cookie di sessione (es. <code class="code-inline">connect.sid</code> gestito da <code class="code-inline">express-session</code> in <code class="code-inline">server.js</code>) che ti mantengono loggato.</li>
+                            <li><strong>Cookie di Preferenza:</strong> Ricordano le tue scelte e impostazioni (es. lingua, opzione "Ricordami").</li>
+                            <li><strong>Cookie di Performance e Analisi:</strong> Ci aiutano a capire come utilizzi il Servizio, quali pagine sono più visitate, e a identificare eventuali problemi, per ottimizzare le prestazioni.</li>
+                            <li><strong>Cookie di Marketing (se applicabile):</strong> In futuro, potremmo utilizzare cookie per mostrarti pubblicità pertinenti, ma non analizzeremo il contenuto dei tuoi file per questo scopo.</li>
+                        </ul>
+                        Puoi controllare l'uso dei cookie a livello di browser individuale, ma se scegli di disabilitare i cookie, ciò potrebbe limitare l'utilizzo di determinate funzionalità del Servizio.
+                    </li>
+                </ul>
+            </section>
+
+            <section class="policy-section" id="utilizzo-dati">
+                <h2><i class="fas fa-cogs"></i>3. Come Utilizziamo le Tue Informazioni</h2>
+                <p>Utilizziamo le informazioni raccolte per una serie di scopi, tutti volti a fornirti un servizio eccellente e sicuro:</p>
+                <ul>
+                    <li><strong>Fornitura e Manutenzione del Servizio:</strong> Per operare e mantenere il Servizio, inclusa l'autenticazione degli utenti, l'archiviazione e la gestione dei tuoi file, la sincronizzazione tra dispositivi (funzionalità futura), e l'elaborazione delle tue richieste.</li>
+                    <li><strong>Personalizzazione dell'Esperienza:</strong> Per personalizzare contenuti e funzionalità, come il messaggio di benvenuto con il tuo nome nella dashboard.</li>
+                    <li><strong>Miglioramento del Servizio:</strong> Per comprendere come gli utenti interagiscono con il Servizio, identificare aree di miglioramento, sviluppare nuove funzionalità e ottimizzare l'usabilità e le prestazioni. La pagina <code class="code-inline">index.html</code> menziona "Prestazioni Elevate" e "Interfaccia Intuitiva" come obiettivi.</li>
+                    <li><strong>Comunicazioni con Te:</strong>
+                        <ul>
+                            <li>Per inviarti comunicazioni amministrative importanti (es. modifiche ai Termini, avvisi di manutenzione, problemi di sicurezza).</li>
+                            <li>Per rispondere alle tue richieste di supporto, domande o feedback.</li>
+                            <li>Con il tuo consenso, per inviarti newsletter, offerte promozionali o altre informazioni che riteniamo possano interessarti.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Sicurezza e Prevenzione Frodi:</strong> Per proteggere la sicurezza e l'integrità del Servizio, dei nostri utenti e dei nostri sistemi; per rilevare e prevenire frodi, abusi, violazioni dei termini o altre attività dannose. Questo è un punto cardine, come evidenziato nella sezione sicurezza di <code class="code-inline">index.html</code>.</li>
+                    <li><strong>Adempimento Legale e Normativo:</strong> Per rispettare gli obblighi legali, i processi giudiziari o le richieste governative applicabili.</li>
+                    <li><strong>Ricerca e Sviluppo:</strong> Potremmo utilizzare dati aggregati e anonimizzati per scopi di ricerca e per migliorare ulteriormente il nostro Servizio.</li>
+                </ul>
+            </section>
+
+            <section class="policy-section" id="condivisione-dati">
+                <h2><i class="fas fa-share-alt"></i>4. Come e Quando Condividiamo le Tue Informazioni</h2>
+                <p>La tua privacy è fondamentale, e <strong>non vendiamo le tue informazioni personali a terzi</strong>. La condivisione delle tue informazioni avviene solo in circostanze limitate e controllate:</p>
+                <ul>
+                    <li><strong>Con il Tuo Consenso Esplicito:</strong> Condivideremo le tue informazioni con terze parti solo se ci hai dato il tuo consenso esplicito per farlo (ad esempio, se scegli di integrare Harzafi Cloud con un servizio di terze parti).</li>
+                    <li><strong>Fornitori di Servizi Terzi:</strong> Collaboriamo con fornitori di servizi terzi fidati per aiutarci a operare, fornire, migliorare, comprendere, personalizzare, supportare e commercializzare il nostro Servizio. Questi includono, ad esempio, fornitori di hosting per i server (in una versione completa, dato che la demo è locale), analisi dei dati, elaborazione dei pagamenti (per futuri piani premium), e servizi di assistenza clienti. Questi fornitori sono vincolati da obblighi contrattuali di riservatezza e possono accedere alle tue informazioni solo nella misura necessaria a svolgere i loro compiti per nostro conto e in conformità con questa Informativa sulla Privacy.</li>
+                    <li><strong>Per Motivi Legali e di Sicurezza:</strong> Potremmo divulgare le tue informazioni se riteniamo in buona fede che sia ragionevolmente necessario per:
+                        <ul>
+                            <li>Rispettare una legge, un regolamento, un processo legale o una richiesta governativa applicabile.</li>
+                            <li>Far rispettare i nostri <a href="termini.html">Termini di Servizio</a>, inclusa l'indagine su potenziali violazioni.</li>
+                            <li>Rilevare, prevenire o altrimenti affrontare frodi, problemi di sicurezza o tecnici.</li>
+                            <li>Proteggere da danni ai diritti, alla proprietà o alla sicurezza di Harzafi Cloud, dei nostri utenti o del pubblico, come richiesto o consentito dalla legge.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Trasferimenti Aziendali:</strong> In caso di fusione, acquisizione, fallimento, scioglimento, riorganizzazione, vendita di alcuni o tutti i nostri beni o azioni, finanziamento, offerta pubblica di titoli, acquisizione di tutta o parte della nostra attività, una transazione o procedura simile, o passaggi preliminari a tali attività (ad es. due diligence), le tue informazioni potrebbero essere condivise o trasferite, soggette a obblighi di riservatezza standard.</li>
+                    <li><strong>Dati Aggregati o Anonimizzati:</strong> Possiamo condividere informazioni aggregate o anonimizzate che non possono essere ragionevolmente utilizzate per identificarti.</li>
+                </ul>
+                <p>La funzionalità di "Condivisione Sicura" menzionata in <code class="code-inline">index.html</code> si riferisce alla condivisione di file da parte tua con altri utenti, che controllerai tu stesso.</p>
+            </section>
+
+            <section class="policy-section" id="sicurezza-dati">
+                <h2><i class="fas fa-lock"></i>5. Misure di Sicurezza per Proteggere i Tuoi Dati</h2>
+                <p>Prendiamo molto seriamente la sicurezza dei tuoi dati. Implementiamo una serie di misure tecniche, amministrative e fisiche progettate per proteggere le tue informazioni personali da accessi non autorizzati, uso improprio, divulgazione, alterazione o distruzione. Queste misure sono in linea con quanto promosso nella sezione "La Tua Sicurezza è la Nostra Priorità" di <code class="code-inline">index.html</code> e includono:</p>
+                <ul>
+                    <li><strong>Crittografia:</strong> Utilizziamo la crittografia per proteggere i tuoi dati sia in transito (utilizzando protocolli come TLS/SSL per le comunicazioni tra il tuo dispositivo e i nostri server) sia, ove appropriato, a riposo (at-rest) sui nostri server (ad esempio, crittografia AES-256 bit). La password del tuo account è protetta tramite hashing sicuro (bcryptjs come visto in <code class="code-inline">server.js</code>).</li>
+                    <li><strong>Controlli di Accesso:</strong> Implementiamo rigorosi controlli di accesso per limitare chi può accedere ai tuoi dati personali. L'accesso è basato sul principio del "need-to-know".</li>
+                    <li><strong>Autenticazione Forte:</strong> Supportiamo e incoraggiamo l'uso di password robuste e prevediamo di implementare l'Autenticazione a Due Fattori (2FA).</li>
+                    <li><strong>Monitoraggio della Sicurezza:</strong> Monitoriamo continuamente i nostri sistemi per individuare potenziali vulnerabilità e attacchi.</li>
+                    <li><strong>Sviluppo Sicuro:</strong> Adottiamo pratiche di sviluppo software sicure per ridurre al minimo le vulnerabilità nel nostro codice.</li>
+                    <li><strong>Protezione dell'Infrastruttura:</strong> I nostri server (in una versione di produzione) sarebbero ospitati in data center sicuri con misure di protezione fisica e ambientale.</li>
+                    <li><strong>Formazione del Personale:</strong> Il nostro personale riceve formazione sulla privacy e sulla sicurezza dei dati.</li>
+                </ul>
+                <p>Nonostante i nostri sforzi, è importante ricordare che nessun sistema di sicurezza è impenetrabile. Non possiamo garantire la sicurezza assoluta delle tue informazioni. Tu giochi anche un ruolo importante nel mantenere sicuri i tuoi dati, ad esempio proteggendo la tua password e utilizzando connessioni sicure.</p>
+            </section>
+
+            <section class="policy-section" id="conservazione-diritti">
+                <h2><i class="fas fa-user-check"></i>6. Conservazione dei Dati e i Tuoi Diritti</h2>
+                <h3>6.1. Conservazione dei Dati</h3>
+                <p>Conserveremo le tue informazioni personali solo per il tempo necessario a soddisfare gli scopi per cui sono state raccolte, come delineato in questa Informativa sulla Privacy, a meno che un periodo di conservazione più lungo non sia richiesto o consentito dalla legge (ad esempio, per obblighi fiscali, legali o contabili).</p>
+                <p>Quando le tue informazioni personali non sono più necessarie, le elimineremo o le renderemo anonime in modo sicuro. Il contenuto utente verrà conservato finché il tuo account è attivo o finché non lo elimini tu stesso. Anche dopo l'eliminazione, alcune informazioni potrebbero rimanere in copie di backup o archivi per un periodo limitato per scopi di continuità operativa o legali.</p>
+                
+                <h3>6.2. I Tuoi Diritti sulla Privacy (in base alla Giurisdizione)</h3>
+                <p>Rispettiamo i tuoi diritti sulla privacy. A seconda della tua posizione geografica e delle leggi sulla protezione dei dati applicabili (come il GDPR per i residenti nell'UE), potresti avere i seguenti diritti riguardo alle tue informazioni personali:</p>
+                <ul>
+                    <li><strong>Diritto di Accesso:</strong> Il diritto di richiedere copie delle tue informazioni personali che deteniamo.</li>
+                    <li><strong>Diritto di Rettifica:</strong> Il diritto di richiedere la correzione di qualsiasi informazione personale che ritieni inaccurata o incompleta.</li>
+                    <li><strong>Diritto alla Cancellazione ("Diritto all'Oblio"):</strong> Il diritto di richiedere la cancellazione delle tue informazioni personali, in determinate condizioni.</li>
+                    <li><strong>Diritto di Limitare il Trattamento:</strong> Il diritto di richiedere la limitazione del trattamento delle tue informazioni personali, in determinate condizioni.</li>
+                    <li><strong>Diritto di Opporti al Trattamento:</strong> Il diritto di opporti al nostro trattamento delle tue informazioni personali, in determinate condizioni (ad esempio, per marketing diretto).</li>
+                    <li><strong>Diritto alla Portabilità dei Dati:</strong> Il diritto di richiedere che trasferiamo le informazioni personali che ci hai fornito a un'altra organizzazione, o direttamente a te, in un formato strutturato, di uso comune e leggibile da dispositivo automatico, in determinate condizioni.</li>
+                    <li><strong>Diritto di Revocare il Consenso:</strong> Se il trattamento delle tue informazioni si basa sul tuo consenso, hai il diritto di revocare tale consenso in qualsiasi momento. La revoca del consenso non pregiudica la liceità del trattamento basata sul consenso prima della sua revoca.</li>
+                    <li><strong>Diritto di Presentare un Reclamo:</strong> Il diritto di presentare un reclamo a un'autorità di controllo per la protezione dei dati competente se ritieni che il nostro trattamento delle tue informazioni personali violi le leggi applicabili.</li>
+                </ul>
+                <p>Per esercitare uno qualsiasi di questi diritti, ti preghiamo di contattarci utilizzando le informazioni fornite nella sezione "Contattaci" qui sotto. Potremmo aver bisogno di verificare la tua identità prima di rispondere alla tua richiesta.</p>
+            </section>
+
+            <section class="policy-section" id="cookie-policy">
+                <h2><i class="fas fa-cookie-bite"></i>7. Informativa sui Cookie</h2>
+                <p>Harzafi Cloud utilizza cookie e tecnologie di tracciamento simili per migliorare la tua esperienza utente, analizzare l'utilizzo del Servizio e, potenzialmente, per scopi di marketing (con il tuo consenso).</p>
+                <h3>7.1. Cosa sono i Cookie?</h3>
+                <p>I cookie sono piccoli file di testo che vengono memorizzati sul tuo computer o dispositivo mobile quando visiti un sito web. Contengono informazioni sulla tua navigazione e preferenze.</p>
+                <h3>7.2. Tipi di Cookie che Utilizziamo</h3>
+                <ul>
+                    <li><strong>Cookie Strettamente Necessari (Essenziali):</strong> Questi cookie sono fondamentali per permetterti di navigare nel sito e utilizzare le sue funzionalità, come l'accesso alle aree sicure. Ad esempio, il cookie di sessione <code class="code-inline">connect.sid</code> utilizzato da <code class="code-inline">express-session</code> in <code class="code-inline">server.js</code> è essenziale per mantenere il tuo stato di login. Senza questi cookie, i servizi che hai richiesto non possono essere forniti.</li>
+                    <li><strong>Cookie di Funzionalità (Preferenza):</strong> Questi cookie consentono al sito web di ricordare le scelte che fai (come il tuo nome utente, la lingua o la regione in cui ti trovi, o l'opzione "Ricordami" in <code class="code-inline">accedi.html</code>) e forniscono funzionalità potenziate e più personali.</li>
+                    <li><strong>Cookie di Prestazione e Analisi:</strong> Questi cookie raccolgono informazioni su come i visitatori utilizzano un sito web, ad esempio quali pagine visitano più spesso, e se ricevono messaggi di errore dalle pagine web. Questi cookie non raccolgono informazioni che identificano un visitatore. Tutte le informazioni raccolte da questi cookie sono aggregate e quindi anonime. Vengono utilizzate solo per migliorare il funzionamento del sito web.</li>
+                    <li><strong>Cookie di Targeting o Pubblicitari (Futuri):</strong> Questi cookie (se e quando implementati) verrebbero utilizzati per fornire annunci più pertinenti a te e ai tuoi interessi. Ricordano che hai visitato un sito web e queste informazioni potrebbero essere condivise con altre organizzazioni come gli inserzionisti. Come dichiarato, <strong>non analizzeremo il contenuto dei tuoi file per scopi pubblicitari</strong>.</li>
+                </ul>
+                <h3>7.3. Gestione dei Cookie</h3>
+                <p>Hai il diritto di decidere se accettare o rifiutare i cookie. Puoi esercitare le tue preferenze sui cookie:</p>
+                <ul>
+                    <li><strong>Impostazioni del Browser:</strong> La maggior parte dei browser web accetta automaticamente i cookie, ma di solito puoi modificare le impostazioni del tuo browser per rifiutare i cookie se preferisci. Se scegli di rifiutare i cookie, potresti non essere in grado di sperimentare appieno le funzionalità interattive dei nostri servizi o di altri siti web.</li>
+                    <li><strong>Banner Consenso Cookie (se implementato):</strong> Potremmo implementare un banner per il consenso ai cookie che ti permette di personalizzare le tue preferenze al primo accesso.</li>
+                </ul>
+                <p>Per saperne di più sui cookie e su come gestirli, puoi visitare <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer">www.allaboutcookies.org</a>.</p>
+            </section>
+
+            <section class="policy-section" id="minori-trasferimenti">
+                <h2><i class="fas fa-globe-americas"></i>8. Privacy dei Minori e Trasferimenti Internazionali</h2>
+                <h3>8.1. Privacy dei Minori</h3>
+                <p>Il nostro Servizio non è progettato né destinato all'uso da parte di persone di età inferiore ai 18 anni ("Minori"), come specificato anche nei requisiti di registrazione (<code class="code-inline">registrazione.html</code>). Non raccogliamo consapevolmente informazioni di identificazione personale da Minori. Se sei un genitore o un tutore e sei a conoscenza del fatto che tuo figlio ci ha fornito Dati Personali senza il tuo consenso, ti preghiamo di contattarci immediatamente. Se veniamo a conoscenza di aver raccolto Dati Personali da Minori senza la verifica del consenso genitoriale, adotteremo misure per rimuovere tali informazioni dai nostri server e, se necessario, chiudere l'account del Minore.</p>
+                
+                <h3>8.2. Trasferimenti Internazionali di Dati (se applicabile)</h3>
+                <p>Le tue informazioni, inclusi i Dati Personali, potrebbero essere trasferite a — e mantenute su — computer situati al di fuori del tuo stato, provincia, nazione o altra giurisdizione governativa dove le leggi sulla protezione dei dati potrebbero differire da quelle della tua giurisdizione.</p>
+                <p>Se ti trovi al di fuori del paese in cui i nostri server sono situati (informazione che specificheremmo in una policy completa) e scegli di fornirci informazioni, ti preghiamo di notare che trasferiamo i dati, inclusi i Dati Personali, in quel paese e li elaboriamo lì. Il tuo consenso a questa Informativa sulla Privacy seguito dalla tua presentazione di tali informazioni rappresenta il tuo accordo a tale trasferimento.</p>
+                <p>Harzafi Cloud adotterà tutte le misure ragionevolmente necessarie per garantire che i tuoi dati siano trattati in modo sicuro e in conformità con questa Informativa sulla Privacy e nessun trasferimento dei tuoi Dati Personali avrà luogo verso un'organizzazione o un paese a meno che non vi siano controlli adeguati in atto, inclusa la sicurezza dei tuoi dati e altre informazioni personali.</p>
+            </section>
+
+            <section class="policy-section" id="modifiche-contatti">
+                <h2><i class="fas fa-sync-alt"></i>9. Modifiche a Questa Informativa e Contatti</h2>
+                <h3>9.1. Modifiche a Questa Informativa sulla Privacy</h3>
+                <p>Potremmo aggiornare la nostra Informativa sulla Privacy di tanto in tanto per riflettere, ad esempio, modifiche alle nostre pratiche o per altri motivi operativi, legali o normativi. Ti informeremo di eventuali modifiche sostanziali pubblicando la nuova Informativa sulla Privacy su questa pagina e aggiornando la data di "Ultimo aggiornamento" in cima.</p>
+                <p>Ti consigliamo di rivedere periodicamente questa Informativa sulla Privacy per essere informato su come proteggiamo le tue informazioni. Le modifiche a questa Informativa sulla Privacy entrano in vigore quando vengono pubblicate su questa pagina.</p>
+                
+                <h3>9.2. Come Contattarci</h3>
+                <p>Se hai domande, commenti o preoccupazioni riguardo a questa Informativa sulla Privacy, alle nostre pratiche sui dati, o se desideri esercitare i tuoi diritti sulla privacy, ti preghiamo di contattarci:</p>
+                <ul>
+                    <li>Tramite il link "Contattaci" presente nel footer del nostro sito web.</li>
+                    <li>(In una versione completa, fornire qui un indirizzo email dedicato alla privacy, es. privacy@harzaficloud.com, o un indirizzo postale).</li>
+                </ul>
+                <p>Apprezziamo il tuo feedback e ci impegniamo a rispondere prontamente alle tue richieste.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="logo-footer">
+                <a href="index.html" style="text-decoration:none; display: flex; align-items: center;">
+                    <img src="index.png" alt="Harzafi Cloud Logo">
+                    <span>Harzafi Cloud</span>
+                </a>
+            </div>
+            <p class="footer-links">
+                <a href="index.html">Home</a> |
+                <a href="privacy.html" class="active-link">Privacy</a> |
+                <a href="guida.html">Guida</a> |
+                <a href="termini.html">Termini</a> |
+                <a href="#contact-footer">Contattaci</a> </p>
+            <p>&copy; <span id="currentYear"></span> Harzafi Cloud. Realizzato con <i class="fas fa-heart" style="color:var(--primary-accent);"></i> da Harzafi. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        const menuTogglePrivacy = document.getElementById('menuToggle');
+        const mobileNavMenuPrivacy = document.getElementById('mobileNavMenu');
+        if (menuTogglePrivacy && mobileNavMenuPrivacy) {
+            const navLinksInMobileMenuPrivacy = mobileNavMenuPrivacy.querySelectorAll('ul a, .mobile-nav-button');
+            menuTogglePrivacy.addEventListener('click', () => {
+                const isExpanded = menuTogglePrivacy.getAttribute('aria-expanded') === 'true' || false;
+                menuTogglePrivacy.setAttribute('aria-expanded', !isExpanded);
+                mobileNavMenuPrivacy.classList.toggle('active');
+                const icon = menuTogglePrivacy.querySelector('i');
+                if (mobileNavMenuPrivacy.classList.contains('active')) {
+                    icon.classList.remove('fa-bars'); icon.classList.add('fa-times');
+                    document.body.style.overflow = 'hidden'; 
+                } else {
+                    icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
+                    document.body.style.overflow = ''; 
+                }
+            });
+            navLinksInMobileMenuPrivacy.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileNavMenuPrivacy.classList.contains('active')) {
+                         if (!link.classList.contains('mobile-nav-button') || link.getAttribute('href').startsWith('#') || link.getAttribute('href').startsWith('index.html#')) {
+                             menuTogglePrivacy.click(); 
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

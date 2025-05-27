@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termini di Servizio Dettagliati - Harzafi Cloud</title>
+    <link rel="icon" href="index.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-color: #0f172a; 
+            --primary-accent: #3A8DFF;
+            --primary-accent-rgb: 58, 141, 255;
+            --secondary-accent: #2563eb;
+            --secondary-accent-rgb: 37, 99, 235;
+            --highlight-accent: #60a5fa; 
+            --text-light: #f1f5f9; 
+            --text-medium: #94a3b8; 
+            --card-bg: #1e293b; 
+            --card-bg-lighter: #293649;
+            --border-color: rgba(59, 130, 246, 0.2); 
+            --border-color-rgb: 59, 130, 246;
+            --header-height-desktop: 74px; 
+            --header-height-mobile: 70px;
+            --input-bg: #2d3748; 
+            --input-border: #4a5568;
+            --success-color: #48bb78;
+            --success-color-rgb: 72, 187, 120;
+            --warning-color: #f59e0b;
+            --warning-color-rgb: 245, 158, 11;
+            --error-color: #e53e3e;
+            --container-border-radius: 18px;
+            --button-border-radius: 8px;
+            --transition-speed: 0.3s;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            line-height: 1.8;
+            overflow-x: hidden;
+            padding-top: var(--header-height-desktop);
+            position: relative;
+        }
+        body::before, body::after { 
+            content: ''; position: fixed; border-radius: 50%; filter: blur(150px); z-index: -1; opacity: 0.1; animation: subtlePulse 20s infinite alternate;
+        }
+        body::before { width: 700px; height: 700px; background: var(--primary-accent); top: -200px; left: -250px; }
+        body::after { width: 600px; height: 600px; background: var(--secondary-accent); bottom: -150px; right: -200px; animation-delay: 5s; }
+
+        @keyframes subtlePulse {
+            0% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.05); opacity: 0.18; }
+            100% { transform: scale(1); opacity: 0.1; }
+        }
+        
+        .container { width: 90%; max-width: 950px; margin: 0 auto; padding: 0 15px; }
+
+        /* Header (consistent with other pages) */
+        .main-header {
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            height: var(--header-height-desktop);
+        }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .logo a { display: flex; align-items: center; text-decoration: none; color: var(--text-light); font-size: 24px; font-weight: 700; }
+        .logo img { width: 32px; height: 32px; margin-right: 10px; border-radius: 50%; padding: 2px; background: radial-gradient(circle, var(--primary-accent) 0%, transparent 70%); transition: transform 0.3s ease; }
+        .logo a:hover img { transform: rotate(360deg) scale(1.1); }
+        .header-nav-group { display: flex; align-items: center; }
+        nav.desktop-main-nav ul { list-style: none; display: flex; align-items: center; padding: 0; margin: 0; }
+        nav.desktop-main-nav ul li { margin-left: 30px; }
+        nav.desktop-main-nav ul li a { text-decoration: none; color: var(--text-medium); font-weight: 500; font-size: 0.95rem; transition: color 0.3s ease, transform 0.3s ease; position: relative; padding-bottom: 5px; }
+        nav.desktop-main-nav ul li a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--primary-accent); transition: width 0.3s ease; }
+        nav.desktop-main-nav ul li a:hover { color: var(--text-light); transform: translateY(-2px); }
+        nav.desktop-main-nav ul li a.active-link { color: var(--text-light); }
+        nav.desktop-main-nav ul li a:hover::after, nav.desktop-main-nav ul li a.active-link::after { width: 100%; }
+        .btn { padding: 10px 25px; border-radius: var(--button-border-radius); text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block; text-align: center; border: 2px solid transparent; font-size: 0.9rem; }
+        .btn-primary { background: linear-gradient(95deg, var(--primary-accent), var(--secondary-accent)); color: var(--text-light); box-shadow: 0 5px 15px rgba(var(--primary-accent-rgb), 0.25); }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 20px rgba(var(--primary-accent-rgb), 0.35); }
+        .desktop-nav-button { margin-left: 35px; display: inline-block; }
+        
+        .menu-toggle { 
+            display: none; 
+            background: none; border: none;
+            color: var(--text-light); font-size: 1.8rem;
+            cursor: pointer; padding: 5px; z-index: 1001;
+        }
+        nav#mobileNavMenu {
+            display: none; flex-direction: column; align-items: center; 
+            width: 100%; background-color: rgba(15, 23, 42, 0.99); 
+            position: fixed; top: var(--header-height-mobile); left: 0;
+            height: calc(100vh - var(--header-height-mobile)); 
+            padding: 20px 0; box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            border-top: 1px solid var(--border-color); z-index: 999;
+            overflow-y: auto; 
+        }
+        nav#mobileNavMenu.active { display: flex; }
+        nav#mobileNavMenu ul { list-style: none; padding: 0; margin: 0; flex-direction: column; width: 100%; align-items: center; }
+        nav#mobileNavMenu ul li { margin: 0; width: 100%; text-align: center; }
+        nav#mobileNavMenu ul li a { display: block; padding: 15px 20px; width: 100%; font-size: 1.1rem; text-decoration: none; color: var(--text-medium); transition: color 0.3s ease, background-color 0.3s ease; }
+        nav#mobileNavMenu ul li a:hover, nav#mobileNavMenu ul li a.active-link { color: var(--text-light); background-color: rgba(var(--primary-accent-rgb), 0.1); }
+        .mobile-nav-button { display: block; margin-top: 25px; padding: 12px 25px; width: calc(80% - 40px); max-width: 250px; box-sizing: border-box; text-align: center; font-size: 1rem; }
+
+
+        .page-title-section {
+            padding: 80px 0 60px; text-align: center;
+            background: linear-gradient(135deg, rgba(var(--highlight-accent-rgb, 96, 165, 250),0.05) 0%, rgba(var(--primary-accent-rgb),0.1) 100%);
+             /* Define --highlight-accent-rgb if not present, e.g. 96, 165, 250 */
+        }
+        .page-title-section h1 {
+            font-size: 3.2rem; font-weight: 800; color: var(--text-light);
+            margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: slideDown 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s forwards; opacity: 0;
+        }
+        .page-title-section .page-subtitle {
+            font-size: 1.3rem; color: var(--text-medium); max-width: 800px;
+            margin: 0 auto 30px auto; font-weight: 300;
+            animation: fadeInUp 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.4s forwards; opacity: 0;
+        }
+        .last-updated {
+            font-style: italic; font-size: 0.9em; color: var(--text-medium);
+            animation: fadeInUp 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.5s forwards; opacity: 0;
+        }
+
+        .terms-main-content { padding: 50px 0; }
+        .terms-section {
+            background-color: var(--card-bg); padding: 30px 35px;
+            border-radius: var(--container-border-radius); margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 1px solid var(--border-color);
+            animation: fadeInContainer 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            opacity: 0; transform: translateY(20px);
+        }
+        .terms-section:nth-child(odd) { animation-delay: 0.2s; }
+        .terms-section:nth-child(even) { animation-delay: 0.35s; }
+        
+        .terms-section h2 {
+            font-size: 1.7em; font-weight: 600; color: var(--highlight-accent);
+            margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center;
+        }
+        .terms-section h2 i { margin-right: 12px; font-size: 0.9em; }
+        .terms-section h3 {
+            font-size: 1.3em; font-weight: 500; color: var(--text-light);
+            margin-top: 25px; margin-bottom: 10px;
+        }
+        .terms-section p, .terms-section ul { font-size: 0.95em; color: var(--text-medium); margin-bottom: 15px; }
+        .terms-section strong { color: var(--text-light); font-weight: 600; }
+        .terms-section ul { margin-left: 20px; padding-left: 15px; }
+        .terms-section li { margin-bottom: 8px; padding-left: 10px; position: relative;}
+        .terms-section ul li::before {
+            content: "\f0da"; /* FontAwesome chevron-right */
+            font-family: "Font Awesome 6 Free"; font-weight: 900;
+            color: var(--primary-accent); position: absolute; left: -15px; top: 1px;
+        }
+        .terms-section a { color: var(--primary-accent); text-decoration: none; font-weight: 500; }
+        .terms-section a:hover { text-decoration: underline; color: var(--highlight-accent); }
+        .code-inline {
+            background-color: var(--input-bg); color: var(--text-light); padding: 2px 6px;
+            border-radius: 4px; font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em; border: 1px solid var(--input-border);
+        }
+
+        .main-footer { padding: 60px 0 40px; text-align: center; background-color: #0c1324; border-top: 1px solid var(--border-color); margin-top: 60px; }
+        .main-footer p { color: var(--text-medium); font-size: 0.9rem; margin-bottom: 10px; }
+        .main-footer .footer-links { margin-bottom: 20px; }
+        .main-footer .footer-links a { color: var(--text-medium); text-decoration: none; margin: 0 12px; transition: color 0.3s ease; font-size: 0.95rem; }
+        .main-footer .footer-links a:hover { color: var(--primary-accent); text-decoration: underline; }
+        .main-footer .logo-footer { display: flex; align-items: center; justify-content: center; margin-bottom: 15px; opacity: 0.8; }
+        .main-footer .logo-footer img { width: 28px; height: 28px; margin-right: 10px; }
+        .main-footer .logo-footer span { font-size: 1.2rem; font-weight: 600; color: var(--text-medium); }
+
+        @keyframes fadeInContainer { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        :root { /* Add this if not already defined for rgba() */
+            --highlight-accent-rgb: 96, 165, 250;
+        }
+
+        @media (max-width: 992px) {
+            .page-title-section h1 { font-size: 2.8rem; }
+            .page-title-section .page-subtitle { font-size: 1.15rem; }
+            .terms-section h2 { font-size: 1.5em; }
+            .terms-section h3 { font-size: 1.2em; }
+        }
+        @media (max-width: 768px) {
+            body { padding-top: var(--header-height-mobile); }
+            .main-header { height: var(--header-height-mobile); }
+            .header-nav-group { display: none; }
+            .menu-toggle { display: block; }
+            
+            .page-title-section { padding: 60px 0 40px; }
+            .page-title-section h1 { font-size: 2.2rem; }
+            .page-title-section .page-subtitle { font-size: 1rem; }
+            .terms-section { padding: 25px 20px; }
+            .terms-section h2 { font-size: 1.4em; }
+            .terms-section h3 { font-size: 1.15em; }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo"><a href="index.html"><img src="index.png" alt="Harzafi Cloud Logo"><span>Harzafi Cloud</span></a></div>
+            <div class="header-nav-group">
+                <nav class="desktop-main-nav">
+                    <ul>
+                        <li><a href="index.html#about">Scopri di più</a></li>
+                        <li><a href="index.html#features">Funzionalità</a></li>
+                        <li><a href="index.html#security">Sicurezza</a></li>
+                        <li><a href="index.html#pricing">Prezzi</a></li>
+                    </ul>
+                </nav>
+                <a href="accedi.html" class="btn btn-primary desktop-nav-button">Accedi</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false"><i class="fas fa-bars"></i></button>
+        </div>
+        <nav id="mobileNavMenu">
+            <ul>
+                <li><a href="index.html#about">Scopri di più</a></li>
+                <li><a href="index.html#features">Funzionalità</a></li>
+                <li><a href="index.html#security">Sicurezza</a></li>
+                <li><a href="index.html#pricing">Prezzi</a></li>
+            </ul>
+            <a href="accedi.html" class="btn btn-primary mobile-nav-button">Accedi</a>
+        </nav>
+    </header>
+
+    <div class="page-title-section">
+        <div class="container">
+            <h1><i class="fas fa-file-contract"></i> Termini di Servizio</h1>
+            <p class="page-subtitle">Leggi attentamente i nostri Termini di Servizio. L'utilizzo di Harzafi Cloud implica l'accettazione di queste condizioni.</p>
+            <p class="last-updated">Ultimo aggiornamento: 27 Maggio 2025</p>
+        </div>
+    </div>
+
+    <main class="terms-main-content">
+        <div class="container">
+            <section class="terms-section" id="accettazione">
+                <h2><i class="fas fa-check-circle"></i>1. Accettazione dei Termini e Definizioni</h2>
+                <p>I presenti Termini di Servizio ("Termini") costituiscono un accordo legalmente vincolante tra l'utente ("tu", "Utente") e Harzafi ("Harzafi Cloud", "noi", "ci", "nostro") riguardante l'accesso e l'utilizzo del servizio di archiviazione cloud Harzafi Cloud, inclusi tutti i siti web, software, applicazioni mobili (se disponibili) e servizi correlati (collettivamente, il "Servizio").</p>
+                <p><strong>Accedendo, registrandoti o utilizzando il Servizio in qualsiasi modo, confermi di aver letto, compreso e accettato di essere vincolato da questi Termini e dalla nostra <a href="privacy.html">Informativa sulla Privacy</a>, che è incorporata per riferimento in questi Termini.</strong> Se non accetti integralmente questi Termini, non sei autorizzato ad accedere o utilizzare il Servizio.</p>
+                <p>Ci riserviamo il diritto di modificare questi Termini in qualsiasi momento. Ti informeremo di modifiche sostanziali (vedi Sezione 13). L'uso continuato del Servizio dopo tali modifiche costituirà la tua accettazione dei nuovi Termini.</p>
+            </section>
+
+            <section class="terms-section" id="servizio">
+                <h2><i class="fas fa-concierge-bell"></i>2. Descrizione e Idoneità del Servizio</h2>
+                <h3>2.1. Descrizione del Servizio</h3>
+                <p>Harzafi Cloud offre una piattaforma per l'archiviazione, la gestione, la sincronizzazione (funzionalità futura) e la condivisione (funzionalità futura) di file digitali e altri contenuti ("Contenuto Utente"). Il nostro piano base, "Harzafi Cloud Basic", fornisce attualmente 5 GB di spazio di archiviazione cloud gratuito, insieme a un set di funzionalità essenziali come descritto sul nostro sito web (<code class="code-inline">index.html</code>).</p>
+                <p>Possiamo modificare, sospendere o interrompere qualsiasi aspetto del Servizio in qualsiasi momento, inclusa la disponibilità di qualsiasi funzionalità, database o contenuto, con o senza preavviso, per manutenzione, aggiornamenti o altri motivi.</p>
+                <h3>2.2. Idoneità all'Uso</h3>
+                <p>Per creare un account e utilizzare il Servizio, devi:
+                    <ul>
+                        <li>Avere almeno <strong>18 anni di età</strong>, come verificato durante il processo di registrazione (<code class="code-inline">registrazione.html</code>).</li>
+                        <li>Avere la capacità legale di stipulare un accordo vincolante.</li>
+                        <li>Fornire informazioni di registrazione accurate, complete e aggiornate.</li>
+                        <li>Rispettare tutti i termini e le condizioni stabiliti nel presente documento e tutte le leggi e i regolamenti applicabili.</li>
+                    </ul>
+                L'utilizzo del Servizio è nullo laddove proibito dalla legge.</p>
+            </section>
+
+            <section class="terms-section" id="account-utente">
+                <h2><i class="fas fa-user-cog"></i>3. Account Utente, Sicurezza e Responsabilità</h2>
+                <h3>3.1. Registrazione dell'Account</h3>
+                <p>Per accedere alla maggior parte delle funzionalità del Servizio, è necessario creare un account personale. Durante la registrazione (<code class="code-inline">registrazione.html</code>), ti impegni a fornire informazioni veritiere, accurate, attuali e complete come richiesto dal modulo di registrazione.</p>
+                <h3>3.2. Sicurezza della Password e dell'Account</h3>
+                <p>Sei l'unico responsabile della salvaguardia della password che utilizzi per accedere al Servizio e di qualsiasi attività o azione intrapresa utilizzando la tua password, sia che tale password sia con il nostro Servizio o un servizio di terze parti. Raccomandiamo vivamente di utilizzare una password "forte" (minimo 8 caratteri, con una combinazione di lettere maiuscole e minuscole, numeri e simboli speciali, come indicato in <code class="code-inline">registrazione.html</code>) e unica per il tuo account Harzafi Cloud. Il <code class="code-inline">server.js</code> memorizza le password in modo sicuro utilizzando l'hashing bcryptjs.</p>
+                <p>Accetti di notificarci immediatamente a <a href="mailto:supporto@harzaficloud.com">supporto@harzaficloud.com</a> (o tramite il link "Contattaci") qualsiasi violazione della sicurezza o uso non autorizzato del tuo account di cui vieni a conoscenza. Harzafi Cloud non può e non sarà responsabile per eventuali perdite o danni derivanti dalla tua incapacità di rispettare questo obbligo di sicurezza.</p>
+                <h3>3.3. Responsabilità dell'Utente per l'Account</h3>
+                <p>Sei pienamente responsabile di tutte le attività che si verificano sotto il tuo account. Harzafi Cloud non è responsabile per eventuali perdite o danni derivanti da un accesso o utilizzo non autorizzato del tuo account.</p>
+            </section>
+
+            <section class="terms-section" id="condotta">
+                <h2><i class="fas fa-gavel"></i>4. Uso Accettabile e Condotta dell'Utente</h2>
+                <p>L'utente si impegna a utilizzare il Servizio in modo responsabile e in conformità con tutte le leggi e i regolamenti applicabili (locali, statali, nazionali e internazionali) e con questi Termini. In particolare, ti impegni a <strong>NON</strong>:</p>
+                <ul>
+                    <li>Caricare, archiviare, condividere, trasmettere o altrimenti rendere disponibile qualsiasi Contenuto Utente che:
+                        <ul>
+                            <li>Sia illegale, illecito, dannoso, minaccioso, abusivo, molesto, diffamatorio, calunnioso, invasivo della privacy altrui, volgare, osceno, pornografico, odioso, o razzialmente, etnicamente o altrimenti discutibile.</li>
+                            <li>Violhi brevetti, marchi, segreti commerciali, copyright, diritti di pubblicità o altri diritti proprietari di terzi ("Diritti di Terzi").</li>
+                            <li>Contenga virus software, worm, malware, trojan horse o qualsiasi altro codice informatico, file o programma dannoso progettato per interrompere, distruggere, danneggiare o limitare la funzionalità di qualsiasi software o hardware o apparecchiatura di telecomunicazione.</li>
+                            <li>Costituisca pubblicità non richiesta o non autorizzata, materiale promozionale, "junk mail", "spam", "catene di Sant'Antonio", "schemi piramidali" o qualsiasi altra forma di sollecitazione.</li>
+                        </ul>
+                    </li>
+                    <li>Utilizzare il Servizio per danneggiare i minori in qualsiasi modo.</li>
+                    <li>Impersonare qualsiasi persona o entità, o dichiarare falsamente o altrimenti travisare la propria affiliazione con una persona o entità.</li>
+                    <li>Falsificare intestazioni o manipolare in altro modo identificatori al fine di mascherare l'origine di qualsiasi Contenuto Utente trasmesso attraverso il Servizio.</li>
+                    <li>Interferire con o interrompere il Servizio, i server o le reti connesse al Servizio, o disobbedire a qualsiasi requisito, procedura, politica o regolamento delle reti connesse al Servizio.</li>
+                    <li>Tentare di ottenere accesso non autorizzato al Servizio, ad altri account, sistemi informatici o reti connesse al Servizio, attraverso hacking, password mining o qualsiasi altro mezzo.</li>
+                    <li>Raccogliere o memorizzare dati personali su altri utenti in relazione alla condotta e alle attività proibite sopra descritte.</li>
+                    <li>Utilizzare il Servizio per scopi commerciali non espressamente autorizzati da Harzafi Cloud per iscritto.</li>
+                    <li>Violare qualsiasi legge o regolamento applicabile.</li>
+                </ul>
+                <p>Ci riserviamo il diritto, ma non l'obbligo, di monitorare il Contenuto Utente e di indagare su qualsiasi violazione segnalata o apparente di questi Termini. A nostra esclusiva discrezione, possiamo rimuovere qualsiasi Contenuto Utente, sospendere o chiudere il tuo accesso al Servizio, o intraprendere altre azioni che riteniamo appropriate, inclusa la segnalazione alle autorità competenti, se riteniamo che tu abbia violato questi Termini o la legge.</p>
+            </section>
+
+            <section class="terms-section" id="contenuto-utente-ip">
+                <h2><i class="fas fa-copyright"></i>5. Contenuto Utente e Diritti di Proprietà Intellettuale</h2>
+                <h3>5.1. Proprietà del Contenuto Utente</h3>
+                <p><strong>Tu conservi la piena proprietà di tutto il Contenuto Utente che carichi, archivi o condividi tramite il Servizio Harzafi Cloud.</strong> Non rivendichiamo alcuna proprietà sul tuo Contenuto Utente.</p>
+                <h3>5.2. Licenza Concessa a Harzafi Cloud</h3>
+                <p>Per consentirci di fornire, operare, proteggere e migliorare il Servizio, quando carichi Contenuto Utente su Harzafi Cloud, concedi a Harzafi Cloud una licenza limitata, mondiale, non esclusiva, royalty-free, sub-licenziabile e trasferibile per utilizzare, ospitare, archiviare, riprodurre, modificare (ad esempio, per creare miniature o per adattare il contenuto per la visualizzazione su diversi dispositivi), comunicare, pubblicare (solo se scegli esplicitamente di rendere pubblico o condividere il contenuto), eseguire pubblicamente, visualizzare pubblicamente e distribuire tale Contenuto Utente. Questa licenza è strettamente allo scopo di fornire e migliorare il Servizio e per nessun altro scopo.</p>
+                <p>Questa licenza termina quando elimini il tuo Contenuto Utente dal Servizio o chiudi il tuo account, fatta eccezione per la misura in cui il tuo Contenuto Utente sia stato condiviso con altri e questi non lo abbiano eliminato, o per copie di backup residue conservate per un periodo limitato.</p>
+                <h3>5.3. Responsabilità per il Contenuto Utente</h3>
+                <p>Sei l'unico responsabile per tutto il Contenuto Utente che carichi, pubblichi, invii via email, trasmetta o altrimenti renda disponibile tramite il Servizio. Garantisci di possedere tutti i diritti necessari per concedere le licenze di cui sopra e che il tuo Contenuto Utente non viola i Diritti di Terzi o qualsiasi legge applicabile.</p>
+                <p>Harzafi Cloud non esegue una pre-selezione del Contenuto Utente, ma si riserva il diritto (ma non l'obbligo) a sua esclusiva discrezione di rifiutare, spostare o rimuovere qualsiasi Contenuto Utente disponibile tramite il Servizio che violi i Termini o sia altrimenti discutibile.</p>
+                <h3>5.4. Proprietà Intellettuale di Harzafi Cloud</h3>
+                <p>Il Servizio e tutti i materiali in esso contenuti o trasferiti, inclusi, a titolo esemplificativo, software, immagini (come <code class="code-inline">index.png</code>, <code class="code-inline">Google.png</code>), testo, grafica, loghi, brevetti, marchi, marchi di servizio, copyright, fotografie, audio, video, musica e tutto il Contenuto Utente appartenente ad altri Utenti (collettivamente, la "Proprietà di Harzafi Cloud"), e tutti i Diritti di Proprietà Intellettuale relativi, sono di proprietà esclusiva di Harzafi Cloud e dei suoi licenziatari (ad eccezione del Contenuto Utente da te fornito). Salvo quanto esplicitamente previsto nel presente documento, nulla in questi Termini sarà considerato come creazione di una licenza in o sotto tali Diritti di Proprietà Intellettuale, e accetti di non vendere, concedere in licenza, affittare, modificare, distribuire, copiare, riprodurre, trasmettere, visualizzare pubblicamente, eseguire pubblicamente, pubblicare, adattare, modificare o creare opere derivate da qualsiasi Proprietà di Harzafi Cloud.</p>
+            </section>
+
+            <section class="terms-section" id="piani-pagamenti">
+                <h2><i class="fas fa-credit-card"></i>6. Piani Tariffari, Pagamenti e Rinnovi (Cenni)</h2>
+                <p>Harzafi Cloud offre attualmente un piano "Harzafi Cloud Basic" con 5 GB di spazio di archiviazione gratuito, come descritto sulla nostra pagina dei prezzi (<code class="code-inline">index.html#pricing</code>).</p>
+                <p>In futuro, potremmo introdurre piani di abbonamento a pagamento ("Piani Premium") con maggiore spazio di archiviazione, funzionalità avanzate o altri vantaggi. Se scegli di sottoscrivere un Piano Premium:</p>
+                <ul>
+                    <li><strong>Tariffe:</strong> Le tariffe per i Piani Premium saranno specificate al momento dell'acquisto. Ci riserviamo il diritto di modificare le nostre tariffe, ma ti forniremo un preavviso di eventuali modifiche.</li>
+                    <li><strong>Pagamenti:</strong> Sarai tenuto a fornire informazioni di pagamento valide e aggiornate. Autorizzi noi (o il nostro processore di pagamento terzo) ad addebitarti le tariffe applicabili utilizzando il metodo di pagamento selezionato.</li>
+                    <li><strong>Rinnovi:</strong> Salvo diversa indicazione, i Piani Premium si rinnoveranno automaticamente per periodi successivi della stessa durata del periodo di abbonamento iniziale, alla tariffa allora corrente, a meno che tu non annulli il tuo abbonamento prima della fine del periodo corrente.</li>
+                    <li><strong>Cancellazione:</strong> Puoi cancellare il tuo Piano Premium in qualsiasi momento. La cancellazione avrà effetto alla fine del periodo di fatturazione corrente. Non sono previsti rimborsi per periodi parziali.</li>
+                </ul>
+                <p>Ulteriori dettagli sui Piani Premium, inclusi termini di fatturazione specifici, saranno forniti al momento dell'offerta di tali piani.</p>
+            </section>
+
+            <section class="terms-section" id="modifiche-servizio">
+                <h2><i class="fas fa-tools"></i>7. Modifiche al Servizio</h2>
+                <p>Siamo costantemente impegnati a innovare e migliorare il Servizio. Pertanto, ci riserviamo il diritto di modificare, sospendere temporaneamente o interrompere definitivamente, in tutto o in parte, il Servizio (incluse funzionalità, specifiche, prezzi) in qualsiasi momento, con o senza preavviso, per qualsiasi motivo, inclusi, ma non limitati a, manutenzione ordinaria o straordinaria, aggiornamenti tecnologici, o modifiche alle nostre strategie aziendali.</p>
+                <p>Non saremo responsabili nei tuoi confronti o nei confronti di terzi per qualsiasi modifica, sospensione o interruzione del Servizio. Cercheremo, ove ragionevolmente possibile, di fornire un preavviso per modifiche sostanziali che potrebbero influire negativamente sul tuo utilizzo del Servizio.</p>
+            </section>
+
+            <section class="terms-section" id="risoluzione">
+                <h2><i class="fas fa-user-slash"></i>8. Sospensione e Risoluzione dell'Account</h2>
+                <h3>8.1. Risoluzione da Parte Tua</h3>
+                <p>Puoi smettere di utilizzare il Servizio e chiudere il tuo account Harzafi Cloud in qualsiasi momento, per qualsiasi motivo, contattando il nostro supporto o utilizzando eventuali funzionalità di chiusura account che potremmo fornire all'interno del Servizio.</p>
+                <h3>8.2. Sospensione o Risoluzione da Parte di Harzafi Cloud</h3>
+                <p>Ci riserviamo il diritto, a nostra esclusiva discrezione, di sospendere o chiudere il tuo account e il tuo accesso al Servizio, con o senza preavviso, per qualsiasi motivo, incluso, ma non limitato a:</p>
+                <ul>
+                    <li>Violazione di questi Termini o della nostra <a href="privacy.html">Informativa sulla Privacy</a>.</li>
+                    <li>Mancato pagamento delle tariffe di abbonamento (per futuri Piani Premium).</li>
+                    <li>Richieste da parte di forze dell'ordine o altre agenzie governative.</li>
+                    <li>Periodi prolungati di inattività (secondo le nostre policy allora correnti).</li>
+                    <li>Problemi tecnici o di sicurezza imprevisti.</li>
+                    <li>Attività fraudolente, moleste o illegali.</li>
+                </ul>
+                <p>In caso di risoluzione, il tuo diritto di utilizzare il Servizio cesserà immediatamente. Potremmo, a nostra discrezione, eliminare il tuo Contenuto Utente dai nostri sistemi dopo la risoluzione, anche se potremmo conservare alcune informazioni come richiesto o consentito dalla legge o per scopi di backup legittimi (soggetti alla nostra Informativa sulla Privacy).</p>
+                <p>Tutte le disposizioni di questi Termini che, per loro natura, dovrebbero sopravvivere alla risoluzione, sopravvivranno alla risoluzione, incluse, a titolo esemplificativo, le disposizioni sulla proprietà, le esclusioni di garanzia, l'indennizzo e le limitazioni di responsabilità.</p>
+            </section>
+
+            <section class="terms-section" id="garanzie-limitazioni">
+                <h2><i class="fas fa-shield-alt"></i>9. Esclusione di Garanzie e Limitazione di Responsabilità</h2>
+                <h3>9.1. ESCLUSIONE DI GARANZIE</h3>
+                <p>IL SERVIZIO È FORNITO "COSÌ COM'È" E "COME DISPONIBILE", SENZA GARANZIE DI ALCUN TIPO, ESPLICITE O IMPLICITE, INCLUSE, MA NON LIMITATE A, GARANZIE IMPLICITE DI COMMERCIABILITÀ, IDONEITÀ PER UNO SCOPO PARTICOLARE, TITOLARITÀ, NON VIOLAZIONE, E QUELLE DERIVANTI DA CONSUETUDINI COMMERCIALI O USO COMMERCIALE.</p>
+                <p>HARZAFI CLOUD NON GARANTISCE CHE: (I) IL SERVIZIO SARÀ ININTERROTTO, SICURO, PRIVO DI ERRORI O DISPONIBILE IN QUALSIASI MOMENTO O LUOGO PARTICOLARE; (II) EVENTUALI ERRORI O DIFETTI SARANNO CORRETTI; (III) IL SERVIZIO, I SUOI SERVER O QUALSIASI CONTENUTO SIANO PRIVI DI VIRUS O ALTRI COMPONENTI DANNOSI; O (IV) I RISULTATI DELL'UTILIZZO DEL SERVIZIO SODDISFERANNO LE TUE ESIGENZE O ASPETTATIVE.</p>
+                <p>L'UTILIZZO DEL SERVIZIO È A TUO ESCLUSIVO RISCHIO. ALCUNE GIURISDIZIONI NON CONSENTONO L'ESCLUSIONE DI DETERMINATE GARANZIE, PERTANTO ALCUNE DELLE ESCLUSIONI DI CUI SOPRA POTREBBERO NON APPLICARSI A TE.</p>
+                <h3>9.2. LIMITAZIONE DI RESPONSABILITÀ</h3>
+                <p>NELLA MISURA MASSIMA CONSENTITA DALLA LEGGE APPLICABILE, IN NESSUN CASO HARZAFI CLOUD, I SUOI DIRIGENTI, AMMINISTRATORI, DIPENDENTI, AGENTI, PARTNER, FORNITORI O AFFILIATI SARANNO RESPONSABILI PER QUALSIASI DANNO INDIRETTO, INCIDENTALE, SPECIALE, CONSEQUENZIALE, PUNITIVO O ESEMPLARE, INCLUSI, SENZA LIMITAZIONI, DANNI PER PERDITA DI PROFITTI, DATI, UTILIZZO, AVVIAMENTO, O ALTRE PERDITE INTANGIBILI, DERIVANTI DA O RELATIVI A:</p>
+                <ul>
+                    <li>IL TUO ACCESSO O UTILIZZO O INCAPACITÀ DI ACCEDERE O UTILIZZARE IL SERVIZIO;</li>
+                    <li>QUALSIASI CONDOTTA O CONTENUTO DI TERZI SUL SERVIZIO (INCLUSO CONTENUTO UTENTE DIFFAMATORIO, OFFENSIVO O ILLEGALE);</li>
+                    <li>QUALSIASI CONTENUTO OTTENUTO DAL SERVIZIO;</li>
+                    <li>ACCESSO, USO O ALTERAZIONE NON AUTORIZZATI DELLE TUE TRASMISSIONI O CONTENUTI UTENTE;</li>
+                    <li>QUALSIASI ALTRA QUESTIONE RELATIVA AL SERVIZIO, SIA BASATA SU GARANZIA, CONTRATTO, TORTO (INCLUSA NEGLIGENZA), RESPONSABILITÀ OGGETTIVA O QUALSIASI ALTRA TEORIA LEGALE, ANCHE SE HARZAFI CLOUD È STATA INFORMATA DELLA POSSIBILITÀ DI TALI DANNI, E ANCHE SE UN RIMEDIO QUI PREVISTO SI RIVELASSE INADEGUATO AL SUO SCOPO ESSENZIALE.</li>
+                </ul>
+                <p>LA RESPONSABILITÀ COMPLESSIVA MASSIMA DI HARZAFI CLOUD NEI TUOI CONFRONTI PER TUTTE LE RICHIESTE RELATIVE AL SERVIZIO NON SUPERERÀ L'IMPORTO MAGGIORE TRA (A) CINQUANTA EURO (50,00 €) O (B) GLI IMPORTI DA TE PAGATI A HARZAFI CLOUD PER L'UTILIZZO DEL SERVIZIO NEI SEI (6) MESI PRECEDENTI LA DATA DELLA RICHIESTA CHE HA DATO ORIGINE A TALE RESPONSABILITÀ.</p>
+                <p>ALCUNE GIURISDIZIONI NON CONSENTONO LA LIMITAZIONE O L'ESCLUSIONE DI RESPONSABILITÀ PER DANNI INCIDENTALI O CONSEQUENZIALI, PERTANTO ALCUNE DELLE LIMITAZIONI DI CUI SOPRA POTREBBERO NON APPLICARSI A TE.</p>
+            </section>
+
+            <section class="terms-section" id="indennizzo">
+                <h2><i class="fas fa-balance-scale"></i>10. Indennizzo</h2>
+                <p>Accetti di difendere, indennizzare e manlevare Harzafi Cloud e i suoi licenziatari e concessori di licenze, e i loro dipendenti, appaltatori, agenti, funzionari e direttori, da e contro qualsiasi pretesa, danno, obbligo, perdita, responsabilità, costo o debito, e spesa (incluse, ma non limitate a, spese legali) derivanti da:</p>
+                <ul>
+                    <li>Il tuo utilizzo e accesso al Servizio, incluso qualsiasi dato o contenuto trasmesso o ricevuto da te;</li>
+                    <li>La tua violazione di qualsiasi termine di questi Termini, inclusa, senza limitazioni, la tua violazione di una qualsiasi delle dichiarazioni e garanzie di cui sopra;</li>
+                    <li>La tua violazione di qualsiasi diritto di terzi, incluso, senza limitazioni, qualsiasi diritto alla privacy o Diritti di Proprietà Intellettuale;</li>
+                    <li>La tua violazione di qualsiasi legge, norma o regolamento applicabile;</li>
+                    <li>Qualsiasi reclamo o danno derivante dal tuo Contenuto Utente o da qualsiasi Contenuto Utente inviato tramite il tuo account; o</li>
+                    <li>L'accesso e l'utilizzo del Servizio da parte di qualsiasi altra parte con il tuo nome utente, password o altro codice di sicurezza appropriato.</li>
+                </ul>
+            </section>
+            
+            <section class="terms-section" id="legge-controversie">
+                <h2><i class="fas fa-landmark"></i>11. Legge Applicabile e Risoluzione delle Controversie</h2>
+                <h3>11.1. Legge Applicabile</h3>
+                <p>I presenti Termini saranno disciplinati e interpretati in conformità con le leggi italiane, senza riguardo alle sue disposizioni sui conflitti di legge.</p>
+                <h3>11.2. Risoluzione Informale delle Controversie</h3>
+                <p>Per qualsiasi controversia con Harzafi Cloud, accetti di contattarci prima informalmente e tentare di risolvere la controversia in modo amichevole. Puoi contattarci tramite i canali indicati nella sezione "Contattaci" (Sezione 14).</p>
+                <h3>11.3. Arbitrato Vincolante (se applicabile e specificato)</h3>
+                <p>(Questa sezione sarebbe dettagliata se si optasse per l'arbitrato. Per ora, la omettiamo per mantenere la generalità, ma in un contesto reale andrebbe specificato il foro competente o le procedure di arbitrato.) In assenza di una clausola arbitrale specifica, le controversie saranno soggette alla giurisdizione dei tribunali competenti in Italia.</p>
+            </section>
+
+            <section class="terms-section" id="varie">
+                <h2><i class="fas fa-ellipsis-h"></i>12. Disposizioni Varie</h2>
+                <ul>
+                    <li><strong>Intero Accordo:</strong> Questi Termini, insieme alla nostra <a href="privacy.html">Informativa sulla Privacy</a>, costituiscono l'intero accordo tra te e Harzafi Cloud riguardo al Servizio e sostituiscono tutti gli accordi precedenti o contemporanei, sia scritti che orali, riguardanti l'oggetto del presente documento.</li>
+                    <li><strong>Rinuncia:</strong> Nessuna rinuncia a qualsiasi termine di questi Termini sarà considerata una rinuncia ulteriore o continuativa di tale termine o di qualsiasi altro termine, e la mancata rivendicazione da parte di Harzafi Cloud di qualsiasi diritto o disposizione ai sensi di questi Termini non costituirà una rinuncia a tale diritto o disposizione.</li>
+                    <li><strong>Separabilità:</strong> Se una qualsiasi disposizione di questi Termini è ritenuta da un tribunale della giurisdizione competente non valida, illegale o inapplicabile per qualsiasi motivo, tale disposizione sarà eliminata o limitata nella misura minima tale che le restanti disposizioni dei Termini continueranno in pieno vigore ed efficacia.</li>
+                    <li><strong>Cessione:</strong> Questi Termini, e qualsiasi diritto e licenza qui concessi, non possono essere trasferiti o ceduti da te, ma possono essere ceduti da Harzafi Cloud senza restrizioni. Qualsiasi tentativo di trasferimento o cessione in violazione del presente documento sarà nullo.</li>
+                    <li><strong>Forza Maggiore:</strong> Harzafi Cloud non sarà responsabile per qualsiasi inadempienza o ritardo nell'adempimento dei propri obblighi ai sensi dei presenti Termini derivante da qualsiasi causa al di fuori del suo ragionevole controllo, inclusi, a titolo esemplificativo, atti di forza maggiore, guerre, terrorismo, sommosse, embarghi, atti di autorità civili o militari, incendi, inondazioni, incidenti, scioperi o carenze di mezzi di trasporto, carburante, energia, manodopera o materiali.</li>
+                    <li><strong>Titoli delle Sezioni:</strong> I titoli delle sezioni utilizzati in questi Termini sono solo per comodità e non avranno alcun impatto sull'interpretazione di questi Termini.</li>
+                </ul>
+            </section>
+
+            <section class="terms-section" id="modifiche-termini">
+                <h2><i class="fas fa-sync-alt"></i>13. Modifiche ai Presenti Termini</h2>
+                <p>Ci riserviamo il diritto, a nostra esclusiva discrezione, di modificare o sostituire questi Termini in qualsiasi momento. Se una revisione è considerata da noi materiale (ad esempio, modifiche che influiscono significativamente sui tuoi diritti o obblighi), cercheremo di fornire un preavviso di almeno trenta (30) giorni prima che i nuovi termini entrino in vigore. Ciò che costituisce una modifica materiale sarà determinato a nostra esclusiva discrezione.</p>
+                <p>Il preavviso può essere fornito pubblicando i termini aggiornati sul nostro sito web, inviandoti un'email all'indirizzo associato al tuo account, o tramite altri mezzi ragionevoli. È tua responsabilità controllare periodicamente questi Termini per eventuali modifiche.</p>
+                <p>Continuando ad accedere o utilizzare il nostro Servizio dopo l'entrata in vigore di tali revisioni, accetti di essere vincolato dai termini rivisti. Se non accetti i nuovi termini, in tutto o in parte, ti preghiamo di interrompere l'utilizzo del sito web e del Servizio.</p>
+            </section>
+
+            <section class="terms-section" id="contatti">
+                <h2><i class="fas fa-envelope"></i>14. Contattaci</h2>
+                <p>Se hai domande, commenti, o preoccupazioni riguardo a questi Termini di Servizio, o se hai bisogno di contattarci per qualsiasi altro motivo relativo al Servizio, ti preghiamo di farlo utilizzando i seguenti metodi:</p>
+                <ul>
+                    <li><strong>Tramite il link "Contattaci":</strong> Disponibile nel footer di ogni pagina del nostro sito web.</li>
+                    <li><strong>Via Email (Esempio):</strong> <a href="mailto:supporto@harzaficloud.com">supporto@harzaficloud.com</a> o <a href="mailto:legale@harzaficloud.com">legale@harzaficloud.com</a> (per questioni legali).</li>
+                    <li>(In una versione completa, potrebbe essere fornito un indirizzo postale per comunicazioni formali).</li>
+                </ul>
+                <p>Faremo del nostro meglio per rispondere alle tue richieste in modo tempestivo ed esauriente.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="logo-footer">
+                <a href="index.html" style="text-decoration:none; display: flex; align-items: center;">
+                    <img src="index.png" alt="Harzafi Cloud Logo">
+                    <span>Harzafi Cloud</span>
+                </a>
+            </div>
+            <p class="footer-links">
+                <a href="index.html">Home</a> |
+                <a href="privacy.html">Privacy</a> |
+                <a href="guida.html">Guida</a> |
+                <a href="termini.html" class="active-link">Termini</a> |
+                <a href="#contatti">Contattaci</a> </p>
+            <p>&copy; <span id="currentYear"></span> Harzafi Cloud. Realizzato con <i class="fas fa-heart" style="color:var(--primary-accent);"></i> da Harzafi. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        const menuToggleTerms = document.getElementById('menuToggle');
+        const mobileNavMenuTerms = document.getElementById('mobileNavMenu');
+        if (menuToggleTerms && mobileNavMenuTerms) {
+            const navLinksInMobileMenuTerms = mobileNavMenuTerms.querySelectorAll('ul a, .mobile-nav-button');
+            menuToggleTerms.addEventListener('click', () => {
+                const isExpanded = menuToggleTerms.getAttribute('aria-expanded') === 'true' || false;
+                menuToggleTerms.setAttribute('aria-expanded', !isExpanded);
+                mobileNavMenuTerms.classList.toggle('active');
+                const icon = menuToggleTerms.querySelector('i');
+                if (mobileNavMenuTerms.classList.contains('active')) {
+                    icon.classList.remove('fa-bars'); icon.classList.add('fa-times');
+                    document.body.style.overflow = 'hidden'; 
+                } else {
+                    icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
+                    document.body.style.overflow = ''; 
+                }
+            });
+            navLinksInMobileMenuTerms.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileNavMenuTerms.classList.contains('active')) {
+                         if (!link.classList.contains('mobile-nav-button') || link.getAttribute('href').startsWith('#') || link.getAttribute('href').startsWith('index.html#')) {
+                             menuToggleTerms.click(); 
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

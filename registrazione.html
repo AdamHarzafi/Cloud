@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrati - Harzafi Cloud</title>
+    <link rel="icon" href="index.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            --primary-accent: #3A8DFF;
+            --secondary-accent: #2563eb;
+            --highlight-accent: #60a5fa;
+            --text-light: #f1f5f9;
+            --text-medium: #94a3b8;
+            --card-bg: #1e293b;
+            --border-color: rgba(59, 130, 246, 0.2);
+            --input-bg: #2d3748;
+            --input-border: #4a5568;
+            --input-focus-border: var(--primary-accent);
+            --error-color: #e53e3e;
+            --success-color: #48bb78;
+            --warning-color: #f59e0b;
+            --container-border-radius: 24px;
+            --button-border-radius: 8px;
+            --input-border-radius: 8px;
+            --transition-speed: 0.3s;
+            --welcome-panel-bg: linear-gradient(165deg, var(--secondary-accent) 0%, var(--primary-accent) 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body {
+            display: flex; justify-content: center; align-items: flex-start; min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            padding: 40px 20px; overflow-y: auto; position: relative;
+        }
+        body::before, body::after {
+            content: ''; position: absolute; border-radius: 50%; filter: blur(120px); z-index: 0; opacity: 0.15;
+        }
+        body::before { width: 600px; height: 600px; background: var(--primary-accent); top: -200px; left: -200px; }
+        body::after { width: 500px; height: 500px; background: var(--secondary-accent); bottom: -150px; right: -150px; }
+
+        .register-container {
+            display: flex; width: 1150px; max-width: 100%; min-height: 800px;
+            background-color: var(--card-bg); border-radius: var(--container-border-radius);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 10px 25px rgba(0, 0, 0, 0.25);
+            overflow: hidden; animation: fadeInContainer 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            margin: 20px 0; border: 1px solid var(--border-color); position: relative; z-index: 1;
+        }
+        @keyframes fadeInContainer { from { opacity: 0; transform: translateY(30px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        .register-form-container {
+            flex-basis: 60%; padding: 40px 50px; display: flex; flex-direction: column;
+            justify-content: center;
+        }
+        .form-header { margin-bottom: 25px; text-align: center; animation: slideDown 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s forwards; opacity: 0; }
+        .form-header h1 { font-size: 2.3em; font-weight: 700; color: var(--text-light); margin-bottom: 8px; }
+        .form-header p { font-size: 1em; color: var(--text-medium); }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .form-row { display: flex; justify-content: space-between; gap: 20px; width: 100%; }
+        .form-row .input-wrapper { flex-basis: 48%; }
+
+        .input-wrapper {
+             position: relative; margin-bottom: 20px;
+             animation: fadeInUp 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; opacity: 0;
+             width: 100%;
+        }
+        .input-wrapper .input-group { margin-bottom: 0; }
+        .input-group {
+            position: relative; display: flex; align-items: center; border: 1px solid var(--input-border);
+            border-radius: var(--input-border-radius); background-color: var(--input-bg);
+            transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+        form > .profile-pic-group { animation-delay: 0.3s; }
+        form > .form-row:nth-of-type(1) .input-wrapper:nth-of-type(1) { animation-delay: 0.4s; }
+        form > .form-row:nth-of-type(1) .input-wrapper:nth-of-type(2) { animation-delay: 0.45s; }
+        form > .input-wrapper#dobWrapper { animation-delay: 0.5s; }
+        form > .input-wrapper#emailWrapper { animation-delay: 0.55s; }
+        form > .input-wrapper#passwordWrapper { animation-delay: 0.6s; }
+        form > .password-strength-container { animation-delay: 0.62s; }
+        form > .input-wrapper#confirmPasswordWrapper { animation-delay: 0.65s; }
+        form > .form-row:nth-of-type(2) .input-wrapper:nth-of-type(1) { animation-delay: 0.7s; }
+        form > .form-row:nth-of-type(2) .input-wrapper:nth-of-type(2) { animation-delay: 0.75s; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .input-group .icon {
+            padding: 0 18px; color: var(--text-medium); font-size: 1.1em;
+            transition: color var(--transition-speed) ease; flex-shrink: 0;
+        }
+        .input-group input, .input-group select {
+            width: 100%; padding: 16px 18px 16px 0; border: none;
+            background-color: transparent; font-size: 0.95em; color: var(--text-light);
+            flex-grow: 1; outline: none;
+        }
+        .input-group input::placeholder { color: var(--text-medium); opacity: 0.7; }
+        .input-group select { padding: 16px 18px; color: var(--text-light); }
+         .input-group select option { background-color: var(--input-bg); color: var(--text-light); }
+        .input-group select option[disabled] { color: var(--text-medium); }
+
+        .input-group:focus-within {
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 0 3px rgba(58, 141, 255, 0.25);
+        }
+        .input-group:focus-within .icon:not(.toggle-password i) { color: var(--primary-accent); }
+        .input-group select {
+            padding-left: 18px;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%2394a3b8" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat; background-position: right 18px center; background-size: 20px; cursor: pointer;
+        }
+        .input-group select:disabled { background-color: #2d3748; cursor: not-allowed; opacity: 0.5; }
+        #dobDisplay { cursor: pointer; padding-left: 0; color: var(--text-light); }
+        #dobDisplay::placeholder { color: var(--text-medium); }
+
+        /* Stili per Autofill del Browser */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+            -webkit-text-fill-color: var(--text-light) !important;
+            border-radius: var(--input-border-radius) !important; /* NUOVA AGGIUNTA */
+            transition: background-color 5000s ease-in-out 0s;
+            caret-color: var(--text-light) !important;
+        }
+        /* Specifica per #dobDisplay se dovesse avere autofill (improbabile per un readonly, ma per sicurezza) */
+        #dobDisplay:-webkit-autofill,
+        #dobDisplay:-webkit-autofill:hover,
+        #dobDisplay:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+            -webkit-text-fill-color: var(--text-light) !important;
+            border-radius: var(--input-border-radius) !important; /* NUOVA AGGIUNTA */
+        }
+
+
+        .profile-pic-group {
+            display: flex; align-items: center; justify-content: center; margin-bottom: 30px;
+            padding: 20px; background-color: rgba(45, 55, 72, 0.5);
+            border-radius: 15px; border: 2px dashed var(--input-border);
+            text-align: center;
+            transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+        }
+        .profile-pic-group.drag-over {
+            border-color: var(--primary-accent);
+            background-color: rgba(58, 141, 255, 0.1);
+        }
+        .profile-pic-preview-container { position: relative; margin-right: 25px; cursor: pointer; }
+        .profile-pic-group img#profilePreview {
+            width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+            border: 4px solid var(--card-bg); box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            background-color: var(--input-bg); transition: transform var(--transition-speed) ease, border-color 0.3s ease;
+        }
+        .profile-pic-preview-container:hover img#profilePreview { transform: scale(1.05); border-color: var(--primary-accent); }
+        .profile-pic-group input[type="file"] { display: none; }
+        .profile-pic-group .upload-button-area { display: flex; flex-direction: column; align-items: flex-start; }
+        .profile-pic-group .upload-button-area p { font-size: 0.9em; color: var(--text-medium); margin-bottom: 10px; }
+        .profile-pic-group label.upload-btn {
+            display: inline-flex; align-items: center; padding: 10px 22px;
+            background: linear-gradient(90deg, #4a5568, #2d3748); color: var(--text-light);
+            border-radius: var(--button-border-radius); cursor: pointer;
+            transition: all var(--transition-speed) ease; font-size: 0.9em;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        .profile-pic-group label.upload-btn i { margin-right: 8px; font-size: 1.1em; }
+        .profile-pic-group label.upload-btn:hover {
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            transform: translateY(-2px); box-shadow: 0 6px 15px rgba(58, 141, 255, 0.25);
+        }
+        #fileNameDisplay { font-size: 0.75em; color: var(--text-medium); margin-top: 8px; font-style: italic; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .input-group .toggle-password { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--text-medium); cursor: pointer; font-size: 1.1em; z-index: 2; padding: 5px; background: transparent; border:none; }
+        .input-group .toggle-password:hover { color: var(--primary-accent); }
+
+        .password-strength-container { margin-bottom: 15px; }
+        .password-strength { height: 6px; width: 100%; background: var(--input-bg); border-radius: 3px; overflow: hidden; margin-bottom: 5px; border: 1px solid var(--input-border); }
+        .strength-bar { height: 100%; width: 0; background: var(--error-color); transition: width var(--transition-speed) ease, background-color var(--transition-speed) ease; border-radius: 2px; }
+        .password-criteria { font-size: 0.75em; color: var(--text-medium); list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 3px 15px; }
+        .password-criteria li { display: flex; align-items: center; transition: color 0.3s ease; }
+        .password-criteria li.valid { color: var(--success-color); }
+        .password-criteria li.valid i { color: var(--success-color); }
+        .password-criteria li i { margin-right: 6px; font-size: 0.8em; color: var(--text-medium); }
+        .password-criteria li.error i { color: var(--error-color); }
+
+
+        .btn-register {
+            width: 100%; padding: 18px; background: var(--welcome-panel-bg);
+            color: var(--text-light); border: none; border-radius: var(--button-border-radius);
+            font-size: 1.1em; font-weight: 600; cursor: pointer; transition: all var(--transition-speed) ease;
+            margin-top: 15px; animation: fadeInUp 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.85s forwards; opacity: 0;
+            box-shadow: 0 5px 15px rgba(58, 141, 255, 0.2);
+        }
+        .btn-register:disabled { background: #4a5568; color: var(--text-medium); box-shadow: none; cursor: not-allowed; transform: none; }
+        .btn-register:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(58, 141, 255, 0.3); }
+
+        .login-link { text-align: center; font-size: 0.9em; color: var(--text-medium); margin-top: 25px; animation: fadeInUp 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.9s forwards; opacity: 0;}
+        .login-link a { color: var(--primary-accent); text-decoration: none; font-weight: 600; }
+        .login-link a:hover { color: var(--highlight-accent); text-decoration: underline; }
+
+        .footer { text-align: center; margin-top: 35px; font-size: 0.8em; color: var(--text-medium); opacity: 0; animation: fadeInUp 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 1s forwards;}
+        .footer a { color: var(--text-medium); text-decoration: none; margin: 0 10px; }
+        .footer a:hover { color: var(--primary-accent); }
+
+        .welcome-panel {
+            flex-basis: 40%; background: var(--welcome-panel-bg);
+            color: var(--text-light); display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 60px 45px; position: relative;
+            border-radius: 0 var(--container-border-radius) var(--container-border-radius) 0;
+            animation: slideInRight 1s cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s forwards; opacity: 0;
+        }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+        .welcome-content { position: relative; z-index: 1; animation: contentAppear 1.2s cubic-bezier(0.165, 0.84, 0.44, 1) 0.8s forwards; opacity: 0; }
+        @keyframes contentAppear { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .welcome-content h2 { font-size: 2.8em; font-weight: 700; margin-bottom: 20px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+        .welcome-content p { font-size: 1em; line-height: 1.7; max-width: 330px; margin: 0 auto; opacity: 0.9; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+
+        .input-wrapper.error .input-group { border-color: var(--error-color) !important; background-color: rgba(229, 62, 62, 0.1); box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2) !important; }
+        .input-wrapper.error .input-group .icon:not(.toggle-password i) { color: var(--error-color) !important; }
+        .input-wrapper.success .input-group { border-color: var(--success-color) !important; }
+        .input-wrapper.success .input-group .icon:not(.toggle-password i) { color: var(--success-color) !important; }
+        .error-message {
+            color: var(--error-color); font-size: 0.8em; margin-top: 5px; display: block;
+            text-align: left; min-height: 1.3em; opacity: 0; transform: translateY(-5px);
+            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease; font-weight: 500;
+        }
+        .error-message.show { opacity: 1; transform: translateY(0); }
+        .input-wrapper.error .error-message.show { animation: shake 0.4s; }
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 20%, 60% {transform: translateX(-4px);} 40%, 80% {transform: translateX(4px);} }
+        .age-error { color: var(--text-light); background-color: rgba(229, 62, 62, 0.2); border-radius: 8px; display: none; border-left: 4px solid var(--error-color); animation: fadeInUp 0.5s; font-weight: 500; text-align: center; margin-bottom: 15px; padding: 12px; }
+        .age-error i { margin-right: 8px; }
+
+        /* Date Picker Modal */
+        .date-picker-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1050; opacity: 0; visibility: hidden;
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s linear 0.4s;
+        }
+        .date-picker-modal-overlay.visible {
+            opacity: 1; visibility: visible;
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s linear 0s;
+        }
+        .date-picker-modal-content {
+            background-color: var(--card-bg); color: var(--text-light);
+            padding: 30px 35px; border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35), 0 5px 15px rgba(0, 0, 0, 0.25);
+            width: 90%; max-width: 420px; transform: scale(0.9) translateY(20px); opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid var(--border-color);
+        }
+        .date-picker-modal-overlay.visible .date-picker-modal-content { transform: scale(1) translateY(0); opacity: 1; }
+        .date-picker-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--input-border);
+        }
+        .date-picker-header h3 { font-size: 1.6em; font-weight: 600; color: var(--text-light); margin: 0; }
+        .close-date-picker-btn {
+            background: none; border: none; font-size: 2.2em; color: var(--text-medium);
+            cursor: pointer; padding: 0 5px; line-height: 1; transition: color var(--transition-speed) ease;
+        }
+        .close-date-picker-btn:hover { color: var(--error-color); }
+        .date-picker-selectors { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 30px; }
+        .date-picker-selector-group { flex: 1; display: flex; flex-direction: column; }
+        .date-picker-selector-group label { font-size: 0.9em; color: var(--text-medium); margin-bottom: 8px; font-weight: 500; }
+        .date-picker-select {
+            width: 100%; padding: 14px 18px;
+            border: 1px solid var(--input-border);
+            border-radius: var(--input-border-radius); background-color: var(--input-bg);
+            font-size: 1rem;
+            color: var(--text-light); cursor: pointer;
+            transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%2394a3b8" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat; background-position: right 15px center; background-size: 20px;
+        }
+        .date-picker-select option { background-color: var(--input-bg); color: var(--text-light); }
+        .date-picker-select:focus { outline: none; border-color: var(--primary-accent); box-shadow: 0 0 0 3px rgba(58, 141, 255, 0.25); }
+        .date-picker-actions { text-align: right; margin-top: 10px; }
+        .btn-confirm-date {
+            padding: 14px 35px;
+            background: var(--welcome-panel-bg);
+            color: var(--text-light); border: none; border-radius: var(--button-border-radius);
+            font-size: 1.05em;
+            font-weight: 600; cursor: pointer; transition: all var(--transition-speed) ease;
+            box-shadow: 0 4px 12px rgba(58, 141, 255, 0.2);
+        }
+        .btn-confirm-date:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(58, 141, 255, 0.3); }
+
+        /* Success Modal */
+        .success-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 23, 42, 0.75); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            z-index: 1060;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.35s ease-in-out, visibility 0s linear 0.35s;
+        }
+        .success-modal-overlay.show { opacity: 1; visibility: visible; transition: opacity 0.35s ease-in-out, visibility 0s linear 0s; }
+        .success-modal {
+            background-color: var(--card-bg); color: var(--text-light);
+            padding: 35px 45px; border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25); text-align: center;
+            width: 90%; max-width: 440px;
+            transform: translateY(30px) scale(0.9); opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease-in-out;
+            border: 1px solid var(--border-color);
+        }
+        .success-modal-overlay.show .success-modal { transform: translateY(0) scale(1); opacity: 1; }
+        .success-modal h2 { font-size: 1.8em; font-weight: 600; color: var(--text-light); margin-top: 10px; margin-bottom: 12px; }
+        .success-modal p { font-size: 1em; color: var(--text-medium); margin-bottom: 28px; line-height: 1.6; }
+        .success-modal .icon-success { font-size: 50px; color: var(--success-color); margin-bottom: 15px; }
+        .btn-modal-action {
+            padding: 13px 32px; background: var(--welcome-panel-bg);
+            color: var(--text-light); border: none; border-radius: var(--button-border-radius);
+            font-size: 1em; font-weight: 500; cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 4px 12px rgba(58, 141, 255, 0.2);
+            text-decoration: none; display: inline-block; margin-top: 10px;
+        }
+        .btn-modal-action:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(58, 141, 255, 0.3); }
+
+        /* Image Adjustment Modal Styles */
+        .image-adjust-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1055; opacity: 0; visibility: hidden;
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s linear 0.4s;
+        }
+        .image-adjust-modal-overlay.visible {
+            opacity: 1; visibility: visible;
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0s linear 0s;
+        }
+        .image-adjust-modal-content {
+            background-color: var(--card-bg); color: var(--text-light);
+            padding: 30px; border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35), 0 5px 15px rgba(0, 0, 0, 0.25);
+            width: 90%; max-width: 600px; /* Increased for Cropper.js UI */
+            transform: scale(0.9) translateY(20px); opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid var(--border-color);
+            display: flex; flex-direction: column;
+        }
+        .image-adjust-modal-overlay.visible .image-adjust-modal-content { transform: scale(1) translateY(0); opacity: 1; }
+
+        .image-adjust-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--input-border);
+        }
+        .image-adjust-header h3 { font-size: 1.5em; font-weight: 600; color: var(--text-light); margin: 0; }
+        .close-image-adjust-btn {
+            background: none; border: none; font-size: 2em; color: var(--text-medium);
+            cursor: pointer; padding: 0 5px; line-height: 1; transition: color var(--transition-speed) ease;
+        }
+        .close-image-adjust-btn:hover { color: var(--error-color); }
+
+        .image-preview-container { /* Container for Cropper.js */
+            width: 100%;
+            height: 350px; /* Adjust as needed for Cropper.js UI */
+            margin-bottom: 20px;
+            background-color: var(--input-bg); /* Fallback if image is transparent */
+        }
+        .image-preview-container img#modalImagePreviewSrc {
+            display: block;
+            max-width: 100%; /* Important for Cropper.js */
+            /* height: auto; Cropper.js will manage height if using aspectRatio */
+        }
+
+        .image-adjustment-controls {
+            display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;
+            padding: 15px; background-color: rgba(45, 55, 72, 0.3);
+            border-radius: var(--input-border-radius);
+        }
+        .control-group {
+            display: flex; align-items: center; gap: 10px;
+        }
+        .control-group label {
+            font-size: 0.9em; color: var(--text-medium); flex-shrink: 0; min-width: 80px;
+        }
+        .control-group input[type="range"] {
+            flex-grow: 1; accent-color: var(--primary-accent); cursor: pointer;
+        }
+         .control-group .btn-control { /* Style for small control buttons */
+            background-color: var(--input-bg); color: var(--text-light);
+            border: 1px solid var(--input-border); border-radius: var(--button-border-radius);
+            padding: 8px 12px; font-size: 0.9em; cursor: pointer;
+            transition: background-color var(--transition-speed), border-color var(--transition-speed);
+        }
+        .control-group .btn-control:hover {
+            background-color: #4a5568; border-color: var(--text-medium);
+        }
+        .control-group .btn-control i { margin-right: 5px; }
+
+
+        .image-adjust-actions {
+            display: flex; justify-content: flex-end; gap: 15px; margin-top: auto;
+        }
+        .btn-image-adjust-action {
+            padding: 12px 28px;
+            border: none; border-radius: var(--button-border-radius);
+            font-size: 1em; font-weight: 500; cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        .btn-image-adjust-action.confirm {
+            background: var(--welcome-panel-bg); color: var(--text-light);
+            box-shadow: 0 4px 12px rgba(58, 141, 255, 0.2);
+        }
+        .btn-image-adjust-action.confirm:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(58, 141, 255, 0.3); }
+
+        .btn-image-adjust-action.cancel {
+            background-color: var(--input-bg); color: var(--text-light);
+            border: 1px solid var(--input-border);
+        }
+        .btn-image-adjust-action.cancel:hover { background-color: #4a5568; border-color: var(--text-medium); }
+
+        /* Cropper.js specific overrides if needed - example for dark theme */
+        .cropper-view-box, .cropper-face {
+            outline-color: var(--primary-accent) !important;
+        }
+        .cropper-line, .cropper-point {
+            background-color: var(--primary-accent) !important;
+        }
+
+
+        @media (max-width: 1100px) {
+            body { padding-top: 20px; padding-bottom: 20px; }
+            .register-container { flex-direction: column; width: 90%; max-width: 600px; min-height: auto; }
+            .register-form-container { border-radius: var(--container-border-radius) var(--container-border-radius) 0 0; padding: 35px 30px; }
+            .welcome-panel { padding: 50px 30px; min-height: 280px; border-radius: 0 0 var(--container-border-radius) var(--container-border-radius); }
+            .form-row { flex-direction: column; gap: 0; }
+             .form-row .input-wrapper { flex-basis: 100%; }
+            .profile-pic-group { flex-direction: column; align-items: center; }
+            .profile-pic-preview-container { margin-right: 0; margin-bottom: 15px; }
+            .profile-pic-group .upload-button-area { align-items: center; text-align: center;}
+        }
+        @media (max-width: 480px) {
+            body { padding: 20px 10px; } .form-header h1 { font-size: 1.9em; }
+            .input-group input, .input-group select { padding: 14px 14px 14px 0; font-size: 0.9em;}
+            .input-group select { padding-left: 14px; background-position: right 14px center; }
+            #dobDisplay { padding-right: 14px; }
+            .btn-register { padding: 16px; font-size: 1em;}
+            .welcome-content h2 { font-size: 2em; }
+            .date-picker-modal-content { padding: 25px 20px; max-width: 95%; }
+            .date-picker-header h3 { font-size: 1.4em; }
+            .date-picker-selectors { flex-direction: column; gap: 12px; margin-bottom: 25px;}
+            .date-picker-select { padding: 14px 15px; font-size: 1rem; }
+            .btn-confirm-date { padding: 12px 30px; font-size: 1rem; }
+            .success-modal { padding: 25px 20px; }
+            .success-modal h2 { font-size: 1.6em; }
+            .success-modal p { font-size: 0.9em; }
+            .btn-modal-action { padding: 12px 25px; font-size: 0.95em;}
+
+            .image-adjust-modal-content { padding: 20px; max-width: 95%;}
+            .image-adjust-header h3 { font-size: 1.3em; }
+            .image-preview-container { height: 250px; }
+            .image-adjustment-controls { padding: 10px; }
+            .control-group label { min-width: 60px; font-size: 0.85em;}
+            .image-adjust-actions { flex-direction: column; gap: 10px; }
+            .btn-image-adjust-action { width: 100%; font-size: 0.95em; padding: 12px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container" id="mainRegisterContainer">
+        <div class="register-form-container">
+            <div class="form-header"><h1>Crea il tuo Account</h1><p>È facile, veloce e sicuro!</p></div>
+            <form id="registerForm" novalidate>
+                <div class="profile-pic-group" id="profilePicDropZone">
+                    <label for="profilePic" class="profile-pic-preview-container">
+                       <img id="profilePreview" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjOTRhM2I4Ij48cGF0aCBkPSJNMTIgMTJjMi4yMSAwIDQtMS43OSA0LTQgMC0yLjIxLTEuNzktNC00LTQtMi4yMSAwLTQgMS43OS00IDQgMCAyLjIxIDEuNzkgNCA0IDR6bTAgMmMtMi42NyAwLTggMS4zNC04IDR2MmgxNnYtMmMwLTIuNjYtNS4zMy00LTgtNHoiLz48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PC9zdmc+" alt="Avatar Preview">
+                    </label>
+                    <div class="upload-button-area">
+                         <p>Trascina qui la tua foto o</p>
+                         <input type="file" id="profilePic" name="profilePic" accept="image/png, image/jpeg, image/gif">
+                         <label for="profilePic" class="upload-btn"><i class="fas fa-cloud-upload-alt"></i> Scegli File...</label>
+                         <span id="fileNameDisplay">Nessun file selezionato.</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-wrapper"><div class="input-group"><i class="fas fa-user icon"></i><input type="text" id="firstName" name="firstName" placeholder="Nome" required autocomplete="given-name"></div><small class="error-message"></small></div>
+                    <div class="input-wrapper"><div class="input-group"><i class="fas fa-user icon"></i><input type="text" id="lastName" name="lastName" placeholder="Cognome" required autocomplete="family-name"></div><small class="error-message"></small></div>
+                </div>
+                <div class="input-wrapper" id="dobWrapper">
+                    <div class="input-group">
+                        <i class="fas fa-calendar-alt icon"></i>
+                        <input type="text" id="dobDisplay" name="dobDisplay" placeholder="Data di Nascita" readonly>
+                        <input type="hidden" id="dob" name="dob" required>
+                    </div>
+                    <small class="error-message"></small> </div>
+                <div id="ageError" class="age-error"><i class="fas fa-exclamation-triangle"></i> Devi avere almeno 18 anni per registrarti.</div>
+                <div class="input-wrapper" id="emailWrapper"><div class="input-group"><i class="fas fa-envelope icon"></i><input type="email" id="email" name="email" placeholder="E-mail" required autocomplete="email"></div><small class="error-message"></small></div>
+                <div class="input-wrapper" id="passwordWrapper">
+                    <div class="input-group">
+                        <i class="fas fa-lock icon"></i>
+                        <input type="password" id="password" name="password" placeholder="Password" required autocomplete="new-password">
+                        <button type="button" class="toggle-password" aria-label="Mostra/Nascondi password"><i class="fas fa-eye-slash"></i></button>
+                    </div>
+                    <small class="error-message"></small>
+                </div>
+                <div class="password-strength-container"><div class="password-strength"><div class="strength-bar" id="strengthBar"></div></div><ul class="password-criteria" id="passwordCriteria"><li id="length"><i class="fas fa-times-circle"></i> Almeno 8 caratteri</li><li id="uppercase"><i class="fas fa-times-circle"></i> Una maiuscola</li><li id="lowercase"><i class="fas fa-times-circle"></i> Una minuscola</li><li id="number"><i class="fas fa-times-circle"></i> Un numero</li><li id="special"><i class="fas fa-times-circle"></i> Un simbolo (!@#$%)</li></ul></div>
+                <div class="input-wrapper" id="confirmPasswordWrapper">
+                    <div class="input-group">
+                        <i class="fas fa-lock icon"></i>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Conferma Password" required autocomplete="new-password">
+                        <button type="button" class="toggle-password" aria-label="Mostra/Nascondi password"><i class="fas fa-eye-slash"></i></button>
+                    </div>
+                    <small class="error-message"></small>
+                </div>
+                <div class="form-row">
+                    <div class="input-wrapper"><div class="input-group"><i class="fas fa-globe icon"></i><select id="country" name="country" required><option value="" disabled selected>Seleziona Paese</option></select></div><small class="error-message"></small></div>
+                    <div class="input-wrapper"><div class="input-group"><i class="fas fa-map-marker-alt icon"></i><select id="region" name="region" required disabled><option value="" disabled selected>Seleziona Regione/Stato</option></select></div><small class="error-message"></small></div>
+                </div>
+                <button type="submit" id="registerButton" class="btn-register">Registrati</button>
+                <div class="login-link">Hai già un account? <a href="accedi.html">Accedi</a></div>
+                <div class="footer">
+                    <span>© <span id="currentYearReg"></span> Harzafi Cloud. Tutti i diritti riservati.</span>
+                    <a href="privacy.html">Privacy</a> | <a href="guida.html">Guida</a> | <a href="termini.html">Termini</a>
+                </div>
+            </form>
+        </div>
+        <div class="welcome-panel" id="mainWelcomePanel"><div class="welcome-content"><h2>Unisciti a Noi!</h2><p>Crea il tuo spazio sicuro nel cloud. Registrati ora per iniziare a caricare, condividere e gestire i tuoi file come mai prima d'ora.</p></div></div>
+    </div>
+
+    <div id="datePickerModal" class="date-picker-modal-overlay">
+        <div class="date-picker-modal-content">
+            <div class="date-picker-header">
+                <h3>Seleziona Data di Nascita</h3>
+                <button type="button" id="closeDatePicker" class="close-date-picker-btn">&times;</button>
+            </div>
+            <div class="date-picker-selectors">
+                <div class="date-picker-selector-group">
+                    <label for="daySelector">Giorno</label>
+                    <select id="daySelector" class="date-picker-select"></select>
+                </div>
+                <div class="date-picker-selector-group">
+                    <label for="monthSelector">Mese</label>
+                    <select id="monthSelector" class="date-picker-select"></select>
+                </div>
+                <div class="date-picker-selector-group">
+                    <label for="yearSelector">Anno</label>
+                    <select id="yearSelector" class="date-picker-select"></select>
+                </div>
+            </div>
+            <div class="date-picker-actions">
+                <button type="button" id="confirmDateBtn" class="btn-confirm-date">Conferma</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="successModalOverlay" class="success-modal-overlay">
+        <div id="successModal" class="success-modal">
+            <i class="fas fa-check-circle icon-success"></i>
+            <h2>Registrazione Completata!</h2>
+            <p>Fantastico! Il tuo account Harzafi Cloud è stato creato con successo. Ora puoi accedere.</p>
+            <button id="redirectToLoginBtn" class="btn-modal-action">Torna alla Pagina di Login</button>
+        </div>
+    </div>
+
+    <div id="imageAdjustModal" class="image-adjust-modal-overlay">
+        <div class="image-adjust-modal-content">
+            <div class="image-adjust-header">
+                <h3>Adatta Immagine Profilo</h3>
+                <button type="button" id="closeImageAdjustModalBtn" class="close-image-adjust-btn">&times;</button>
+            </div>
+            <div class="image-preview-container">
+                <img id="modalImagePreviewSrc" src="#" alt="Anteprima immagine da adattare">
+            </div>
+            <div class="image-adjustment-controls">
+                <div class="control-group">
+                    <label for="zoomRange">Zoom:</label>
+                    <input type="range" id="zoomRange" name="zoomRange" min="0.1" max="3" step="0.05" value="1">
+                </div>
+                <div class="control-group">
+                    <label>Rotazione:</label>
+                    <button type="button" id="rotateLeftBtn" class="btn-control"><i class="fas fa-undo"></i> -45°</button>
+                    <button type="button" id="rotateRightBtn" class="btn-control"><i class="fas fa-redo"></i> +45°</button>
+                </div>
+                 <small style="text-align: center; color: var(--text-medium); font-size: 0.8em; margin-top: 5px;">
+                    <i>Per utilizzare queste funzionalità, assicurati di aver incluso la libreria Cropper.js.</i>
+                </small>
+            </div>
+            <div class="image-adjust-actions">
+                <button type="button" id="cancelImageAdjustBtn" class="btn-image-adjust-action cancel">Annulla</button>
+                <button type="button" id="confirmImageAdjustBtn" class="btn-image-adjust-action confirm">Conferma Immagine</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    // <![CDATA[
+        document.getElementById('currentYearReg').textContent = new Date().getFullYear();
+        let _determineFieldValidity;
+        let validateFormState;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registerForm');
+            const profilePicDropZone = document.getElementById('profilePicDropZone');
+            const profilePicInput = document.getElementById('profilePic');
+            const profilePreviewImg = document.getElementById('profilePreview');
+            const fileNameDisplaySpan = document.getElementById('fileNameDisplay');
+
+            const firstNameInput = document.getElementById('firstName');
+            const lastNameInput = document.getElementById('lastName');
+            const dobInput = document.getElementById('dob');
+            const dobDisplayInput = document.getElementById('dobDisplay');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const countryInput = document.getElementById('country');
+            const regionInput = document.getElementById('region');
+            const registerButton = document.getElementById('registerButton');
+            const allRequiredInputs = Array.from(form.querySelectorAll('input[required], select[required]'));
+            const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+            const ageErrorDiv = document.getElementById('ageError');
+            const strengthBarDiv = document.getElementById('strengthBar');
+            const passwordCriteriaUList = document.getElementById('passwordCriteria').getElementsByTagName('li');
+            const datePickerModal = document.getElementById('datePickerModal');
+            const closeDatePickerBtn = document.getElementById('closeDatePicker');
+            const daySelector = document.getElementById('daySelector');
+            const monthSelector = document.getElementById('monthSelector');
+            const yearSelector = document.getElementById('yearSelector');
+            const confirmDateBtn = document.getElementById('confirmDateBtn');
+            const successModalOverlay = document.getElementById('successModalOverlay');
+            const redirectToLoginBtn = document.getElementById('redirectToLoginBtn');
+
+            const imageAdjustModal = document.getElementById('imageAdjustModal');
+            const closeImageAdjustModalBtn = document.getElementById('closeImageAdjustModalBtn');
+            const modalImagePreviewElement = document.getElementById('modalImagePreviewSrc'); // Riferimento corretto all'elemento <img>
+            const confirmImageAdjustBtn = document.getElementById('confirmImageAdjustBtn');
+            const cancelImageAdjustBtn = document.getElementById('cancelImageAdjustBtn');
+            const zoomRangeInput = document.getElementById('zoomRange');
+            const rotateLeftBtn = document.getElementById('rotateLeftBtn');
+            const rotateRightBtn = document.getElementById('rotateRightBtn');
+
+            let currentDroppedFile = null;
+            let cropperInstance = null; // Istanza di Cropper.js
+
+
+            const countriesData = { /* ... dati paesi ... */
+                "Afghanistan": [], "Albania": [], "Algeria": [], "Andorra": [], "Angola": [],
+                "Antigua e Barbuda": [], "Arabia Saudita": [], "Argentina": [], "Armenia": [], "Australia": [],
+                "Austria": [], "Azerbaigian": [], "Bahamas": [], "Bahrein": [], "Bangladesh": [],
+                "Barbados": [], "Belgio": [], "Belize": [], "Benin": [], "Bhutan": [],
+                "Bielorussia": [], "Birmania": [], "Bolivia": [], "Bosnia Erzegovina": [], "Botswana": [],
+                "Brasile": [], "Brunei": [], "Bulgaria": [], "Burkina Faso": [], "Burundi": [],
+                "Cambogia": [], "Camerun": [], "Canada": [], "Capo Verde": [], "Ciad": [],
+                "Cile": [], "Cina": [], "Cipro": [], "Città del Vaticano": [], "Colombia": [],
+                "Congo": [], "Corea del Nord": [], "Corea del Sud": [], "Costa d’Avorio": [], "Costa Rica": [],
+                "Croazia": [], "Cuba": [], "Danimarca": [], "Dominica": [], "Ecuador": [],
+                "Egitto": [], "El Salvador": [], "Emirati Arabi Uniti": [], "Eritrea": [], "Estonia": [],
+                "Etiopia": [], "Figi": [], "Filippine": [], "Finlandia": [],
+                "Francia": ["Île-de-France", "Provenza-Alpi-Costa Azzurra", "Occitania", "Nuova Aquitania", "Alvernia-Rodano-Alpi"],
+                "Gabon": [], "Gambia": [], "Georgia": [],
+                "Germania": ["Baviera", "Berlino", "Brandeburgo", "Amburgo", "Assia"],
+                "Ghana": [], "Giamaica": [], "Giappone": [], "Gibuti": [], "Giordania": [],
+                "Grecia": [], "Grenada": [], "Guatemala": [], "Guinea": [], "Guinea Equatoriale": [],
+                "Guyana": [], "Haiti": [], "Honduras": [], "India": [], "Indonesia": [],
+                "Iran": [], "Iraq": [], "Irlanda": [], "Islanda": [], "Isole Comore": [],
+                "Isole Marshall": [], "Isole Salomone": [], "Israele": [],
+                "Italia": ["Abruzzo", "Basilicata", "Calabria", "Campania", "Emilia-Romagna", "Friuli-Venezia Giulia", "Lazio", "Liguria", "Lombardia", "Marche", "Molise", "Piemonte", "Puglia", "Sardegna", "Sicilia", "Toscana", "Trentino-Alto Adige", "Umbria", "Valle d'Aosta", "Veneto"],
+                "Kazakistan": [], "Kenya": [], "Kirghizistan": [], "Kiribati": [], "Kosovo": [],
+                "Kuwait": [], "Laos": [], "Lesotho": [], "Lettonia": [], "Libano": [],
+                "Liberia": [], "Libia": [], "Liechtenstein": [], "Lituania": [], "Lussemburgo": [],
+                "Macedonia": [], "Madagascar": [], "Malawi": [], "Maldive": [], "Malesia": [],
+                "Mali": [], "Malta": [], "Marocco": [], "Mauritania": [], "Mauritius": [],
+                "Messico": [], "Micronesia": [], "Moldova": [], "Monaco": [], "Mongolia": [],
+                "Montenegro": [], "Mozambico": [], "Namibia": [], "Nauru": [], "Nepal": [],
+                "Nicaragua": [], "Niger": [], "Nigeria": [], "Norvegia": [], "Nuova Zelanda": [],
+                "Oman": [], "Paesi Bassi": [], "Pakistan": [], "Palau": [], "Palestina": [],
+                "Panama": [], "Papua Nuova Guinea": [], "Paraguay": [], "Perù": [], "Polonia": [],
+                "Portogallo": [], "Qatar": [], "Regno Unito": ["Inghilterra", "Scozia", "Galles", "Irlanda del Nord"],
+                "Repubblica Ceca": [], "Repubblica Centrafricana": [], "Repubblica Democratica del Congo": [],
+                "Repubblica Dominicana": [], "Romania": [], "Ruanda": [], "Russia": [],
+                "Sahara Occidentale": [], "Saint Kitts e Nevis": [], "Saint Vincent e Grenadine": [],
+                "Samoa": [], "San Marino": [], "Santa Lucia": [], "São Tomé e Príncipe": [],
+                "Senegal": [], "Serbia": [], "Seychelles": [], "Sierra Leone": [], "Singapore": [],
+                "Siria": [], "Slovacchia": [], "Slovenia": [], "Somalia": [],
+                "Spagna": ["Andalusia", "Catalogna", "Madrid", "Valencia", "Galizia"],
+                "Sri Lanka": [], "Stati Uniti": ["California", "Texas", "Florida", "New York", "Pennsylvania", "Illinois"],
+                "Sud Sudan": [], "Sudafrica": [], "Sudan": [], "Suriname": [], "Svezia": [],
+                "Svizzera": ["Zurigo", "Ginevra", "Berna", "Ticino", "Vaud"],
+                "Swaziland": [], "Tagikistan": [], "Taiwan": [], "Tanzania": [], "Thailandia": [],
+                "Timor Leste": [], "Togo": [], "Tonga": [], "Trinidad e Tobago": [], "Tunisia": [],
+                "Turchia": [], "Turkmenistan": [], "Tuvalu": [], "Ucraina": [], "Uganda": [],
+                "Ungheria": [], "Uruguay": [], "Uzbekistan": [], "Vanuatu": [], "Venezuela": [],
+                "Vietnam": [], "Yemen": [], "Zambia": [], "Zimbabwe": []
+            };
+            Object.keys(countriesData).sort().forEach(c => countryInput.add(new Option(c, c)));
+
+            function initializeCropper(imageElement, imageUrl) {
+                if (cropperInstance) {
+                    cropperInstance.destroy();
+                }
+                imageElement.src = imageUrl; // Imposta src PRIMA di inizializzare Cropper
+
+                // Assicurati che l'immagine sia caricata prima di inizializzare Cropper
+                // Questo è importante se l'immagine non è già nel DOM o se src cambia
+                imageElement.onload = () => {
+                    if (typeof Cropper !== 'undefined') {
+                        cropperInstance = new Cropper(imageElement, {
+                            aspectRatio: 1 / 1, // Per foto profilo quadrate
+                            viewMode: 1,        // Limita l'area di crop all'interno del canvas
+                            dragMode: 'move',   // Permette di muovere l'immagine sotto l'area di crop
+                            autoCropArea: 0.8,  // Area iniziale del crop
+                            responsive: true,
+                            modal: true,        // Scurisce lo sfondo
+                            guides: true,
+                            center: true,
+                            highlight: false,
+                            cropBoxMovable: true,
+                            cropBoxResizable: true,
+                            toggleDragModeOnDblclick: false,
+                            // Potresti voler aggiungere altre opzioni qui
+                        });
+                        zoomRangeInput.value = 1; // Resetta lo slider dello zoom
+                    } else {
+                        console.error("Cropper.js non è caricato. Assicurati di aver incluso la libreria.");
+                    }
+                };
+                 imageElement.onerror = () => {
+                    console.error("Errore nel caricamento dell'immagine per Cropper.");
+                }
+            }
+
+
+            function openImageAdjustModal(file) {
+                if (!file || !file.type.startsWith('image/')) return;
+                currentDroppedFile = file;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // modalImagePreviewElement.src = e.target.result; // Non impostare src qui direttamente
+                    initializeCropper(modalImagePreviewElement, e.target.result);
+                    imageAdjustModal.classList.add('visible');
+                    document.body.style.overflow = 'hidden';
+                }
+                reader.readAsDataURL(file);
+            }
+
+            function closeImageAdjustModal() {
+                if (cropperInstance) {
+                    cropperInstance.destroy();
+                    cropperInstance = null;
+                }
+                imageAdjustModal.classList.remove('visible');
+                 if (!successModalOverlay.classList.contains('show') && !datePickerModal.classList.contains('visible')) {
+                    document.body.style.overflow = '';
+                }
+                modalImagePreviewElement.src = '#';
+                currentDroppedFile = null;
+            }
+
+            closeImageAdjustModalBtn.addEventListener('click', closeImageAdjustModal);
+            cancelImageAdjustBtn.addEventListener('click', closeImageAdjustModal);
+            imageAdjustModal.addEventListener('click', (e) => {
+                if (e.target === imageAdjustModal) closeImageAdjustModal();
+            });
+
+            zoomRangeInput.addEventListener('input', function() {
+                if (cropperInstance) {
+                    // Cropper.js gestisce lo zoom in modo diverso da una semplice scala.
+                    // Questa è una possibile interpretazione; la sua API potrebbe richiedere `zoomTo`.
+                    // Il valore dello slider (0.1 a 3) potrebbe aver bisogno di essere mappato diversamente.
+                    // Qui usiamo il metodo `zoom` che zooma RELATIVAMENTE.
+                    // Per uno zoom assoluto, dovresti calcolare il ratio.
+                    // Ad es., se sliderValue = 1 (no zoom), ratio è 0.
+                    // se sliderValue > 1, ratio è (sliderValue - 1)
+                    // se sliderValue < 1, ratio è -(1 - sliderValue)
+                    // cropperInstance.zoom(ratio);
+                    // Oppure, più semplicemente, se hai un valore di zoom assoluto che vuoi raggiungere:
+                     cropperInstance.zoomTo(parseFloat(this.value));
+                } else {
+                     modalImagePreviewElement.style.transform = `scale(${this.value})`; // Fallback visuale
+                }
+            });
+
+            rotateLeftBtn.addEventListener('click', function() {
+                if (cropperInstance) {
+                    cropperInstance.rotate(-45); // Ruota di -45 gradi
+                }
+            });
+
+            rotateRightBtn.addEventListener('click', function() {
+                if (cropperInstance) {
+                    cropperInstance.rotate(45); // Ruota di +45 gradi
+                }
+            });
+
+
+            confirmImageAdjustBtn.addEventListener('click', function() {
+                if (cropperInstance) {
+                    const croppedCanvas = cropperInstance.getCroppedCanvas({
+                        width: 256, // Larghezza desiderata per l'immagine del profilo
+                        height: 256, // Altezza desiderata
+                        imageSmoothingEnabled: true,
+                        imageSmoothingQuality: 'high',
+                    });
+
+                    if (croppedCanvas) {
+                        profilePreviewImg.src = croppedCanvas.toDataURL(); // Aggiorna l'anteprima principale
+
+                        croppedCanvas.toBlob(function (blob) {
+                            if (blob) {
+                                const dataTransfer = new DataTransfer();
+                                const originalFileName = currentDroppedFile ? currentDroppedFile.name : 'profile.png';
+                                // Tenta di mantenere l'estensione originale se possibile, altrimenti usa .png
+                                const extension = originalFileName.includes('.') ? originalFileName.substring(originalFileName.lastIndexOf('.')) : '.png';
+                                const baseName = originalFileName.includes('.') ? originalFileName.substring(0, originalFileName.lastIndexOf('.')) : originalFileName;
+
+                                let mimeType = 'image/png';
+                                if (blob.type && (blob.type === 'image/jpeg' || blob.type === 'image/webp')) {
+                                    mimeType = blob.type;
+                                }
+                                const finalFileName = `${baseName}_cropped${mimeType === 'image/jpeg' ? '.jpg' : (mimeType === 'image/webp' ? '.webp' : '.png')}`;
+
+                                dataTransfer.items.add(new File([blob], finalFileName, { type: mimeType }));
+                                profilePicInput.files = dataTransfer.files;
+                                fileNameDisplaySpan.textContent = finalFileName;
+                            } else {
+                                console.error("Errore nella creazione del Blob dall'immagine ritagliata.");
+                                // Fallback: usa l'immagine originale se il blob non può essere creato
+                                if (currentDroppedFile) {
+                                    const dataTransfer = new DataTransfer();
+                                    dataTransfer.items.add(currentDroppedFile);
+                                    profilePicInput.files = dataTransfer.files;
+                                    profilePreviewImg.src = URL.createObjectURL(currentDroppedFile);
+                                    fileNameDisplaySpan.textContent = currentDroppedFile.name;
+                                }
+                            }
+                        }, currentDroppedFile ? currentDroppedFile.type : 'image/png'); // Prova a usare il tipo originale per toBlob, fallback a png
+                    } else {
+                         console.error("Impossibile ottenere il canvas ritagliato da Cropper.js");
+                         // Fallback all'immagine originale se il canvas non è disponibile
+                        if (currentDroppedFile) {
+                            const dataTransfer = new DataTransfer();
+                            dataTransfer.items.add(currentDroppedFile);
+                            profilePicInput.files = dataTransfer.files;
+                            profilePreviewImg.src = URL.createObjectURL(currentDroppedFile);
+                            fileNameDisplaySpan.textContent = currentDroppedFile.name;
+                        }
+                    }
+                } else if (currentDroppedFile) { // Fallback se Cropper non è inizializzato ma un file è stato droppato
+                     const dataTransfer = new DataTransfer();
+                     dataTransfer.items.add(currentDroppedFile);
+                     profilePicInput.files = dataTransfer.files;
+                     profilePreviewImg.src = URL.createObjectURL(currentDroppedFile); // Mostra l'originale
+                     fileNameDisplaySpan.textContent = currentDroppedFile.name;
+                }
+                closeImageAdjustModal();
+            });
+
+
+            function handleProfileImageUpload(file) {
+                if (file) {
+                    if (!file.type.startsWith('image/')) {
+                        alert("Per favore, seleziona un file immagine (es. PNG, JPG, GIF).");
+                        profilePicInput.value = '';
+                        return false;
+                    }
+                    if (file.size > 5 * 1024 * 1024) { // 5MB
+                        alert("L'immagine è troppo grande! Max 5MB.");
+                        profilePicInput.value = '';
+                        return false;
+                    }
+                    return true;
+                }
+                return false;
+            }
+
+            profilePicInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (handleProfileImageUpload(file)) {
+                    openImageAdjustModal(file);
+                } else {
+                    if (!file) {
+                        if(fileNameDisplaySpan.textContent !== 'Nessun file selezionato.') {
+                             profilePreviewImg.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjOTRhM2I4Ij48cGF0aCBkPSJNMTIgMTJjMi4yMSAwIDQtMS43OSA0LTQgMC0yLjIxLTEuNzktNC00LTQtMi4yMSAwLTQgMS43OS00IDQgMCAyLjIxIDEuNzkgNCA0IDR6bTAgMmMtMi42NyAwLTggMS4zNC04IDR2MmgxNnYtMmMwLTIuNjYtNS4zMy00LTgtNHoiLz48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PC9zdmc+';
+                             fileNameDisplaySpan.textContent = 'Nessun file selezionato.';
+                             if (cropperInstance) { cropperInstance.destroy(); cropperInstance = null;}
+                        }
+                    }
+                }
+            });
+
+            profilePreviewImg.closest('.profile-pic-preview-container').addEventListener('click', (e) => {
+                e.stopPropagation();
+                profilePicInput.click();
+            });
+
+            if (profilePicDropZone) {
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    profilePicDropZone.addEventListener(eventName, preventDefaults, false);
+                    document.body.addEventListener(eventName, preventDefaultsBody, false);
+                });
+
+                function preventDefaultsBody(e) {
+                    if (e.target === document.body) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    profilePicDropZone.addEventListener(eventName, () => profilePicDropZone.classList.add('drag-over'), false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    profilePicDropZone.addEventListener(eventName, () => profilePicDropZone.classList.remove('drag-over'), false);
+                });
+
+                profilePicDropZone.addEventListener('drop', (e) => {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    if (files.length > 0) {
+                        const file = files[0];
+                         if (handleProfileImageUpload(file)) {
+                            openImageAdjustModal(file);
+                        }
+                    }
+                }, false);
+            }
+
+
+            countryInput.addEventListener('change', function() {
+                const selectedCountry = this.value;
+                regionInput.innerHTML = '<option value="" disabled selected>Seleziona Regione/Stato</option>';
+                clearValidationUI(regionInput);
+                if (selectedCountry && countriesData[selectedCountry] && countriesData[selectedCountry].length > 0) {
+                    countriesData[selectedCountry].sort().forEach(r => regionInput.add(new Option(r, r)));
+                    regionInput.disabled = false;
+                } else {
+                    regionInput.disabled = true;
+                    regionInput.value = "";
+                }
+                const { isValid: regionIsValid, message: regionMsg } = _determineFieldValidity(regionInput);
+                setValidationUI(regionInput, regionIsValid, regionMsg);
+                validateFormState(false);
+            });
+
+            togglePasswordButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    const icon = this.querySelector('i');
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
+                    icon.classList.toggle('fa-eye');
+                    icon.classList.toggle('fa-eye-slash');
+                });
+            });
+             const setValidationUI = (input, isValid, message = '') => {
+                const wrapper = input.closest('.input-wrapper');
+                if (!wrapper) return;
+                const errorEl = wrapper.querySelector('.error-message');
+                const group = wrapper.querySelector('.input-group');
+
+                wrapper.classList.toggle('error', !isValid);
+                wrapper.classList.toggle('success', isValid && (input.value.trim() !== '' || (input.id === 'dob' && dobDisplayInput.value.trim() !== '')));
+
+                if (errorEl) {
+                    errorEl.textContent = message;
+                    errorEl.classList.toggle('show', !isValid && message !== '');
+                }
+                 const iconEl = group ? group.querySelector('.icon:not(.toggle-password i)') : null;
+                if (iconEl) {
+                    const isActive = document.activeElement === input || (input.id ==='dob' && document.activeElement === dobDisplayInput);
+                    if (isValid && (input.value.trim() !== '' || (input.id === 'dob' && dobDisplayInput.value.trim() !== ''))) {
+                         iconEl.style.color = 'var(--success-color)';
+                    } else if (!isValid && message !== '') {
+                         iconEl.style.color = 'var(--error-color)';
+                    } else if (!isActive) {
+                         iconEl.style.color = 'var(--text-medium)';
+                    } else if (isActive && (!input.value.trim() && !(input.id === 'dob' && dobDisplayInput.value.trim() !== '')) && !message){
+                         iconEl.style.color = 'var(--text-medium)';
+                    }
+                }
+            };
+
+            const clearValidationUI = (input) => {
+                 const wrapper = input.closest('.input-wrapper');
+                 if (!wrapper) return;
+                 wrapper.classList.remove('error', 'success');
+                 const errorEl = wrapper.querySelector('.error-message');
+                 if (errorEl) {
+                    errorEl.textContent = '';
+                    errorEl.classList.remove('show');
+                 }
+                 const group = wrapper.querySelector('.input-group');
+                 const iconEl = group ? group.querySelector('.icon:not(.toggle-password i)') : null;
+                 if (iconEl) {
+                    const isActive = document.activeElement === input || (input.id ==='dob' && document.activeElement === dobDisplayInput);
+                    if(!isActive) iconEl.style.color = 'var(--text-medium)';
+                 }
+                 if (input.id === 'dob') {
+                    ageErrorDiv.style.display = 'none';
+                    if (!dobDisplayInput.value) dobDisplayInput.placeholder = 'Data di Nascita';
+                 }
+            };
+
+            const populateMonths = () => {
+                const months = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
+                monthSelector.innerHTML = ''; months.forEach((month, index) => monthSelector.add(new Option(month, index + 1)));
+            };
+            const populateYears = () => {
+                yearSelector.innerHTML = ''; const currentYear = new Date().getFullYear();
+                const startYear = currentYear - 100; const minAgeYear = currentYear - 18;
+                for (let year = minAgeYear; year >= startYear; year--) yearSelector.add(new Option(year, year));
+            };
+            const populateDays = (year, month) => {
+                daySelector.innerHTML = ''; const daysInMonth = new Date(year, month, 0).getDate();
+                for (let day = 1; day <= daysInMonth; day++) daySelector.add(new Option(day, day));
+            };
+
+            const openDatePicker = () => {
+                const currentDateVal = dobInput.value; let initialYear, initialMonth, initialDay;
+                if (currentDateVal) { const parts = currentDateVal.split('-'); initialYear = parseInt(parts[0]); initialMonth = parseInt(parts[1]); initialDay = parseInt(parts[2]); }
+                else { const today = new Date(); initialYear = today.getFullYear() - 25; initialMonth = today.getMonth() + 1; initialDay = today.getDate(); }
+
+                populateYears(); yearSelector.value = initialYear;
+                populateMonths(); monthSelector.value = initialMonth;
+                populateDays(yearSelector.value, monthSelector.value);
+                if (Array.from(daySelector.options).find(opt => opt.value == initialDay)) daySelector.value = initialDay;
+                else if (daySelector.options.length > 0) daySelector.value = daySelector.options[0].value;
+
+                datePickerModal.classList.add('visible');
+                document.body.style.overflow = 'hidden';
+            };
+            const closeDatePicker = () => {
+                datePickerModal.classList.remove('visible');
+                 if (!successModalOverlay.classList.contains('show') && !imageAdjustModal.classList.contains('visible')) {
+                    document.body.style.overflow = '';
+                }
+            };
+
+            dobDisplayInput.addEventListener('click', openDatePicker);
+            dobDisplayInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDatePicker(); } });
+            closeDatePickerBtn.addEventListener('click', closeDatePicker);
+            datePickerModal.addEventListener('click', (e) => { if (e.target === datePickerModal) closeDatePicker(); });
+            monthSelector.addEventListener('change', () => populateDays(yearSelector.value, monthSelector.value));
+            yearSelector.addEventListener('change', () => populateDays(yearSelector.value, monthSelector.value));
+
+            confirmDateBtn.addEventListener('click', () => {
+                const year = yearSelector.value; const month = monthSelector.value.padStart(2, '0'); const day = daySelector.value.padStart(2, '0');
+                const selectedDate = `${year}-${month}-${day}`; const displayDate = `${day}/${month}/${year}`;
+                dobInput.value = selectedDate; dobDisplayInput.value = displayDate;
+
+                const { isValid, message } = _determineFieldValidity(dobInput);
+                setValidationUI(dobInput, isValid, message);
+                ageErrorDiv.style.display = (!isValid && message.includes("18 anni")) ? 'block' : 'none';
+                validateFormState(false);
+                closeDatePicker();
+            });
+
+            const validateEmailFormat = (email) => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(String(email).toLowerCase());
+            const checkAge = (dobValue) => {
+                if (!dobValue) return false; const birthDate = new Date(dobValue); const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear(); const m = today.getMonth() - birthDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--; return age >= 18;
+            };
+            const checkPasswordStrength = (pwd) => {
+                let score = 0; const criteria = { length: pwd.length >= 8, uppercase: /[A-Z]/.test(pwd), lowercase: /[a-z]/.test(pwd), number: /[0-9]/.test(pwd), special: /[^A-Za-z0-9]/.test(pwd) };
+                const criteriaElements = {
+                    length: document.getElementById('length'),
+                    uppercase: document.getElementById('uppercase'),
+                    lowercase: document.getElementById('lowercase'),
+                    number: document.getElementById('number'),
+                    special: document.getElementById('special')
+                };
+
+                Object.keys(criteria).forEach((key) => {
+                    const li = criteriaElements[key];
+                    const icon = li.querySelector('i');
+                    if (criteria[key]) {
+                        score++;
+                        li.classList.add('valid');
+                        li.classList.remove('error');
+                        icon.className = 'fas fa-check-circle';
+                    } else {
+                        li.classList.remove('valid');
+                        li.classList.add('error');
+                        icon.className = 'fas fa-times-circle';
+                    }
+                });
+                strengthBarDiv.style.width = (score * 20) + '%';
+                if (score === 0 && pwd === "") strengthBarDiv.style.backgroundColor = 'var(--input-border)';
+                else if (score <= 2) strengthBarDiv.style.backgroundColor = 'var(--error-color)';
+                else if (score <= 4) strengthBarDiv.style.backgroundColor = 'var(--warning-color)';
+                else strengthBarDiv.style.backgroundColor = 'var(--success-color)';
+                return score >= 4;
+            };
+
+            _determineFieldValidity = function(input) {
+                let isValid = true; let message = '';
+                const value = (input.id === 'dob') ? input.value : input.value.trim();
+
+                if (input.required && value === '') {
+                    isValid = false; message = (input.id === 'dob') ? 'Seleziona la data di nascita.' : 'Questo campo è obbligatorio.';
+                } else if (value !== '') {
+                    switch (input.id) {
+                        case 'dob': if (!checkAge(value)) { isValid = false; message = 'Devi avere almeno 18 anni per registrarti.'; } break;
+                        case 'email': if (!validateEmailFormat(value)) { isValid = false; message = 'Inserisci un indirizzo email valido.'; } break;
+                        case 'password': if (!checkPasswordStrength(value)) { isValid = false; message = 'Password debole. Controlla i criteri.'; } break;
+                        case 'confirmPassword': if (value !== passwordInput.value) { isValid = false; message = 'Le password non coincidono.'; } break;
+                        case 'country': if (value === '') { isValid = false; message = 'Seleziona un paese.';} break;
+                        case 'region': if (!regionInput.disabled && value === '') { isValid = false; message = 'Seleziona una regione/stato.'; } break;
+                    }
+                }
+                return { isValid, message };
+            }
+
+            validateFormState = function(showAllVisualErrors = true) {
+                let isFormCompletelyValid = true;
+                allRequiredInputs.forEach(currentInput => {
+                    const inputToValidate = (currentInput.id === 'dobDisplay') ? dobInput : currentInput;
+                    const { isValid, message } = _determineFieldValidity(inputToValidate);
+                    if (!isValid) isFormCompletelyValid = false;
+                    if (showAllVisualErrors) {
+                        setValidationUI(inputToValidate, isValid, message);
+                        if (inputToValidate.id === 'dob') ageErrorDiv.style.display = (!isValid && message.includes("18 anni")) ? 'block' : 'none';
+                    }
+                });
+                registerButton.disabled = !isFormCompletelyValid;
+                return isFormCompletelyValid;
+            }
+
+            allRequiredInputs.forEach(input => {
+                if (input.id === 'dob') return;
+                const eventType = (input.tagName.toLowerCase() === 'select') ? 'change' : 'input';
+                input.addEventListener(eventType, () => {
+                    const { isValid, message } = _determineFieldValidity(input); setValidationUI(input, isValid, message);
+                    if (input.id === 'password') {
+                        checkPasswordStrength(input.value);
+                        const {isValid: cpIsValid, message: cpMsg} = _determineFieldValidity(confirmPasswordInput); setValidationUI(confirmPasswordInput, cpIsValid, cpMsg);
+                    }
+                    validateFormState(false);
+                });
+                input.addEventListener('blur', () => {
+                    const { isValid, message } = _determineFieldValidity(input); setValidationUI(input, isValid, message);
+                    if (input.id === 'password') {
+                         checkPasswordStrength(input.value);
+                        const {isValid: cpIsValid, message: cpMsg} = _determineFieldValidity(confirmPasswordInput); setValidationUI(confirmPasswordInput, cpIsValid, cpMsg);
+                    }
+                });
+            });
+
+            redirectToLoginBtn.addEventListener('click', function() {
+                console.log('[REGISTRAZIONE] Pulsante "Torna alla Pagina di Login" cliccato.');
+                if (successModalOverlay) successModalOverlay.classList.remove('show');
+                 if (!datePickerModal.classList.contains('visible') && !imageAdjustModal.classList.contains('visible')) {
+                    document.body.style.overflow = '';
+                }
+                window.location.href = 'accedi.html';
+            });
+
+            checkPasswordStrength('');
+            allRequiredInputs.forEach(input => clearValidationUI(input));
+            clearValidationUI(dobInput);
+            validateFormState(false);
+        });
+    // ]]>
+    </script>
+    <script>
+    // <![CDATA[
+        const registerFormSubmit = document.getElementById('registerForm');
+        const registerButtonOriginalSubmit = document.getElementById('registerButton');
+        const firstNameInputOriginalSubmit = document.getElementById('firstName');
+        const lastNameInputOriginalSubmit = document.getElementById('lastName');
+        const dobInputOriginalSubmit = document.getElementById('dob');
+        const emailInputOriginalSubmit = document.getElementById('email');
+        const passwordInputOriginalSubmit = document.getElementById('password');
+        const countryInputOriginalSubmit = document.getElementById('country');
+        const regionInputOriginalSubmit = document.getElementById('region');
+        const profilePicInputForSubmit = document.getElementById('profilePic');
+
+        const successModalOverlaySubmit = document.getElementById('successModalOverlay');
+
+
+        registerFormSubmit.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (typeof validateFormState === 'function' && validateFormState(true)) {
+                registerButtonOriginalSubmit.textContent = 'Registrazione in corso...';
+                registerButtonOriginalSubmit.disabled = true;
+
+                const formData = new FormData();
+                formData.append('firstName', firstNameInputOriginalSubmit.value.trim());
+                formData.append('lastName', lastNameInputOriginalSubmit.value.trim());
+                formData.append('dob', dobInputOriginalSubmit.value);
+                formData.append('email', emailInputOriginalSubmit.value.trim());
+                formData.append('password', passwordInputOriginalSubmit.value);
+                formData.append('country', countryInputOriginalSubmit.value);
+                if (regionInputOriginalSubmit.value) {
+                    formData.append('region', regionInputOriginalSubmit.value);
+                }
+
+                if (profilePicInputForSubmit.files[0]) {
+                    formData.append('profilePic', profilePicInputForSubmit.files[0]);
+                }
+
+                // Se il server NON è configurato per multipart/form-data, invia JSON
+                // Altrimenti, invia formData direttamente.
+                // L'attuale server.js si aspetta JSON e non gestisce file.
+                const jsonData = {
+                    firstName: firstNameInputOriginalSubmit.value.trim(),
+                    lastName: lastNameInputOriginalSubmit.value.trim(),
+                    dob: dobInputOriginalSubmit.value,
+                    email: emailInputOriginalSubmit.value.trim(),
+                    password: passwordInputOriginalSubmit.value,
+                    country: countryInputOriginalSubmit.value,
+                    region: regionInputOriginalSubmit.value || null,
+                    // Includi l'URL dell'immagine del profilo se disponibile (base64)
+                    // Questo è un esempio. Potrebbe essere necessario gestire l'upload dell'immagine separatamente
+                    // o inviare l'immagine come base64 se il server lo supporta.
+                    // profilePicUrl: document.getElementById('profilePreview').src.startsWith('data:image') ? document.getElementById('profilePreview').src : null
+                };
+
+                console.log('[SUBMIT REGISTRAZIONE] Dati (immagine in FormData a parte):', jsonData);
+
+                // NOTA: Se il server fosse aggiornato per gestire `multipart/form-data` (es. con `multer`),
+                // useresti `body: formData` e rimuoveresti l'header 'Content-Type'.
+                fetch('http://localhost:5500/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', },
+                    body: JSON.stringify(jsonData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if(successModalOverlaySubmit) {
+                            successModalOverlaySubmit.classList.add('show');
+                            document.body.style.overflow = 'hidden';
+                        }
+                    } else {
+                        alert(`Errore di registrazione: ${data.message}`);
+                        registerButtonOriginalSubmit.textContent = 'Registrati';
+                        registerButtonOriginalSubmit.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('[SUBMIT REGISTRAZIONE] Errore FETCH:', error);
+                    alert('Errore di connessione al server durante la registrazione. Riprova.');
+                    registerButtonOriginalSubmit.textContent = 'Registrati';
+                    registerButtonOriginalSubmit.disabled = false;
+                });
+            } else {
+                const firstErrorWrapper = registerFormSubmit.querySelector('.input-wrapper.error');
+                if (firstErrorWrapper) {
+                    const firstErrorInput = firstErrorWrapper.querySelector('input, select');
+                    if (firstErrorInput) firstErrorInput.focus();
+                }
+            }
+        });
+    // ]]>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+</body>
+</html>

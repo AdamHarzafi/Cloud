@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harzafi Cloud</title>
+    <link rel="icon" href="index.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            --bg-color-light-blend: #131c31; 
+            --primary-accent: #3A8DFF;
+            --secondary-accent: #2563eb;
+            --highlight-accent: #60a5fa;
+            --text-light: #f1f5f9;
+            --text-medium: #94a3b8;
+            --text-dark: #1e293b;
+            
+            --tile-bg: rgba(20, 28, 46, 0.75); 
+            --tile-bg-hover: rgba(30, 41, 59, 0.9);
+            --tile-border-color: rgba(59, 130, 246, 0.25);
+            --tile-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+
+            --card-bg: #1e293b; 
+            --border-color: rgba(59, 130, 246, 0.15);
+            --input-bg: #2d3748;
+            --header-height: 70px;
+            --button-border-radius: 8px;
+            --tile-border-radius: 20px; 
+            --transition-speed: 0.3s;
+            --danger-color: #e53e3e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(ellipse at top left, var(--bg-color-light-blend) 0%, var(--bg-color) 60%),
+                              radial-gradient(ellipse at bottom right, var(--secondary-accent) 0%, var(--bg-color) 70%);
+            background-attachment: fixed;
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow-x: hidden; 
+            overflow-y: auto;
+        }
+
+        .cloud-header {
+            background-color: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 0 35px; 
+            height: var(--header-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky; 
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo-cloud { display: flex; align-items: center; gap: 15px; }
+        .logo-cloud img { height: 32px; width: auto; }
+        .welcome-message { font-size: 1.25em; font-weight: 500; color: var(--text-light); }
+        .welcome-message .user-name { font-weight: 600; color: var(--primary-accent); }
+        .user-menu { position: relative; }
+        .user-avatar {
+            width: 42px; height: 42px; border-radius: 50%; background-color: var(--primary-accent);
+            color: var(--text-light); display: flex; align-items: center; justify-content: center;
+            font-weight: 600; cursor: pointer; text-transform: uppercase; border: 2px solid var(--border-color);
+            font-size: 1.2em; overflow: hidden;
+        }
+        .user-avatar img.profile-picture { width: 100%; height: 100%; object-fit: cover; }
+        .dropdown-menu {
+            display: none; position: absolute; top: 55px; right: 0;
+            background-color: var(--card-bg); border-radius: var(--button-border-radius);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 1001;
+            width: 220px; border: 1px solid var(--border-color); overflow: hidden;
+            animation: fadeInDropdown 0.2s ease-out;
+        }
+        @keyframes fadeInDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .dropdown-menu.show { display: block; }
+        .dropdown-header { padding: 12px 18px; border-bottom: 1px solid var(--border-color); }
+        .dropdown-header .user-email { font-size: 0.85em; color: var(--text-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .dropdown-menu a { display: flex; align-items: center; padding: 12px 18px; text-decoration: none; color: var(--text-medium); font-size: 0.95em; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        .dropdown-menu a:hover { background-color: var(--primary-accent); color: var(--text-light); }
+        .dropdown-menu a i { margin-right: 12px; width: 18px; text-align: center; font-size: 1em; }
+        .dropdown-divider { height: 1px; background-color: var(--border-color); margin: 5px 0; }
+
+
+        .cloud-dashboard-container {
+            padding: 40px;
+            width: 100%;
+            max-width: 1400px; 
+            margin: 0 auto; 
+            flex-grow: 1;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+        }
+
+        .dashboard-tile {
+            background-color: var(--tile-bg);
+            border: 1px solid var(--tile-border-color);
+            border-radius: var(--tile-border-radius);
+            padding: 30px;
+            box-shadow: var(--tile-shadow);
+            display: flex;
+            flex-direction: column;
+            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            min-height: 280px; 
+        }
+        .dashboard-tile:hover {
+            background-color: var(--tile-bg-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+        }
+
+        /* Stili per il nuovo riquadro profilo */
+        .profile-card-tile {
+            grid-column: span 1; 
+            align-items: center; 
+            text-align: center;
+            padding: 35px 30px;
+        }
+        .profile-picture-area {
+            width: 130px; 
+            height: 130px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0,0,0, 0.2); 
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+        }
+        .profile-picture-area img#profileCardUserImage {
+            width: 110px; 
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--bg-color); 
+        }
+        .profile-card-tile .profile-name {
+            font-size: 2em; 
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        .profile-card-tile .profile-email {
+            font-size: 0.95em;
+            color: var(--text-medium);
+            margin-bottom: 18px;
+            word-break: break-all;
+        }
+        .profile-card-tile .profile-status {
+            font-size: 0.85em;
+            color: var(--text-medium);
+            opacity: 0.8;
+        }
+
+
+        .tile-header { display: flex; align-items: center; margin-bottom: 20px; }
+        .tile-icon { font-size: 2.2em; color: var(--highlight-accent); margin-right: 18px; width: 40px; text-align: center; }
+        .tile-title { font-size: 1.6em; font-weight: 600; color: var(--text-light); }
+        .tile-content { flex-grow: 1; display: flex; flex-direction: column; }
+        .tile-description, .tile-call-to-action { font-size: 0.95em; color: var(--text-medium); line-height: 1.6; margin-bottom: 15px; }
+        .tile-call-to-action { margin-top: auto; font-weight: 500; }
+        .tile-call-to-action a { color: var(--text-medium); text-decoration: none; display: inline-flex; align-items: center;}
+        .tile-call-to-action a:hover { color: var(--highlight-accent); }
+        .tile-call-to-action i { margin-right: 8px; color: var(--primary-accent); }
+        
+        .dashboard-tile.files-tile .tile-content { justify-content: space-between; }
+        .files-tile-toolbar { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+        .btn-tile-upload {
+            display: inline-flex; align-items: center; padding: 10px 20px;
+            background-color: var(--primary-accent); color: var(--text-light);
+            border: none; border-radius: var(--button-border-radius);
+            font-size: 0.9em; font-weight: 500; cursor: pointer;
+            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+        .btn-tile-upload:hover { background-color: var(--secondary-accent); transform: translateY(-2px); }
+        .btn-tile-upload i { margin-right: 8px; }
+
+        .file-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
+            gap: 15px; overflow-y: auto; max-height: 260px; 
+            padding: 5px; flex-grow: 1;
+        }
+        .file-item {
+            background-color: rgba(45, 55, 72, 0.4); border-radius: 10px; padding: 15px;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            border: 1px solid transparent; transition: transform 0.2s ease, background-color 0.2s ease;
+            position: relative;
+        }
+        .file-item:hover { background-color: rgba(58, 141, 255, 0.1); transform: scale(1.03); }
+        .file-item .file-icon { font-size: 2.5em; margin-bottom: 10px; width: 45px; height: 45px; }
+        .file-item .file-icon img.file-preview-image { border-radius: 4px; }
+        .file-item .file-name { font-size: 0.8em; -webkit-line-clamp: 2; margin-bottom: 4px; color: var(--text-light); }
+        .file-item .file-info { font-size: 0.7em; color: var(--text-medium); }
+        .file-item .file-delete-btn {
+            width: 24px; height: 24px; font-size: 0.8em; top: 5px; right: 5px;
+            background-color: rgba(229, 62, 62, 0.4);
+        }
+        .file-item:hover .file-delete-btn { opacity: 0.8; }
+        .file-item .file-delete-btn:hover { background-color: var(--danger-color); opacity: 1; }
+
+        .empty-tile-content {
+            display: none; 
+            flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; color: var(--text-medium); font-size: 1.1em;
+            height: 100%; padding: 20px; flex-grow: 1;
+        }
+        .empty-tile-content.visible { display: flex; } 
+
+        .empty-tile-content .empty-icon { font-size: 3.5em; margin-bottom: 15px; color: var(--primary-accent); opacity: 0.6; }
+        .empty-tile-content p { max-width: 300px; line-height: 1.6; margin-bottom: 20px;}
+        .empty-tile-content .btn-upload-empty {
+            display: inline-flex; align-items: center; padding: 10px 20px;
+            background-color: var(--primary-accent); color: var(--text-light);
+            border: none; border-radius: var(--button-border-radius);
+            font-size: 0.9em; font-weight: 500; cursor: pointer;
+            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+        .empty-tile-content .btn-upload-empty:hover { background-color: var(--secondary-accent); transform: translateY(-2px); }
+        .empty-tile-content .btn-upload-empty i { margin-right: 8px; }
+
+        #hiddenFileInput { display: none; }
+
+        @media (max-width: 1200px) { 
+            .dashboard-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+        @media (max-width: 992px) {
+            .profile-card-tile {
+                 grid-column: 1 / -1; 
+                 order: -1; 
+                 margin-bottom: 30px; 
+            }
+            .dashboard-grid {
+            }
+            .cloud-dashboard-container { padding: 30px; }
+        }
+        @media (max-width: 768px) {
+            .cloud-header { padding: 0 20px; }
+            .cloud-dashboard-container { padding: 20px; }
+            .dashboard-grid {
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+             .profile-card-tile { margin-bottom: 20px; } 
+            .dashboard-tile { padding: 25px; min-height: 220px;} 
+            .profile-card-tile { min-height: auto; padding: 25px; } 
+            .profile-picture-area { width: 110px; height: 110px; margin-bottom: 15px;}
+            .profile-picture-area img#profileCardUserImage { width: 90px; height: 90px;}
+            .profile-card-tile .profile-name { font-size: 1.6em; }
+
+            .tile-title { font-size: 1.4em; }
+            .tile-icon { font-size: 2em; }
+            .file-grid { max-height: 220px; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+        }
+        @media (max-width: 480px) {
+            .cloud-header { padding: 0 15px; }
+            .cloud-dashboard-container { padding: 15px; }
+            .profile-picture-area { width: 90px; height: 90px;}
+            .profile-picture-area img#profileCardUserImage { width: 75px; height: 75px;}
+            .profile-card-tile .profile-name { font-size: 1.4em; }
+            .profile-card-tile .profile-email { font-size: 0.9em; }
+
+            .dashboard-tile { padding: 20px; }
+            .tile-title { font-size: 1.3em; }
+            .tile-icon { font-size: 1.8em; margin-right: 12px; }
+            .file-grid { grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="cloud-header">
+        <div class="logo-cloud">
+            <img src="index.png" alt="Harzafi Cloud Logo">
+            <div class="welcome-message">Benvenuto/a, <span class="user-name">Caricamento...</span>!</div>
+        </div>
+        <div class="user-menu">
+            <div class="user-avatar" id="userAvatar">
+                </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-header">
+                    <strong id="dropdownUserName">Caricamento...</strong>
+                    <div class="user-email" id="dropdownUserEmail">Caricamento...</div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <a href="#" id="settingsLink"><i class="fas fa-cog"></i> Impostazioni</a>
+                <a href="#" id="profileLink"><i class="fas fa-user-circle"></i> Profilo</a>
+                <div class="dropdown-divider"></div>
+                <a href="/logout" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="cloud-dashboard-container">
+        <div class="dashboard-grid">
+            <div class="dashboard-tile profile-card-tile">
+                <div class="profile-picture-area">
+                    <img id="profileCardUserImage" src="index.png" alt="Immagine Profilo"> </div>
+                <h3 id="profileCardUserName" class="profile-name">Caricamento...</h3>
+                <p id="profileCardUserEmail" class="profile-email">Caricamento...</p>
+                <p class="profile-status">Harzafi Cloud disponibile solo da web.</p>
+            </div>
+
+            <div class="dashboard-tile files-tile">
+                <div class="tile-header">
+                    <i class="fas fa-hdd tile-icon"></i>
+                    <h3 class="tile-title">I Tuoi File</h3>
+                </div>
+                <div class="tile-content">
+                    <div class="files-tile-toolbar">
+                        <button class="btn-tile-upload" id="uploadFileButton"><i class="fas fa-upload"></i> Carica File</button>
+                    </div>
+                    <div class="file-grid" id="fileGrid">
+                        </div>
+                    <div class="empty-tile-content" id="emptyGridMessage"> <i class="fas fa-cloud-upload-alt empty-icon"></i>
+                        <p>Trascina i file qui o usa il pulsante per iniziare.</p>
+                        <button class="btn-upload-empty" id="uploadFileButtonEmptyInTile"><i class="fas fa-plus-circle"></i> Aggiungi File</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-tile">
+                <div class="tile-header">
+                    <i class="fas fa-sticky-note tile-icon"></i>
+                    <h3 class="tile-title">Note</h3>
+                </div>
+                <div class="tile-content">
+                    <p class="tile-description">Organizza i tuoi pensieri e le tue idee.</p>
+                    <p class="tile-call-to-action"><a href="#"><i class="fas fa-plus-circle"></i> Crea la tua prima nota</a></p>
+                </div>
+            </div>
+            
+            <div class="dashboard-tile">
+                <div class="tile-header">
+                    <i class="fas fa-cog tile-icon"></i>
+                    <h3 class="tile-title">Impostazioni</h3>
+                </div>
+                <div class="tile-content">
+                    <p class="tile-description">Personalizza il tuo account e le preferenze del cloud.</p>
+                    <p class="tile-call-to-action"><a href="#"><i class="fas fa-sliders-h"></i> Vai alle impostazioni</a></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <input type="file" id="hiddenFileInput" multiple>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const welcomeMessageSpan = document.querySelector('.welcome-message .user-name');
+            const userAvatarDiv = document.getElementById('userAvatar'); 
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownUserName = document.getElementById('dropdownUserName');
+            const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+
+            const profileCardUserImage = document.getElementById('profileCardUserImage');
+            const profileCardUserName = document.getElementById('profileCardUserName');
+            const profileCardUserEmail = document.getElementById('profileCardUserEmail');
+
+            const uploadFileButtonInTile = document.getElementById('uploadFileButton');
+            const uploadFileButtonEmptyInTile = document.getElementById('uploadFileButtonEmptyInTile');
+            const hiddenFileInput = document.getElementById('hiddenFileInput');
+            
+            const fileGrid = document.getElementById('fileGrid');
+            const emptyGridMessage = document.getElementById('emptyGridMessage'); 
+
+            let filesArray = []; 
+            const STORAGE_KEY = 'harzafiCloudFiles';
+
+            function fetchUserInfo() {
+                fetch('/api/user-info')
+                    .then(response => {
+                        if (!response.ok) {
+                            if (response.status === 401) {
+                                console.warn('Utente non autenticato (401). Reindirizzamento a accedi.html.');
+                                window.location.href = 'accedi.html'; 
+                            }
+                            // Se non è 401, lancia un errore per il blocco catch
+                            if (response.status !== 401) { 
+                                throw new Error(\`Errore HTTP \${response.status} nel recupero informazioni utente.\`);
+                            }
+                            return null; // Per 401, non procedere a .json()
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data && data.success) {
+                            const name = data.name || 'Utente';
+                            const email = data.email || 'N/D';
+                            const profilePicUrl = data.profilePicUrl; // Il server DEVE fornire questo
+
+                            // Aggiorna header
+                            if (welcomeMessageSpan) { welcomeMessageSpan.textContent = name; }
+                            dropdownUserName.textContent = name;
+                            dropdownUserEmail.textContent = email;
+
+                            // Aggiorna avatar nell'header
+                            userAvatarDiv.innerHTML = ''; 
+                            if (profilePicUrl) {
+                                const img = document.createElement('img');
+                                img.src = profilePicUrl;
+                                img.alt = name;
+                                img.classList.add('profile-picture');
+                                img.onerror = () => { 
+                                    userAvatarDiv.textContent = name.charAt(0).toUpperCase();
+                                    userAvatarDiv.style.backgroundColor = 'var(--primary-accent)';
+                                };
+                                userAvatarDiv.appendChild(img);
+                                userAvatarDiv.style.backgroundColor = 'transparent';
+                            } else {
+                                userAvatarDiv.textContent = name.charAt(0).toUpperCase();
+                                userAvatarDiv.style.backgroundColor = 'var(--primary-accent)';
+                            }
+
+                            // Aggiorna riquadro profilo
+                            profileCardUserName.textContent = name;
+                            profileCardUserEmail.textContent = email;
+                            if (profilePicUrl) {
+                                profileCardUserImage.src = profilePicUrl;
+                                profileCardUserImage.onerror = () => { 
+                                    profileCardUserImage.src = 'index.png'; 
+                                };
+                            } else {
+                                // Se non c'è profilePicUrl, l'HTML ha già index.png come src di default,
+                                // ma per sicurezza lo reimpostiamo.
+                                profileCardUserImage.src = 'index.png'; 
+                            }
+
+                        } else if (data) { 
+                            console.warn('Recupero info utente fallito (success:false o dati mancanti):', data.message ? data.message : "Nessun messaggio specifico.");
+                            // Potresti voler mostrare un errore più specifico nel riquadro profilo
+                            profileCardUserName.textContent = "Dati non disponibili";
+                            profileCardUserEmail.textContent = "Riprova più tardi";
+                            if (!window.location.href.endsWith('accedi.html') && !data.message.includes("non complete nella sessione")) { 
+                                // Evita redirect se il problema è solo dati incompleti ma la sessione è valida
+                                // o se siamo già stati reindirizzati.
+                                //window.location.href = 'accedi.html';
+                            }
+                        }
+                        // Se data è null (a causa di un 401 già gestito), non fare nulla qui perché il redirect è già avvenuto.
+                    })
+                    .catch(error => {
+                        console.error('Catch generale Errore fetch user-info:', error);
+                        profileCardUserName.textContent = "Errore di Rete";
+                        profileCardUserEmail.textContent = "Impossibile connettersi.";
+                        profileCardUserImage.src = 'index.png'; // Fallback immagine
+                    });
+            }
+            fetchUserInfo();
+
+            userAvatarDiv.addEventListener('click', (event) => {
+                event.stopPropagation(); 
+                dropdownMenu.classList.toggle('show');
+            });
+            document.addEventListener('click', (event) => {
+                if (!dropdownMenu.contains(event.target) && !userAvatarDiv.contains(event.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+            
+            function loadFilesFromLocalStorage() {
+                const storedFiles = localStorage.getItem(STORAGE_KEY);
+                if (storedFiles) {
+                    try {
+                        filesArray = JSON.parse(storedFiles);
+                        if (!Array.isArray(filesArray)) filesArray = []; // Sanity check
+                    } catch (e) {
+                        console.error("Errore nel parsing dei file da localStorage:", e);
+                        filesArray = [];
+                    }
+                    renderAllFiles();
+                }
+                updateEmptyGridMessageVisibility();
+            }
+
+            function saveFilesToLocalStorage() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(filesArray));
+                updateEmptyGridMessageVisibility();
+            }
+
+            function getFileIcon(fileType) {
+                if (!fileType) fileType = ''; // Gestisce undefined
+                if (fileType.startsWith('image/')) return { class: 'fas fa-file-image', isImage: true };
+                if (fileType === 'application/pdf') return { class: 'fas fa-file-pdf', color: '#f40f02' };
+                if (fileType.includes('wordprocessingml') || fileType === 'application/msword') return { class: 'fas fa-file-word', color: '#2b579a' };
+                if (fileType.includes('spreadsheetml') || fileType === 'application/vnd.ms-excel') return { class: 'fas fa-file-excel', color: '#217346' };
+                if (fileType.includes('presentationml') || fileType === 'application/vnd.ms-powerpoint') return { class: 'fas fa-file-powerpoint', color: '#d24726' };
+                if (fileType.startsWith('text/')) return { class: 'fas fa-file-alt' };
+                if (fileType === 'application/zip' || fileType.includes('archive') || fileType.includes('compressed')) return { class: 'fas fa-file-archive' };
+                if (fileType.startsWith('audio/')) return { class: 'fas fa-file-audio' };
+                if (fileType.startsWith('video/')) return { class: 'fas fa-file-video' };
+                return { class: 'fas fa-file' };
+            }
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            function renderFileItem(file) {
+                const item = document.createElement('div');
+                item.classList.add('file-item');
+                item.dataset.fileId = file.id;
+
+                const iconInfo = getFileIcon(file.type);
+                const iconElement = document.createElement('div');
+                iconElement.classList.add('file-icon');
+
+                if (iconInfo.isImage && file.dataUrl) {
+                    const imgPreview = document.createElement('img');
+                    imgPreview.src = file.dataUrl;
+                    imgPreview.alt = file.name;
+                    imgPreview.classList.add('file-preview-image');
+                    iconElement.appendChild(imgPreview);
+                } else {
+                    const i = document.createElement('i');
+                    i.className = iconInfo.class;
+                    if (iconInfo.color) i.style.color = iconInfo.color;
+                    else i.style.color = 'var(--highlight-accent)';
+                    iconElement.appendChild(i);
+                }
+                
+                const nameElement = document.createElement('div');
+                nameElement.classList.add('file-name');
+                nameElement.textContent = file.name;
+                nameElement.title = file.name;
+
+                const infoElement = document.createElement('div');
+                infoElement.classList.add('file-info');
+                infoElement.textContent = \`${formatFileSize(file.size)}\`;
+                
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('file-delete-btn');
+                deleteButton.innerHTML = '<i class="fas fa-times"></i>';
+                deleteButton.title = 'Rimuovi file';
+                deleteButton.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    if (confirm(\`Sei sicuro di voler rimuovere "\${file.name}"? L'azione è limitata a questa sessione del browser.\`)) {
+                        removeFile(file.id);
+                    }
+                });
+
+                item.appendChild(iconElement);
+                item.appendChild(nameElement); 
+                item.appendChild(infoElement);
+                item.appendChild(deleteButton);
+                fileGrid.appendChild(item); 
+            }
+
+            function renderAllFiles() {
+                fileGrid.innerHTML = ''; 
+                if (Array.isArray(filesArray)) { // Assicurati che sia un array
+                    filesArray.forEach(renderFileItem);
+                }
+            }
+            
+            function removeFile(fileId) {
+                filesArray = filesArray.filter(f => f.id !== fileId);
+                saveFilesToLocalStorage(); 
+                renderAllFiles(); 
+            }
+
+            function handleFileUpload(event) {
+                const selectedFiles = Array.from(event.target.files);
+                selectedFiles.forEach(file => {
+                    const reader = new FileReader();
+                    const fileData = {
+                        id: 'file_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9),
+                        name: file.name,
+                        type: file.type || 'application/octet-stream', // Fallback per tipo
+                        size: file.size,
+                        dataUrl: null 
+                    };
+
+                    if (fileData.type.startsWith('image/') && file.size < 5 * 1024 * 1024) { 
+                        reader.onload = (e) => {
+                            fileData.dataUrl = e.target.result;
+                            filesArray.push(fileData);
+                            renderFileItem(fileData); 
+                            saveFilesToLocalStorage(); 
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        filesArray.push(fileData);
+                        renderFileItem(fileData); 
+                        saveFilesToLocalStorage(); 
+                    }
+                });
+                hiddenFileInput.value = ''; 
+            }
+            
+            function updateEmptyGridMessageVisibility() {
+                if (filesArray.length === 0) {
+                    emptyGridMessage.classList.add('visible'); 
+                    fileGrid.style.display = 'none'; 
+                } else {
+                    emptyGridMessage.classList.remove('visible'); 
+                    fileGrid.style.display = 'grid'; 
+                }
+            }
+
+            if (uploadFileButtonInTile) {
+                uploadFileButtonInTile.addEventListener('click', () => hiddenFileInput.click());
+            }
+            if (uploadFileButtonEmptyInTile) {
+                uploadFileButtonEmptyInTile.addEventListener('click', () => hiddenFileInput.click());
+            }
+            hiddenFileInput.addEventListener('change', handleFileUpload);
+
+            loadFilesFromLocalStorage(); 
+
+        });
+    </script>
+</body>
+</html>
