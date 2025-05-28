@@ -180,8 +180,7 @@ app.get('/logout', (req, res) => {
 // --- Avvio del Server ---
 app.listen(PORT, () => {
     console.log(`🚀 Server Harzafi Cloud in ascolto su http://localhost:${PORT}`);
-    console.log(`Le sessioni verranno salvate in: ${path.join(dbDir, 'sessions.db')}`);
-});
+    console.log(`Le sessioni verranno salvate in: ${path.join(dbDir, 'sessions.db')}`)
 
 
 // In server.js
