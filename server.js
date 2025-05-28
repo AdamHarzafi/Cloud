@@ -182,3 +182,31 @@ app.listen(PORT, () => {
     console.log(`🚀 Server Harzafi Cloud in ascolto su http://localhost:${PORT}`);
     console.log(`Le sessioni verranno salvate in: ${path.join(dbDir, 'sessions.db')}`);
 });
+
+
+// In server.js
+const cookieSession = require('cookie-session');
+// const session = require('express-session'); // Non più necessario se usi cookie-session
+// const SQLiteStore = require('connect-sqlite3')(session); // Non più necessario
+
+// ... altro codice express ...
+
+app.use(
+  cookieSession({
+    name: 'harzafi-session', // Nome del cookie
+    keys: [process.env.SESSION_SECRET_KEY1 || 'una_chiave_molto_segreta_per_firmare1', process.env.SESSION_SECRET_KEY2 || 'un_altra_chiave_molto_segreta_per_firmare2'], // USA DELLE CHIAVI SEGRETE FORTI! Meglio se da variabili d'ambiente.
+    // Queste 'keys' sono usate per firmare e verificare i cookie, non per la crittografia diretta dei dati nel cookie (che cookie-session non fa di default).
+    // Per la crittografia, cookie-session si affida alla firma per l'integrità.
+    // La vera "segretezza" del contenuto si basa sul fatto che memorizzi solo ID e non dati sensibili.
+
+    // Opzioni del Cookie
+    maxAge: 24 * 60 * 60 * 1000, // 24 ore
+    secure: process.env.NODE_ENV === 'production', // Invia solo su HTTPS
+    httpOnly: true // Il cookie non è accessibile da JavaScript nel browser
+  })
+);
+
+// Per accedere ai dati di sessione, usi req.session (es. req.session.userId = utente.id)
+// Per fare il logout: req.session = null;
+
+// ... resto del tuo server.js ...
