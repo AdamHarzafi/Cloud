@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harzafi Cloud - Il Tuo Spazio Sicuro, Crittografato e Gratuito</title>
+    <link rel="icon" href="index.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            --primary-accent: #3A8DFF;
+            --primary-accent-rgb: 58, 141, 255;
+            --secondary-accent: #2563eb;
+            --secondary-accent-rgb: 37, 99, 235;
+            --highlight-accent: #60a5fa;
+            --text-light: #f1f5f9;
+            --text-medium: #94a3b8;
+            --card-bg: #1e293b;
+            --border-color: rgba(59, 130, 246, 0.25);
+            --header-height-desktop: 74px;
+            --header-height-mobile: 70px;
+            --cookie-banner-bg: #1a263a;
+            --cookie-button-secondary-bg: #2d3748;
+            --cookie-button-secondary-hover-bg: #3e4a5b;
+            --button-border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        input, select, textarea { /* Per nascondere il cursore di testo */
+            caret-color: transparent;
+        }
+        input:-webkit-autofill, /* Per gli input con autofill */
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            caret-color: transparent !important;
+             -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important; /* Mantiene lo stile scuro con autofill */
+            -webkit-text-fill-color: var(--text-light) !important; /* Mantiene il colore del testo con autofill */
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Navigation */
+        .main-header {
+            background-color: rgba(15, 23, 42, 0.85); /* Sfondo semi-trasparente con blur */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0 15px; /* Padding laterale per il contenuto dell'header */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            height: var(--header-height-desktop);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 24px;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+        .logo a:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            width: 32px; /* Dimensioni logo */
+            height: 32px;
+            margin-right: 12px; /* Spazio tra logo e testo */
+            border-radius: 50%;
+            padding: 2px; /* Spazio per il gradiente */
+            background: radial-gradient(circle, var(--primary-accent) 0%, transparent 70%);
+            transition: transform 0.4s ease-in-out;
+        }
+        .logo a:hover img {
+            transform: rotate(360deg);
+        }
+
+
+        .header-nav-group {
+            display: flex;
+            align-items: center;
+        }
+
+        nav.desktop-main-nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            padding: 0; margin: 0;
+        }
+
+        nav.desktop-main-nav ul li {
+            margin-left: 30px;
+        }
+
+        nav.desktop-main-nav ul li a {
+            text-decoration: none;
+            color: var(--text-medium);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            padding: 10px 5px; /* Aumentato padding per migliore cliccabilità */
+        }
+        nav.desktop-main-nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2.5px; /* Sottolineatura leggermente più spessa */
+            background-color: var(--primary-accent);
+            border-radius: 1px;
+            transition: width 0.3s ease;
+        }
+        nav.desktop-main-nav ul li a:hover,
+        nav.desktop-main-nav ul li a.active-link {
+            color: var(--text-light);
+            transform: translateY(-2px); /* Leggero effetto hover */
+        }
+         nav.desktop-main-nav ul li a:hover::after,
+         nav.desktop-main-nav ul li a.active-link::after {
+            width: 60%; /* Sottolineatura non a tutta larghezza per un look più fine */
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border-radius: var(--button-border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            border: 2px solid transparent;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(95deg, var(--primary-accent), var(--secondary-accent));
+            color: var(--text-light);
+            box-shadow: 0 5px 15px rgba(var(--primary-accent-rgb), 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(var(--primary-accent-rgb), 0.3);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--highlight-accent);
+            border-color: var(--highlight-accent);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(var(--highlight-accent), 0.15); /* Sfondo leggero al hover */
+            color: var(--highlight-accent);
+            transform: translateY(-3px);
+        }
+
+        .desktop-nav-button {
+            margin-left: 35px;
+            display: inline-block;
+        }
+
+        nav#mobileNavMenu {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            background-color: rgba(15, 23, 42, 0.99);
+            position: fixed;
+            top: var(--header-height-mobile);
+            left: 0;
+            height: calc(100vh - var(--header-height-mobile));
+            padding: 20px 0;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            border-top: 1px solid var(--border-color);
+            z-index: 998;
+            overflow-y: auto;
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(-100%); /* Nascosto di default */
+        }
+        nav#mobileNavMenu.active {
+            display: flex;
+            transform: translateX(0%); /* Visibile */
+        }
+
+        nav#mobileNavMenu ul {
+            list-style: none;
+            padding: 0; margin: 0;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+        }
+        nav#mobileNavMenu ul li {
+            margin: 0;
+            width: 100%;
+            text-align: center;
+        }
+        nav#mobileNavMenu ul li a {
+            display: block;
+            padding: 18px 20px; /* Padding aumentato */
+            width: 100%;
+            font-size: 1.1rem;
+            text-decoration: none;
+            color: var(--text-medium);
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+        nav#mobileNavMenu ul li a:hover,
+        nav#mobileNavMenu ul li a.active-link {
+            color: var(--text-light);
+            background-color: rgba(var(--primary-accent-rgb), 0.1);
+        }
+
+        .mobile-nav-button {
+            display: block;
+            margin-top: 25px;
+            padding: 14px 28px; /* Padding aumentato */
+            width: calc(80% - 40px);
+            max-width: 280px; /* Max width aumentata */
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 1.05rem; /* Font size aumentato */
+        }
+
+        .menu-toggle {
+            display: none; /* Nascosto di default, visibile su mobile */
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001; /* Sopra il menu mobile quando è chiuso */
+            transition: transform 0.3s ease;
+        }
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+        .menu-toggle.active .fa-bars { display: none; }
+        .menu-toggle.active .fa-times { display: block; }
+        .menu-toggle .fa-times { display: none; }
+
+
+        /* Hero Section */
+        .hero {
+            padding-top: calc(var(--header-height-desktop) + 100px); /* Più spazio dall'header */
+            padding-bottom: 140px; /* Più padding sotto */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+             background:
+                radial-gradient(ellipse at 15% 20%, rgba(var(--primary-accent-rgb), 0.22) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 75%, rgba(var(--secondary-accent-rgb), 0.18) 0%, transparent 55%),
+                var(--bg-color); /* Colore di fallback */
+            min-height: 90vh; /* Altezza minima per occupare più schermo */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero h1 { 
+            font-size: 4.5rem; /* Aumentato font size */
+            font-weight: 800; 
+            margin-bottom: 30px; /* Più spazio */
+            line-height: 1.15; 
+            color: var(--text-light); 
+            text-shadow: 0 4px 20px rgba(0,0,0,0.25); 
+            letter-spacing: -1.5px; /* Leggermente più stretto */
+        }
+        .hero h1 .brand-name { 
+            color: var(--primary-accent); 
+            display: inline-block;
+            text-shadow: 0 0 15px rgba(var(--primary-accent-rgb), 0.5); /* Ombra luminosa */
+        }
+        .hero .sub-headline { 
+            font-size: 2.2rem; /* Aumentato */
+            color: var(--text-medium); 
+            margin-bottom: 35px; /* Più spazio */
+            max-width: 800px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            font-weight: 300; 
+        }
+        .hero .tagline { 
+            font-size: 1.25rem; /* Aumentato */
+            color: var(--text-light); 
+            margin-bottom: 50px; /* Più spazio */
+            max-width: 850px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        .hero-buttons .btn { 
+            margin: 10px 15px; /* Spazio tra i bottoni */
+            padding: 16px 40px; /* Padding aumentato */
+            font-size: 1.15rem; /* Font size aumentato */
+            min-width: 220px; /* Larghezza minima */
+        }
+
+        /* Generic Section Styling */
+        .content-section { 
+            padding: 90px 0; /* Più padding */
+            position: relative; 
+        }
+        #about, #security, #pricing { background-color: var(--card-bg); } /* Sfondo alternato */
+        #features, #getting-started, #cta { background-color: var(--bg-color); }
+
+        .content-section .section-title { 
+            text-align: center; 
+            font-size: 3rem; /* Aumentato */
+            font-weight: 700; 
+            color: var(--text-light); 
+            margin-bottom: 25px; /* Più spazio */
+            position: relative; 
+            padding-bottom: 20px; /* Più spazio per la linea */
+        }
+        .content-section .section-title::after { 
+            content: ''; 
+            position: absolute; 
+            bottom: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 100px; /* Linea più lunga */
+            height: 4px; 
+            background-color: var(--primary-accent); 
+            border-radius: 2px; 
+        }
+        .content-section .section-subtitle { 
+            text-align: center; 
+            font-size: 1.25rem; /* Aumentato */
+            color: var(--text-medium); 
+            max-width: 750px; /* Più largo */
+            margin: 0 auto 70px auto; /* Più spazio sotto */
+        }
+
+        /* About Section */
+        #about .about-content { display: flex; flex-wrap: wrap; align-items: center; gap: 50px; /* Più gap */ }
+        #about .about-text { flex: 1; min-width: 320px; }
+        #about .about-text p { font-size: 1.1rem; color: var(--text-medium); margin-bottom: 25px; }
+        #about .about-text strong { color: var(--highlight-accent); font-weight: 600; }
+        #about .about-image { flex: 1; min-width: 320px; text-align: center; }
+        #about .about-image img { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 16px; /* Più arrotondamento */
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25); 
+            border: 3px solid var(--border-color); /* Bordo sottile */
+        }
+        .core-values { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: 40px; }
+        .value-item { 
+            text-align: center; 
+            padding: 25px; 
+            background-color: rgba(15, 23, 42, 0.6); /* Sfondo leggermente più scuro */
+            border-radius: 12px; /* Più arrotondamento */
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .value-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(var(--primary-accent-rgb),0.15);
+        }
+        .value-item i { font-size: 2.2rem; color: var(--primary-accent); margin-bottom: 15px; }
+        .value-item h4 { font-size: 1.2rem; color: var(--text-light); margin-bottom: 8px; }
+
+        /* Features Section */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 35px; }
+        .feature-item {
+            background: var(--card-bg); padding: 35px; border-radius: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; 
+            border: 1px solid var(--border-color);
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .feature-item:hover {
+            transform: translateY(-10px) scale(1.03); 
+            box-shadow: 0 15px 35px rgba(var(--primary-accent-rgb),0.2);
+            border-color: var(--primary-accent);
+        }
+        .feature-item .icon-wrapper {
+            width: 75px; height: 75px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 25px; box-shadow: 0 6px 12px rgba(var(--primary-accent-rgb), 0.25);
+            transition: transform 0.3s ease;
+        }
+        .feature-item:hover .icon-wrapper {
+            transform: scale(1.1) rotate(-10deg);
+        }
+        .feature-item .icon-wrapper i { font-size: 2rem; color: var(--text-light); }
+        .feature-item h4 { font-size: 1.4rem; font-weight: 600; color: var(--text-light); margin-bottom: 12px; }
+        .feature-item p { font-size: 1rem; color: var(--text-medium); line-height: 1.65; flex-grow: 1; }
+
+        /* Security Section */
+        #security .security-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; }
+        .security-item {
+            display: flex; align-items: flex-start; gap: 25px; padding: 30px;
+            background-color: rgba(15, 23, 42, 0.6); border-radius: 12px;
+            border-left: 5px solid var(--primary-accent);
+            transition: background-color 0.3s ease;
+        }
+        .security-item:hover {
+            background-color: rgba(30,41,59,0.7); /* Più scuro al hover */
+        }
+        .security-item i { font-size: 2.5rem; color: var(--primary-accent); margin-top: 5px; min-width: 40px; text-align: center; }
+        .security-item-content h4 { font-size: 1.3rem; color: var(--text-light); margin-bottom: 10px; }
+        .security-item-content p { font-size: 1rem; color: var(--text-medium); }
+        #security .security-item-content ul { list-style: none; padding-left: 0; margin-top: 10px; }
+        #security .security-item-content li { padding-left: 20px; position: relative; margin-bottom: 5px; }
+        #security .security-item-content li::before {
+            content: "\f058"; /* check-circle solid */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--highlight-accent);
+        }
+
+        /* Getting Started Section */
+        .steps-container { display: flex; flex-wrap: wrap; justify-content: space-around; gap: 35px; }
+        .step-item {
+            background-color: var(--card-bg); padding: 35px; border-radius: 16px; text-align: center;
+            flex-basis: calc(25% - 35px); min-width: 240px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .step-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(var(--primary-accent-rgb), 0.15);
+        }
+        .step-item .step-number {
+            display: inline-flex; /* Allineamento icona interna */
+            align-items: center;
+            justify-content: center;
+            width: 55px; height: 55px; line-height: 55px; border-radius: 50%;
+            background-color: var(--primary-accent); color: var(--text-light);
+            font-size: 1.6rem; font-weight: 700; margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(var(--primary-accent-rgb),0.2);
+        }
+        .step-item i.step-icon { font-size: 2.8rem; color: var(--highlight-accent); margin-bottom: 20px; display: block; }
+        .step-item h4 { font-size: 1.3rem; color: var(--text-light); margin-bottom: 12px; }
+        .step-item p { font-size: 0.95rem; color: var(--text-medium); }
+
+        /* Pricing Section */
+        .pricing-wrapper { display: flex; justify-content: center; align-items: stretch; /* Per card di altezze diverse */ padding: 20px 0; }
+        .pricing-card {
+            background: linear-gradient(145deg, #2a3a52, var(--card-bg));
+            padding: 45px; border-radius: 20px; text-align: center; max-width: 480px; width: 100%;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.35); border: 1px solid var(--primary-accent);
+            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; /* Per allineare il bottone in fondo */
+        }
+        .pricing-card::before {
+            content: "\f51e"; /* cloud icon */ font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; top: -40px; left: -40px; font-size: 120px;
+            color: var(--primary-accent); opacity: 0.05; transform: rotate(-20deg);
+        }
+        .pricing-card h3 { font-size: 2rem; color: var(--text-light); margin-bottom: 15px; }
+        .pricing-card .price { font-size: 4.8rem; font-weight: 800; color: var(--primary-accent); margin-bottom: 8px; line-height: 1; }
+        .pricing-card .price-term { font-size: 1.05rem; color: var(--text-medium); margin-bottom: 30px; }
+        .pricing-card ul { list-style: none; padding: 0; margin-bottom: 35px; text-align: left; flex-grow: 1; }
+        .pricing-card ul li { 
+            font-size: 1.05rem; color: var(--text-medium); padding: 12px 0; 
+            border-bottom: 1px solid rgba(148, 163, 184, 0.15); 
+            display: flex; align-items: center;
+        }
+        .pricing-card ul li:last-child { border-bottom: none; }
+        .pricing-card ul li i { color: var(--highlight-accent); margin-right: 12px; font-size: 1.1em; min-width: 20px; }
+        .pricing-card .btn-primary { width: 100%; padding: 16px; font-size: 1.15rem; margin-top: auto; /* Spinge il bottone in fondo */}
+
+        /* CTA Section */
+        #cta { 
+            background: linear-gradient(135deg, var(--primary-accent) 0%, var(--secondary-accent) 100%); 
+            color: var(--text-light); text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        #cta h2 { font-size: 2.8rem; margin-bottom: 25px; font-weight: 700; }
+        #cta p { font-size: 1.2rem; margin-bottom: 35px; max-width: 650px; margin-left: auto; margin-right: auto; opacity: 0.9; }
+        #cta .btn { 
+            background-color: var(--text-light); 
+            color: var(--primary-accent); 
+            font-size: 1.25rem; 
+            padding: 18px 45px; 
+            border-color: var(--text-light); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        #cta .btn:hover { 
+            background-color: transparent; 
+            color: var(--text-light); 
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .main-footer { 
+            padding: 60px 0 40px; text-align: center; 
+            background-color: #0c1324; /* Sfondo leggermente diverso per stacco */
+            border-top: 1px solid var(--border-color);
+        }
+        .main-footer p { color: var(--text-medium); font-size: 0.95rem; margin-bottom: 15px; }
+        .main-footer .footer-links { margin-bottom: 25px; }
+        .main-footer .footer-links a { 
+            color: var(--text-medium); 
+            text-decoration: none; margin: 0 15px; 
+            transition: color 0.3s ease, text-decoration 0.3s ease; 
+            font-size: 1rem;
+        }
+        .main-footer .footer-links a:hover { color: var(--primary-accent); text-decoration: underline; }
+        .main-footer .logo-footer { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; opacity: 0.8; }
+        .main-footer .logo-footer img { width: 28px; height: 28px; margin-right: 10px; }
+        .main-footer .logo-footer span { font-size: 1.2rem; font-weight: 600; color: var(--text-medium); }
+        .main-footer .fa-heart {
+            color: var(--primary-accent); /* Cuore colorato */
+            animation: pulseHeart 1.5s infinite ease-in-out;
+        }
+        @keyframes pulseHeart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 3.5rem; }
+            .hero .sub-headline { font-size: 1.8rem; }
+            .content-section .section-title { font-size: 2.6rem; }
+            .step-item { flex-basis: calc(50% - 25px); } /* 2 per riga */
+            nav.desktop-main-nav ul li { margin-left: 20px; }
+            .desktop-nav-button { margin-left: 25px; }
+        }
+
+        @media (max-width: 768px) {
+            .main-header { height: var(--header-height-mobile); }
+            .hero { padding-top: calc(var(--header-height-mobile) + 60px); padding-bottom: 80px; min-height: 80vh; }
+
+            .header-nav-group { display: none; }
+            .menu-toggle { display: flex; /* Modificato per allineare l'icona */ align-items: center; justify-content: center; }
+
+            .hero h1 { font-size: 2.8rem; }
+            .hero .sub-headline { font-size: 1.5rem; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero-buttons { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+            .hero-buttons .btn { width: 90%; max-width: 320px; margin: 0; padding: 15px 30px; font-size: 1.1rem; }
+
+            .content-section { padding: 70px 0; }
+            .content-section .section-title { font-size: 2.2rem; }
+            .content-section .section-subtitle { font-size: 1.1rem; margin-bottom: 50px; }
+
+            #about .about-content { flex-direction: column; text-align: center; }
+            #about .about-image { order: -1; margin-bottom: 35px; }
+
+            .step-item { flex-basis: calc(100% - 20px); margin-bottom: 20px; } /* 1 per riga */
+            #cta h2 { font-size: 2.2rem; }
+            #cta p { font-size: 1.1rem;}
+            #cta .btn { font-size: 1.15rem; padding: 16px 35px;}
+        }
+         @media (max-width: 480px) {
+            .hero h1 { font-size: 2.4rem; }
+            .hero .sub-headline { font-size: 1.3rem; }
+            .content-section .section-title { font-size: 2rem; }
+             .main-footer .footer-links { display: flex; flex-direction: column; gap: 10px; }
+         }
+
+
+        /* Cookie Banner Styles (invariati dalla tua versione precedente, ma inclusi per completezza) */
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 950px;
+            background-color: var(--cookie-banner-bg);
+            color: var(--text-light);
+            padding: 22px 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+            z-index: 1001;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+            border-radius: 16px;
+            font-size: 14px;
+        }
+        .cookie-banner.show {
+            display: flex;
+            animation: popUpBanner 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+
+        @keyframes popUpBanner {
+            from { transform: translateX(-50%) scale(0.9) translateY(30px); opacity: 0; }
+            to { transform: translateX(-50%) scale(1) translateY(0); opacity: 1; }
+        }
+        .cookie-banner-content {
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+        .cookie-banner-content p {
+            margin: 0;
+            font-size: 0.92rem;
+            color: var(--text-medium);
+            line-height: 1.65;
+        }
+        .cookie-banner-content p strong {
+             color: var(--text-light);
+        }
+        .cookie-banner-content a {
+            color: var(--highlight-accent);
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .cookie-banner-content a:hover {
+            color: var(--primary-accent);
+        }
+        .cookie-banner-actions {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .cookie-banner-actions .btn-cookie {
+            padding: 10px 22px;
+            border-radius: 20px; 
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            font-size: 0.88rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .btn-cookie.accept { 
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            color: var(--text-light);
+            border-color: var(--primary-accent);
+        }
+        .btn-cookie.accept:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(var(--primary-accent-rgb), 0.2);
+        }
+        .btn-cookie.reject, .btn-cookie.customize { 
+            background-color: var(--cookie-button-secondary-bg);
+            color: var(--text-light);
+            border-color: var(--cookie-button-secondary-bg);
+        }
+        .btn-cookie.reject:hover, .btn-cookie.customize:hover {
+            background-color: var(--cookie-button-secondary-hover-bg);
+            border-color: var(--cookie-button-secondary-hover-bg);
+            transform: translateY(-2px);
+        }
+
+        .cookie-customize-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1002;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .cookie-customize-modal.show {
+            display: flex;
+        }
+        .cookie-modal-content {
+            background-color: var(--card-bg);
+            padding: 35px 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            width: 90%;
+            max-width: 580px;
+            border: 1px solid var(--border-color);
+            animation: fadeInModalContent 0.3s ease-out forwards;
+            max-height: 85vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        @keyframes fadeInModalContent {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .cookie-modal-content h3 {
+            color: var(--text-light);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 18px;
+            flex-shrink: 0;
+        }
+        .cookie-modal-content > p {
+            color: var(--text-medium);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            flex-shrink: 0;
+        }
+        .cookie-categories-container {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .cookie-category {
+            margin-bottom: 22px;
+            padding: 15px;
+            background-color: rgba(15, 23, 42, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(var(--border-color-rgb),0.3);
+            transition: background-color 0.2s ease;
+        }
+        .cookie-category:hover {
+            background-color: rgba(15, 23, 42, 0.6);
+        }
+        .cookie-category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .cookie-category-header label {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 1.15rem;
+            cursor: pointer;
+        }
+        .cookie-category-header input[type="checkbox"] {
+            accent-color: var(--primary-accent);
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .cookie-category-description {
+            font-size: 0.88rem;
+            color: var(--text-medium);
+            padding-left: 5px;
+            line-height: 1.5;
+        }
+        .cookie-modal-actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            flex-shrink: 0;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .cookie-modal-actions .btn-cookie {
+             padding: 12px 28px;
+             font-size: 1rem;
+             border-radius: var(--button-border-radius); 
+             font-weight: 600;
+             transition: all 0.3s ease;
+             border: none;
+             cursor: pointer;
+             line-height: 1.2;
+        }
+        .cookie-modal-actions .btn-cookie.accept {
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            color: var(--text-light);
+            box-shadow: 0 5px 15px rgba(var(--primary-accent-rgb), 0.25);
+        }
+        .cookie-modal-actions .btn-cookie.accept:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(var(--primary-accent-rgb), 0.35);
+        }
+        .cookie-modal-actions .btn-cookie.reject { 
+            background-color: var(--cookie-button-secondary-bg);
+            color: var(--text-light);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            border: 1px solid var(--input-border);
+        }
+        .cookie-modal-actions .btn-cookie.reject:hover {
+            background-color: var(--cookie-button-secondary-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.3);
+            border-color: var(--text-medium);
+        }
+
+        #manageCookieConsent {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: var(--primary-accent);
+            color: var(--text-light);
+            border: none;
+            border-radius: 25px;
+            width: 50px;
+            height: 50px;
+            font-size: 1.4rem;
+            box-shadow: 0 5px 15px rgba(var(--primary-accent-rgb), 0.35);
+            cursor: pointer;
+            z-index: 999;
+            display: none; 
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+        }
+        #manageCookieConsent:hover {
+            background-color: var(--secondary-accent);
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 8px 20px rgba(var(--secondary-accent-rgb), 0.4);
+        }
+        #manageCookieConsent.show {
+            display: flex;
+        }
+
+        @media (max-width: 992px) { /* Tablet */
+            .cookie-banner {
+                max-width: calc(100% - 30px);
+                gap: 20px;
+            }
+        }
+        @media (max-width: 768px) { /* Mobile */
+            .cookie-banner {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 20px;
+                gap: 15px;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                width: auto;
+                transform: translateX(0);
+                border-radius: 12px;
+            }
+            .cookie-banner.show {
+                animation: slideUpBannerMobile 0.4s ease-out forwards;
+            }
+            @keyframes slideUpBannerMobile {
+                from { transform: translateY(100%); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            .cookie-banner-content p {
+                font-size: 0.88rem;
+                margin-bottom: 15px;
+            }
+            .cookie-banner-actions {
+                width: 100%;
+                flex-direction: column;
+                gap: 10px;
+            }
+             .cookie-banner-actions .btn-cookie {
+                width: 100%;
+                padding: 12px 15px;
+                font-size: 0.9rem;
+                border-radius: 10px;
+            }
+            .cookie-modal-content {
+                padding: 25px 20px;
+                width: calc(100% - 20px);
+                margin: 10px;
+                border-radius: 15px;
+                max-height: 90vh;
+            }
+            .cookie-modal-content h3 {
+                font-size: 1.5rem;
+            }
+            .cookie-modal-actions {
+                flex-direction: column;
+            }
+            .cookie-modal-actions .btn-cookie {
+                width: 100%;
+            }
+            #manageCookieConsent {
+                bottom: 15px;
+                left: 15px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+         @media (max-width: 480px) { /* Small Mobile */
+            .cookie-modal-content {
+                padding: 20px 15px;
+            }
+            .cookie-modal-content h3 {
+                font-size: 1.3rem;
+            }
+             .cookie-category-header label {
+                 font-size: 1rem;
+            }
+            .cookie-category-description {
+                font-size: 0.8rem;
+            }
+         }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="index.png" alt="Harzafi Cloud Logo">
+                    Harzafi Cloud
+                </a>
+            </div>
+
+            <div class="header-nav-group"> <nav class="desktop-main-nav">
+                    <ul>
+                        <li><a href="#about" class="active-link">Scopri di più</a></li>
+                        <li><a href="#features">Funzionalità</a></li>
+                        <li><a href="#security">Sicurezza</a></li>
+                        <li><a href="#pricing">Prezzi</a></li>
+                    </ul>
+                </nav>
+                <a href="accedi.html" class="btn btn-primary desktop-nav-button">Accedi</a>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav id="mobileNavMenu"> <ul>
+                <li><a href="#about">Scopri di più</a></li>
+                <li><a href="#features">Funzionalità</a></li>
+                <li><a href="#security">Sicurezza</a></li>
+                <li><a href="#pricing">Prezzi</a></li>
+            </ul>
+            <a href="accedi.html" class="btn btn-primary mobile-nav-button">Accedi</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+             <div class="container">
+                <h1>Spazio Cloud <span class="brand-name">Sicuro & Gratuito</span></h1>
+                <p class="sub-headline">La tua fortezza digitale personale per archiviare, condividere e gestire i file con crittografia avanzata.</p>
+                <p class="tagline">
+                    Unisciti a Harzafi Cloud e sperimenta la libertà di un servizio cloud che mette la tua privacy e la facilità d'uso al primo posto. Inizia oggi con 5GB gratuiti, per sempre.
+                </p>
+                <div class="hero-buttons">
+                    <a href="registrazione.html" class="btn btn-primary">Inizia Subito Gratuitamente</a>
+                    <a href="#features" class="btn btn-secondary">Scopri le Funzionalità</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="content-section">
+            <div class="container">
+                <h2 class="section-title">Benvenuto in Harzafi Cloud</h2>
+                <p class="section-subtitle">La tua soluzione definitiva per l'archiviazione cloud sicura, affidabile, crittografata e intuitiva. Crediamo che tutti debbano avere accesso a uno spazio digitale protetto senza compromessi.</p>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p><strong>Harzafi Cloud</strong> nasce con una missione chiara: offrire un servizio di cloud storage che metta al primo posto la <strong>sicurezza impenetrabile dei tuoi dati</strong>, la <strong>crittografia end-to-end</strong> (concettuale per la demo) e la <strong>semplicità d'uso</strong>. In un mondo digitale dove la privacy è costantemente minacciata, la protezione delle tue informazioni personali e professionali è la nostra massima priorità.</p>
+                        <p>Non siamo solo un hard disk online; siamo la tua cassaforte digitale personale. Ti forniamo strumenti avanzati per la gestione dei file, collaborazione sicura e accesso immediato ai tuoi documenti più importanti, ovunque tu sia, sapendo che sono protetti da molteplici livelli di sicurezza. Il nostro piano base, con 5GB di spazio crittografato, è e resterà <strong>completamente gratuito</strong>.</p>
+                        <div class="core-values">
+                            <div class="value-item">
+                                <i class="fas fa-user-secret"></i>
+                                <h4>Privacy Assoluta</h4>
+                            </div>
+                            <div class="value-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <h4>Sicurezza Multi-livello</h4>
+                            </div>
+                             <div class="value-item">
+                                <i class="fas fa-laptop-code"></i>
+                                <h4>Tecnologia Intuitiva</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="Team che lavora su computer portatili in un ambiente moderno e sicuro (immagine placeholder)">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="content-section">
+           <div class="container">
+                <h2 class="section-title">Funzionalità Progettate per Te</h2>
+                <p class="section-subtitle">Harzafi Cloud è ricco di funzionalità pensate per offrirti un'esperienza cloud superiore, sicura e ottimizzata per ogni dispositivo.</p>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="icon-wrapper"><i class="fas fa-lock"></i></div>
+                        <h4>Crittografia Avanzata</h4>
+                        <p>I tuoi file sono protetti con crittografia AES-256 bit sia a riposo (sui server) che in transito (durante upload/download), garantendo che solo tu possa accedervi.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon-wrapper"><i class="fas fa-fighter-jet"></i></div> {/* Cambiata icona per prestazioni */}
+                        <h4>Prestazioni Ottimizzate</h4>
+                        <p>Infrastruttura server all'avanguardia e codice ottimizzato per upload e download ultra-rapidi, garantendo un accesso istantaneo ai tuoi file, sia da PC che da mobile.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon-wrapper"><i class="fas fa-lightbulb"></i></div> {/* Cambiata icona per intuitività */}
+                        <h4>Interfaccia Elegante e Intuitiva</h4>
+                        <p>Un design pulito, moderno e facile da navigare che rende la gestione dei file un piacere, indipendentemente dal tuo livello di esperienza tecnica.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon-wrapper"><i class="fas fa-mobile-alt"></i></div> {/* Icona per multi-piattaforma */}
+                        <h4>Accesso e Sincronizzazione Universale</h4>
+                        <p>Accedi ai tuoi file e sincronizzali senza interruzioni su tutti i tuoi dispositivi: computer desktop (Windows, macOS, Linux), tablet e smartphone (iOS, Android).</p>
+                    </div>
+                     <div class="feature-item">
+                        <div class="icon-wrapper"><i class="fas fa-user-friends"></i></div> {/* Icona per condivisione */}
+                        <h4>Condivisione Flessibile e Sicura</h4>
+                        <p>Condividi file e intere cartelle con chi vuoi, impostando permessi granulari (sola lettura, modifica), link protetti da password e date di scadenza.</p>
+                    </div>
+                     <div class="feature-item">
+                        <div class="icon-wrapper"><i class="fas fa-undo-alt"></i></div> {/* Icona per versionamento */}
+                        <h4>Versionamento File Intelligente</h4>
+                        <p>Non temere più modifiche accidentali. Recupera facilmente versioni precedenti dei tuoi file e visualizza la cronologia delle modifiche.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon-wrapper"><i class="fas fa-eye"></i></div>  {/* Icona per anteprime */}
+                        <h4>Anteprime Multimediali Avanzate</h4>
+                        <p>Visualizza anteprime di alta qualità per una vasta gamma di formati (documenti, PDF, immagini, video, audio) direttamente nel browser, ottimizzate per caricamenti rapidi.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon-wrapper"><i class="fas fa-shield-virus"></i></div> {/* Icona per protezione aggiuntiva */}
+                        <h4>Protezione Anti-Malware Integrata</h4>
+                        <p>Scansione automatica dei file caricati per rilevare e bloccare malware, garantendo un ambiente cloud ancora più sicuro per te e per chi riceve i tuoi file.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="security" class="content-section">
+            <div class="container">
+                <h2 class="section-title">La Tua Sicurezza, La Nostra Ossessione</h2>
+                <p class="section-subtitle">Implementiamo un approccio multi-livello alla sicurezza per garantire che i tuoi dati siano sempre protetti contro ogni minaccia, utilizzando le tecnologie più avanzate e protocolli rigorosi.</p>
+                <div class="security-grid">
+                    <div class="security-item">
+                        <i class="fas fa-key"></i>
+                        <div class="security-item-content">
+                            <h4>Crittografia End-to-End (Concettuale) e At-Rest</h4>
+                            <p>I tuoi file sono crittografati con AES-256 bit prima di lasciare il tuo dispositivo (concettualmente per la demo) e rimangono crittografati sui nostri server. Solo tu hai la chiave.</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <i class="fas fa-traffic-light"></i>
+                        <div class="security-item-content">
+                            <h4>Trasferimenti Sicuri con TLS/SSL</h4>
+                            <p>Tutte le comunicazioni tra il tuo dispositivo e i nostri server sono protette da protocolli TLS/SSL aggiornati, prevenendo intercettazioni e attacchi man-in-the-middle.</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <i class="fas fa-fingerprint"></i>
+                        <div class="security-item-content">
+                            <h4>Autenticazione a Due Fattori (2FA)</h4>
+                            <p>Aggiungi un ulteriore, invalicabile livello di sicurezza al tuo account con la 2FA, supportando app authenticator e (in futuro) chiavi hardware.</p>
+                        </div>
+                    </div>
+                     <div class="security-item">
+                        <i class="fas fa-building"></i>
+                        <div class="security-item-content">
+                            <h4>Data Center Certificati e Infrastruttura Resiliente</h4>
+                            <p>I nostri server sono ospitati in data center con certificazioni ISO 27001, SOC 2, con protezione fisica avanzata, ridondanza geografica e piani di disaster recovery.</p>
+                        </div>
+                    </div>
+                     <div class="security-item">
+                        <i class="fas fa-user-shield"></i>
+                        <div class="security-item-content">
+                            <h4>Monitoraggio Proattivo delle Minacce 24/7</h4>
+                            <p>Sistemi IDS/IPS, WAF e monitoraggio continuo per rilevare, analizzare e mitigare proattivamente qualsiasi attività sospetta o potenziale minaccia alla sicurezza.</p>
+                        </div>
+                    </div>
+                    <div class="security-item">
+                        <i class="fas fa-user-secret"></i>
+                        <div class="security-item-content">
+                            <h4>Privacy by Design e Conformità GDPR</h4>
+                            <p>La tua privacy è integrata in ogni aspetto del servizio. Non analizziamo il contenuto dei tuoi file. Aderiamo ai principi del GDPR per la protezione dei dati.</p>
+                             <ul>
+                                <li>Controllo completo sui tuoi dati</li>
+                                <li>Trasparenza nelle policy</li>
+                                <li>Diritto all'oblio</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="getting-started" class="content-section">
+            <div class="container">
+                <h2 class="section-title">Inizia in 4 Semplici Passi</h2>
+                <p class="section-subtitle">Entrare nel mondo sicuro e ottimizzato di Harzafi Cloud è facile e veloce. Segui questa guida rapida.</p>
+                <div class="steps-container">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <i class="fas fa-user-plus step-icon"></i>
+                        <h4>Registrati Gratuitamente</h4>
+                        <p>Crea il tuo account Harzafi Cloud in meno di un minuto. Solo le informazioni essenziali, nessuna carta di credito richiesta per il piano base.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <i class="fas fa-cloud-upload-alt step-icon"></i>
+                        <h4>Carica i Tuoi File</h4>
+                        <p>Utilizza la nostra interfaccia intuitiva per trascinare (drag & drop) o selezionare i file da caricare. Sono protetti istantaneamente.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <i class="fas fa-folder-open step-icon"></i>
+                        <h4>Organizza e Gestisci</h4>
+                        <p>Crea cartelle, rinomina file, visualizza anteprime. Il tuo spazio cloud, le tue regole, con la massima efficienza su PC e mobile.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <i class="fas fa-users step-icon"></i>
+                        <h4>Condividi in Sicurezza</h4>
+                        <p>Condividi file o cartelle con chi vuoi, con opzioni avanzate di controllo accessi e protezione tramite password.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="content-section">
+            <div class="container">
+                <h2 class="section-title">Un Piano Semplice, Potente e Gratuito</h2>
+                <p class="section-subtitle">Crediamo che la sicurezza e l'efficienza debbano essere accessibili a tutti. Per questo, il nostro piano Harzafi Cloud Basic è, e sarà sempre, gratuito.</p>
+                <div class="pricing-wrapper">
+                    <div class="pricing-card">
+                        <div style="font-size: 1.5rem; color: var(--highlight-accent); margin-bottom: 10px; font-weight: 500;"><i class="fas fa-star"></i> Piano Basic <i class="fas fa-star"></i></div>
+                        <h3>Harzafi Cloud Essenziale</h3>
+                        <div class="price">0<span style="font-size: 2rem; vertical-align: super; color: var(--highlight-accent);">€</span></div>
+                        <p class="price-term">Al Mese, Per Sempre!</p>
+                        <ul>
+                            <li><i class="fas fa-hdd"></i> <strong>5 GB</strong> di Spazio Cloud Crittografato</li>
+                            <li><i class="fas fa-shield-alt"></i> Crittografia AES-256 bit (At-Rest & In-Transit)</li>
+                            <li><i class="fas fa-cloud-upload-alt"></i> Upload e Download Ottimizzati</li>
+                            <li><i class="fas fa-share-alt"></i> Condivisione File Protetta (Link base)</li>
+                            <li><i class="fas fa-mobile-alt"></i> Accesso da Qualsiasi Dispositivo (Web)</li>
+                            <li><i class="far fa-check-circle"></i> Funzionalità Essenziali di Gestione File</li>
+                            <li><i class="fas fa-history"></i> Versionamento File di Base</li>
+                            <li><i class="fas fa-life-ring"></i> Supporto tramite Community e FAQ</li>
+                        </ul>
+                        <a href="registrazione.html" class="btn btn-primary">Registrati Ora, È Gratis!</a>
+                         <p style="font-size: 0.8rem; color: var(--text-medium); margin-top: 20px;">Piani Premium con più spazio e funzionalità avanzate in arrivo!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cta" class="content-section">
+            <div class="container">
+                <h2>Pronto a Rivoluzionare il Tuo Storage Digitale?</h2>
+                <p>Non aspettare oltre. Unisciti alla famiglia Harzafi Cloud oggi stesso e sperimenta la libertà di un cloud storage sicuro, crittografato, ottimizzato e gratuito.</p>
+                <a href="registrazione.html" class="btn">Crea il Tuo Account Sicuro e Gratuito</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+             <div class="logo-footer">
+                <img src="index.png" alt="Harzafi Cloud Logo">
+                <span>Harzafi Cloud</span>
+            </div>
+            <p class="footer-links">
+                <a href="#home">Home</a> |
+                <a href="privacy.html">Privacy Policy</a> |
+                <a href="termini.html">Termini di Servizio</a> |
+                <a href="guida.html">Guida Utente</a> |
+                <a href="#">Contattaci</a> {/* Placeholder */}
+            </p>
+            <p>&copy; <span id="currentYear"></span> Harzafi Cloud. Realizzato con <i class="fas fa-heart"></i> da Harzafi. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-banner-content">
+            <p>🍪 <strong>La tua privacy è importante.</strong> Noi e terze parti selezionate utilizziamo cookie o tecnologie simili per finalità tecniche e, con il tuo consenso, anche per altre finalità (miglioramento esperienza, misurazione, targeting) come specificato nella <a href="privacy.html#cookie-policy" target="_blank" title="Leggi la nostra Cookie Policy">Cookie Policy</a>. Puoi liberamente prestare, rifiutare o revocare il tuo consenso in qualsiasi momento. </p>
+        </div>
+        <div class="cookie-banner-actions">
+            <button class="btn-cookie customize" id="customizeCookieButton">Personalizza</button>
+            <button class="btn-cookie reject" id="rejectCookieButton">Rifiuta Non Essenziali</button>
+            <button class="btn-cookie accept" id="acceptCookieButton">Accetta Tutto</button>
+        </div>
+    </div>
+
+    <div class="cookie-customize-modal" id="cookieCustomizeModal">
+        <div class="cookie-modal-content">
+            <h3>Preferenze Privacy Avanzate</h3>
+            <p>Questo sito utilizza i cookie per garantirti la migliore esperienza. Puoi personalizzare le tue preferenze qui sotto. Per maggiori dettagli su ciascuna categoria e sui cookie specifici, consulta la nostra <a href="privacy.html#cookie-policy" target="_blank" title="Leggi la nostra Cookie Policy completa">Cookie Policy completa</a>.</p>
+
+            <div class="cookie-categories-container">
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <label for="cookieNecessary">Cookie Tecnici Strettamente Necessari</label>
+                        <input type="checkbox" id="cookieNecessary" name="cookie_necessary" checked disabled>
+                    </div>
+                    <p class="cookie-category-description">Questi cookie sono fondamentali per il corretto funzionamento del sito e per fornirti i servizi richiesti (es. gestione sessione, sicurezza). Non possono essere disabilitati.</p>
+                </div>
+
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <label for="cookiePreferences">Cookie di Funzionalità e Preferenza</label>
+                        <input type="checkbox" id="cookiePreferences" name="cookie_preferences" data-consent-type="preferences">
+                    </div>
+                    <p class="cookie-category-description">Questi cookie consentono al sito di ricordare le scelte che fai (come la lingua, le impostazioni di visualizzazione) per offrirti un'esperienza più personalizzata e comoda.</p>
+                </div>
+
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <label for="cookieStatistics">Cookie Statistici e di Performance (Analytics)</label>
+                        <input type="checkbox" id="cookieStatistics" name="cookie_statistics" data-consent-type="statistics">
+                    </div>
+                    <p class="cookie-category-description">Questi cookie ci aiutano a capire come i visitatori interagiscono con il sito raccogliendo e trasmettendo informazioni in forma aggregata e anonima. Ci permettono di misurare il traffico, identificare le pagine più popolari e migliorare le prestazioni generali del sito.</p>
+                </div>
+
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <label for="cookieMarketing">Cookie di Marketing e Profilazione</label>
+                        <input type="checkbox" id="cookieMarketing" name="cookie_marketing" data-consent-type="marketing">
+                    </div>
+                    <p class="cookie-category-description">Questi cookie (nostri e di terze parti) vengono utilizzati per tracciare i visitatori attraverso i siti web al fine di visualizzare annunci pubblicitari pertinenti e coinvolgenti per il singolo utente e, quindi, di maggior valore per editori e inserzionisti terzi. Possono essere usati per creare un profilo dei tuoi interessi.</p>
+                </div>
+            </div>
+
+            <div class="cookie-modal-actions">
+                <button class="btn-cookie reject" id="saveCookiePreferencesButton">Salva Preferenze Selezionate</button>
+                <button class="btn-cookie accept" id="acceptAllFromModalButton">Accetta Tutti i Cookie</button>
+            </div>
+        </div>
+    </div>
+
+    <button id="manageCookieConsent" title="Gestisci consenso cookie">
+        <i class="fas fa-cookie-bite"></i>
+    </button>
+
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNavMenu = document.getElementById('mobileNavMenu');
+        const bodyForScrollLock = document.body;
+
+        const cookieBanner = document.getElementById('cookieBanner');
+        const acceptCookieButton = document.getElementById('acceptCookieButton');
+        const rejectCookieButton = document.getElementById('rejectCookieButton');
+        const customizeCookieButton = document.getElementById('customizeCookieButton');
+
+        const cookieCustomizeModal = document.getElementById('cookieCustomizeModal');
+        const saveCookiePreferencesButton = document.getElementById('saveCookiePreferencesButton');
+        const acceptAllFromModalButton = document.getElementById('acceptAllFromModalButton');
+        const manageCookieConsentButton = document.getElementById('manageCookieConsent');
+
+        const consentCookieName = 'harzafi_cloud_consent_v1'; // Versionato per futuri cambi di policy
+
+        let currentConsent = {
+            necessary: true, // Sempre vero
+            preferences: false,
+            statistics: false,
+            marketing: false,
+            timestamp: null,
+            choiceMade: false
+        };
+
+        if (menuToggle && mobileNavMenu) {
+            const iconBars = menuToggle.querySelector('.fa-bars');
+            const iconTimes = menuToggle.querySelector('.fa-times');
+
+            menuToggle.addEventListener('click', () => {
+                const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+                menuToggle.setAttribute('aria-expanded', !isExpanded);
+                menuToggle.classList.toggle('active');
+                mobileNavMenu.classList.toggle('active');
+
+                if (mobileNavMenu.classList.contains('active')) {
+                    bodyForScrollLock.style.overflow = 'hidden';
+                } else {
+                    if (!cookieCustomizeModal || !cookieCustomizeModal.classList.contains('show')) {
+                        bodyForScrollLock.style.overflow = '';
+                    }
+                }
+            });
+            
+            const navLinksInMobileMenu = mobileNavMenu.querySelectorAll('ul a, .mobile-nav-button');
+            navLinksInMobileMenu.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileNavMenu.classList.contains('active')) {
+                        if (!link.classList.contains('mobile-nav-button') || link.getAttribute('href').startsWith('#')) {
+                             menuToggle.click(); // Simula click per chiudere
+                        }
+                    }
+                });
+            });
+        }
+
+        const desktopNavLinks = document.querySelectorAll('nav.desktop-main-nav ul a');
+        const mobileMenuInternalLinks = document.querySelectorAll('#mobileNavMenu ul a[href^="#"]');
+        const allScrollableLinks = [...desktopNavLinks, ...mobileMenuInternalLinks];
+        const sections = document.querySelectorAll('main section[id]');
+        let headerHeight = varToNum('--header-height-desktop'); // Valore di default
+
+        function varToNum(varName) {
+            return parseInt(getComputedStyle(document.documentElement).getPropertyValue(varName)) || 0;
+        }
+
+        function updateHeaderHeight() {
+            headerHeight = window.innerWidth <= 768 ? varToNum('--header-height-mobile') : varToNum('--header-height-desktop');
+        }
+        updateHeaderHeight(); // Iniziale
+        window.addEventListener('resize', updateHeaderHeight);
+
+
+        function clearActiveLinks() {
+            allScrollableLinks.forEach(link => link.classList.remove('active-link'));
+        }
+
+        function navHighlighter() {
+            let scrollY = window.pageYOffset;
+            let currentSectionId = 'home'; // Default a home
+
+            sections.forEach(current => {
+                if (current.id) {
+                    const sectionHeight = current.offsetHeight;
+                    const sectionTop = current.offsetTop - headerHeight - 50; // Offset aggiuntivo per attivazione anticipata
+
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight){
+                        currentSectionId = current.getAttribute('id');
+                    }
+                }
+            });
+            
+            // Se siamo molto in alto, forza 'home' (o il primo link)
+            if (scrollY < (sections[0] ? sections[0].offsetTop - headerHeight - 50 : window.innerHeight / 3)) {
+                 currentSectionId = 'home';
+            }
+
+
+            clearActiveLinks();
+
+            allScrollableLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref === '#' + currentSectionId || (currentSectionId === 'home' && (linkHref === '#home' || linkHref === 'index.html' || linkHref === '#'))) {
+                    link.classList.add('active-link');
+                }
+            });
+        }
+        window.addEventListener('scroll', navHighlighter);
+
+        // --- Cookie Banner JavaScript ---
+
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            const secureAttribute = window.location.protocol === 'https:' ? '; Secure' : '';
+            document.cookie = name + "=" + (encodeURIComponent(JSON.stringify(value)))  + expires + "; path=/; SameSite=Lax" + secureAttribute;
+        }
+
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) {
+                    try {
+                        return JSON.parse(decodeURIComponent(c.substring(nameEQ.length, c.length)));
+                    } catch (e) {
+                        console.warn("Errore parsing cookie:", e);
+                        return null; // Ritorna null se il cookie è malformato
+                    }
+                }
+            }
+            return null;
+        }
+
+        function hideCookieBanner() {
+            if (cookieBanner) cookieBanner.classList.remove('show');
+        }
+
+        function showCookieBanner() {
+            if (cookieBanner) cookieBanner.classList.add('show');
+        }
+
+        function hideCustomizeModal() {
+            if (cookieCustomizeModal) {
+                cookieCustomizeModal.classList.remove('show');
+                if (!mobileNavMenu || !mobileNavMenu.classList.contains('active')) { // Ripristina scroll solo se il menu mobile è chiuso
+                    bodyForScrollLock.style.overflow = '';
+                }
+            }
+        }
+
+        function showCustomizeModal() {
+            const consent = getCookie(consentCookieName) || currentConsent; // Usa currentConsent se il cookie non esiste
+            if (document.getElementById('cookiePreferences')) { // Controlla se gli elementi esistono
+                 document.getElementById('cookiePreferences').checked = consent.preferences;
+                 document.getElementById('cookieStatistics').checked = consent.statistics;
+                 document.getElementById('cookieMarketing').checked = consent.marketing;
+            } else {
+                console.warn("Elementi checkbox cookie non trovati nel modale.");
+            }
+
+            if (cookieCustomizeModal) {
+                cookieCustomizeModal.classList.add('show');
+                bodyForScrollLock.style.overflow = 'hidden';
+            }
+        }
+
+        function showManageConsentButton() {
+            if(manageCookieConsentButton) manageCookieConsentButton.classList.add('show');
+        }
+        
+        function applyConsent(consentSettings) {
+            // Qui applicheresti effettivamente le impostazioni dei cookie
+            // Esempio: caricare script di analytics se consent.statistics è true
+            console.log("Consenso applicato:", consentSettings);
+            if (consentSettings.statistics) {
+                loadAnalytics();
+            } else {
+                console.log("Cookie statistici RIFIUTATI (o non ancora accettati).");
+                // Qui potresti voler rimuovere/disabilitare script di analytics se già caricati
+            }
+             if (consentSettings.marketing) {
+                console.log("Cookie di marketing ACCETTATI.");
+                // Carica script di marketing
+            } else {
+                console.log("Cookie di marketing RIFIUTATI (o non ancora accettati).");
+                // Rimuovi/disabilita script di marketing
+            }
+            // E così via per le altre categorie
+        }
+
+
+        function handleConsentDecision(newConsentSettings) {
+            currentConsent = { ...currentConsent, ...newConsentSettings, choiceMade: true, timestamp: new Date().toISOString() };
+            setCookie(consentCookieName, currentConsent, 365); // Salva il consenso per 1 anno
+            hideCookieBanner();
+            hideCustomizeModal();
+            showManageConsentButton();
+            applyConsent(currentConsent);
+        }
+
+        function acceptAllCookies() {
+            const consent = { preferences: true, statistics: true, marketing: true };
+            handleConsentDecision(consent);
+        }
+
+        function rejectNonEssentialCookies() {
+            const consent = { preferences: false, statistics: false, marketing: false };
+            handleConsentDecision(consent);
+        }
+
+        function saveCustomPreferences() {
+            const consent = {
+                preferences: document.getElementById('cookiePreferences') ? document.getElementById('cookiePreferences').checked : false,
+                statistics: document.getElementById('cookieStatistics') ? document.getElementById('cookieStatistics').checked : false,
+                marketing: document.getElementById('cookieMarketing') ? document.getElementById('cookieMarketing').checked : false
+            };
+            handleConsentDecision(consent);
+        }
+
+        if (acceptCookieButton)  acceptCookieButton.addEventListener('click', acceptAllCookies);
+        if (rejectCookieButton) rejectCookieButton.addEventListener('click', rejectNonEssentialCookies);
+        if (customizeCookieButton) customizeCookieButton.addEventListener('click', showCustomizeModal);
+        if (saveCookiePreferencesButton) saveCookiePreferencesButton.addEventListener('click', saveCustomPreferences);
+        if (acceptAllFromModalButton) acceptAllFromModalButton.addEventListener('click', acceptAllCookies);
+        
+        if (manageCookieConsentButton) manageCookieConsentButton.addEventListener('click', showCustomizeModal);
+        
+        if (cookieCustomizeModal) { // Chiudi modale cliccando sullo sfondo
+            cookieCustomizeModal.addEventListener('click', (event) => {
+                if (event.target === cookieCustomizeModal) {
+                    hideCustomizeModal();
+                }
+            });
+        }
+
+        // Funzione placeholder per caricare script di analytics
+        function loadAnalytics() {
+            console.log('Simulazione: Google Analytics (o altro script statistico) sarebbe caricato ora.');
+            // Esempio:
+            // const script = document.createElement('script');
+            // script.src = 'https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID';
+            // script.async = true;
+            // document.head.appendChild(script);
+            // window.dataLayer = window.dataLayer || [];
+            // function gtag(){dataLayer.push(arguments);}
+            // gtag('js', new Date());
+            // gtag('config', 'GA_MEASUREMENT_ID');
+        }
+        
+        // All'avvio della pagina
+        document.addEventListener('DOMContentLoaded', () => {
+            navHighlighter(); // Evidenzia link nav all'avvio
+
+            // Gestione cookie all'avvio
+            const userSavedConsent = getCookie(consentCookieName);
+            if (userSavedConsent && userSavedConsent.choiceMade) {
+                currentConsent = userSavedConsent; // Carica preferenze salvate
+                applyConsent(currentConsent);
+                showManageConsentButton();
+            } else {
+                // Se il modale di personalizzazione è visibile per errore all'avvio, nascondilo.
+                if (cookieCustomizeModal && getComputedStyle(cookieCustomizeModal).display !== 'none' && !cookieCustomizeModal.classList.contains('show')) {
+                    cookieCustomizeModal.style.display = 'none';
+                }
+                showCookieBanner(); // Mostra banner solo se non c'è scelta precedente
+            }
+        });
+    </script>
+</body>
+</html>

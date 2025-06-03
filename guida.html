@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guida Utente Dettagliata - Harzafi Cloud</title>
+    <link rel="icon" href="index.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-color: #0f172a; 
+            --primary-accent: #3A8DFF;
+            --primary-accent-rgb: 58, 141, 255;
+            --secondary-accent: #2563eb;
+            --secondary-accent-rgb: 37, 99, 235;
+            --highlight-accent: #60a5fa; 
+            --text-light: #f1f5f9; 
+            --text-medium: #94a3b8; 
+            --card-bg: #1e293b; 
+            --card-bg-lighter: #293649;
+            --border-color: rgba(59, 130, 246, 0.2); 
+            --border-color-rgb: 59, 130, 246;
+            --header-height-desktop: 74px; 
+            --header-height-mobile: 70px;
+            --input-bg: #2d3748; 
+            --input-border: #4a5568;
+            --success-color: #48bb78;
+            --success-color-rgb: 72, 187, 120;
+            --warning-color: #f59e0b;
+            --warning-color-rgb: 245, 158, 11;
+            --error-color: #e53e3e;
+            --container-border-radius: 18px;
+            --button-border-radius: 8px;
+            --transition-speed: 0.3s;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+            padding-top: var(--header-height-desktop);
+            position: relative;
+        }
+        body::before, body::after { 
+            content: ''; position: fixed; border-radius: 50%; filter: blur(150px); z-index: -1; opacity: 0.1; animation: subtlePulse 20s infinite alternate;
+        }
+        body::before { width: 700px; height: 700px; background: var(--primary-accent); top: -200px; left: -250px; }
+        body::after { width: 600px; height: 600px; background: var(--secondary-accent); bottom: -150px; right: -200px; animation-delay: 5s; }
+
+        @keyframes subtlePulse {
+            0% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.05); opacity: 0.18; }
+            100% { transform: scale(1); opacity: 0.1; }
+        }
+        
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 0 15px; }
+
+        .main-header {
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            height: var(--header-height-desktop);
+        }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .logo a { display: flex; align-items: center; text-decoration: none; color: var(--text-light); font-size: 24px; font-weight: 700; }
+        .logo img { width: 32px; height: 32px; margin-right: 10px; border-radius: 50%; padding: 2px; background: radial-gradient(circle, var(--primary-accent) 0%, transparent 70%); transition: transform 0.3s ease; }
+        .logo a:hover img { transform: rotate(360deg) scale(1.1); }
+        .header-nav-group { display: flex; align-items: center; }
+        nav.desktop-main-nav ul { list-style: none; display: flex; align-items: center; padding: 0; margin: 0; }
+        nav.desktop-main-nav ul li { margin-left: 30px; }
+        nav.desktop-main-nav ul li a { text-decoration: none; color: var(--text-medium); font-weight: 500; font-size: 0.95rem; transition: color 0.3s ease, transform 0.3s ease; position: relative; padding-bottom: 5px; }
+        nav.desktop-main-nav ul li a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--primary-accent); transition: width 0.3s ease; }
+        nav.desktop-main-nav ul li a:hover { color: var(--text-light); transform: translateY(-2px); }
+        nav.desktop-main-nav ul li a.active-link { color: var(--text-light); }
+        nav.desktop-main-nav ul li a:hover::after, nav.desktop-main-nav ul li a.active-link::after { width: 100%; }
+        .btn { padding: 10px 25px; border-radius: var(--button-border-radius); text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block; text-align: center; border: 2px solid transparent; font-size: 0.9rem; }
+        .btn-primary { background: linear-gradient(95deg, var(--primary-accent), var(--secondary-accent)); color: var(--text-light); box-shadow: 0 5px 15px rgba(var(--primary-accent-rgb), 0.25); }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 20px rgba(var(--primary-accent-rgb), 0.35); }
+        .desktop-nav-button { margin-left: 35px; display: inline-block; }
+        
+        .menu-toggle { 
+            display: none; 
+            background: none; border: none;
+            color: var(--text-light); font-size: 1.8rem;
+            cursor: pointer; padding: 5px; z-index: 1001;
+        }
+        nav#mobileNavMenu {
+            display: none; flex-direction: column; align-items: center; 
+            width: 100%; background-color: rgba(15, 23, 42, 0.99); 
+            position: fixed; top: var(--header-height-mobile); left: 0;
+            height: calc(100vh - var(--header-height-mobile)); 
+            padding: 20px 0; box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            border-top: 1px solid var(--border-color); z-index: 999;
+            overflow-y: auto; 
+        }
+        nav#mobileNavMenu.active { display: flex; }
+        nav#mobileNavMenu ul { list-style: none; padding: 0; margin: 0; flex-direction: column; width: 100%; align-items: center; }
+        nav#mobileNavMenu ul li { margin: 0; width: 100%; text-align: center; }
+        nav#mobileNavMenu ul li a { display: block; padding: 15px 20px; width: 100%; font-size: 1.1rem; text-decoration: none; color: var(--text-medium); transition: color 0.3s ease, background-color 0.3s ease; }
+        nav#mobileNavMenu ul li a:hover, nav#mobileNavMenu ul li a.active-link { color: var(--text-light); background-color: rgba(var(--primary-accent-rgb), 0.1); }
+        .mobile-nav-button { display: block; margin-top: 25px; padding: 12px 25px; width: calc(80% - 40px); max-width: 250px; box-sizing: border-box; text-align: center; font-size: 1rem; }
+
+
+        .page-title-section {
+            padding: 80px 0 60px; text-align: center;
+            background: linear-gradient(135deg, rgba(var(--primary-accent-rgb), 0.05) 0%, rgba(var(--secondary-accent-rgb), 0.1) 100%);
+        }
+        .page-title-section h1 {
+            font-size: 3.2rem; font-weight: 800; color: var(--text-light);
+            margin-bottom: 15px; text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            animation: slideDown 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s forwards; opacity: 0;
+        }
+        .page-title-section .page-subtitle {
+            font-size: 1.3rem; color: var(--text-medium); max-width: 800px;
+            margin: 0 auto; font-weight: 300;
+            animation: fadeInUp 0.7s cubic-bezier(0.165, 0.84, 0.44, 1) 0.4s forwards; opacity: 0;
+        }
+
+        .guide-main-content { padding: 50px 0; }
+        .guide-section {
+            background-color: var(--card-bg); padding: 35px 40px;
+            border-radius: var(--container-border-radius); margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2), 0 1px 3px rgba(var(--border-color-rgb), 0.1);
+            border: 1px solid var(--border-color);
+            animation: fadeInContainer 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            opacity: 0; transform: translateY(20px);
+        }
+        .guide-section:nth-child(odd) { animation-delay: 0.2s; }
+        .guide-section:nth-child(even) { animation-delay: 0.35s; }
+
+        .guide-section-header {
+            display: flex; align-items: center; margin-bottom: 25px;
+            padding-bottom: 20px; border-bottom: 1px solid var(--border-color);
+        }
+        .guide-section-header .section-icon {
+            font-size: 2.5em; color: var(--primary-accent); margin-right: 20px;
+            width: 50px; height: 50px; display: inline-flex; align-items: center;
+            justify-content: center; background-color: rgba(var(--primary-accent-rgb), 0.1);
+            border-radius: 12px;
+        }
+        .guide-section-header h2 { font-size: 2em; font-weight: 700; color: var(--text-light); margin: 0; }
+
+        .guide-section h3 { font-size: 1.5em; font-weight: 600; color: var(--highlight-accent); margin-top: 30px; margin-bottom: 15px; }
+        .guide-section h3:first-of-type { margin-top: 0; }
+        .guide-section h4 { font-size: 1.2em; font-weight: 500; color: var(--text-light); margin-top: 20px; margin-bottom: 10px; }
+        .guide-section p, .guide-section ul, .guide-section ol { font-size: 1em; color: var(--text-medium); margin-bottom: 18px; }
+        .guide-section strong { color: var(--text-light); font-weight: 600; }
+        .guide-section ul, .guide-section ol { margin-left: 20px; padding-left: 15px; }
+        .guide-section li { margin-bottom: 10px; padding-left: 10px; position: relative; }
+        .guide-section ul li::before {
+            content: "\f105"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            color: var(--primary-accent); position: absolute; left: -15px; top: 2px;
+        }
+        .guide-section ol { list-style-type: decimal; }
+        .guide-section ol li::marker { color: var(--primary-accent); font-weight: 600; }
+        .guide-section a { color: var(--primary-accent); text-decoration: none; font-weight: 500; transition: color var(--transition-speed), text-decoration var(--transition-speed); }
+        .guide-section a:hover { color: var(--highlight-accent); text-decoration: underline; }
+        .code-inline {
+            background-color: var(--input-bg); color: var(--text-light); padding: 3px 8px;
+            border-radius: var(--button-border-radius); font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em; border: 1px solid var(--input-border);
+        }
+        
+        .screenshot-placeholder {
+            background-color: var(--input-bg); border: 2px dashed var(--input-border);
+            padding: 40px 20px; text-align: center; color: var(--text-medium);
+            border-radius: var(--button-border-radius); margin: 20px 0; font-style: italic;
+        }
+        .screenshot-placeholder i { margin-right: 10px; font-size: 1.2em; }
+
+        .tip-box, .warning-box, .info-box {
+            padding: 18px 25px; margin: 25px 0;
+            border-radius: var(--button-border-radius); border-left-width: 5px; border-left-style: solid;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .tip-box { background-color: rgba(var(--success-color-rgb), 0.1); border-left-color: var(--success-color); }
+        .tip-box strong { color: var(--success-color); }
+        .tip-box p { margin-bottom: 5px; color: var(--text-light); }
+        .warning-box { background-color: rgba(var(--warning-color-rgb), 0.1); border-left-color: var(--warning-color); }
+        .warning-box strong { color: var(--warning-color); }
+        .warning-box p { margin-bottom: 5px; color: var(--text-light); }
+        .info-box { background-color: rgba(var(--primary-accent-rgb), 0.08); border-left-color: var(--primary-accent); }
+        .info-box strong { color: var(--primary-accent); }
+        .info-box p { margin-bottom: 5px; color: var(--text-light); }
+        .info-box ul { margin-top: 10px;}
+
+
+        .main-footer { padding: 60px 0 40px; text-align: center; background-color: #0c1324; border-top: 1px solid var(--border-color); margin-top: 60px; }
+        .main-footer p { color: var(--text-medium); font-size: 0.9rem; margin-bottom: 10px; }
+        .main-footer .footer-links { margin-bottom: 20px; }
+        .main-footer .footer-links a { color: var(--text-medium); text-decoration: none; margin: 0 12px; transition: color 0.3s ease; font-size: 0.95rem; }
+        .main-footer .footer-links a:hover { color: var(--primary-accent); text-decoration: underline; }
+        .main-footer .logo-footer { display: flex; align-items: center; justify-content: center; margin-bottom: 15px; opacity: 0.8; }
+        .main-footer .logo-footer img { width: 28px; height: 28px; margin-right: 10px; }
+        .main-footer .logo-footer span { font-size: 1.2rem; font-weight: 600; color: var(--text-medium); }
+
+        @keyframes fadeInContainer { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 992px) {
+            .page-title-section h1 { font-size: 2.8rem; }
+            .page-title-section .page-subtitle { font-size: 1.15rem; }
+            .guide-section-header h2 { font-size: 1.8em; }
+            .guide-section h3 { font-size: 1.35em; }
+        }
+        @media (max-width: 768px) {
+            body { padding-top: var(--header-height-mobile); }
+            .main-header { height: var(--header-height-mobile); }
+            .header-nav-group { display: none; }
+            .menu-toggle { display: block; }
+            
+            .page-title-section { padding: 60px 0 40px; }
+            .page-title-section h1 { font-size: 2.2rem; }
+            .page-title-section .page-subtitle { font-size: 1rem; }
+
+            .guide-section { padding: 25px 20px; margin-bottom: 30px;}
+            .guide-section-header { flex-direction: column; align-items: flex-start; text-align: left; }
+            .guide-section-header .section-icon { margin-right: 0; margin-bottom: 15px; font-size: 2em; width: 45px; height: 45px;}
+            .guide-section-header h2 { font-size: 1.6em; }
+            .guide-section h3 { font-size: 1.25em; }
+            .guide-section h4 { font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="index.png" alt="Harzafi Cloud Logo">
+                    <span>Harzafi Cloud</span>
+                </a>
+            </div>
+            <div class="header-nav-group">
+                <nav class="desktop-main-nav">
+                    <ul>
+                        <li><a href="index.html#about">Scopri di più</a></li>
+                        <li><a href="index.html#features">Funzionalità</a></li>
+                        <li><a href="index.html#security">Sicurezza</a></li>
+                        <li><a href="index.html#pricing">Prezzi</a></li>
+                    </ul>
+                </nav>
+                <a href="accedi.html" class="btn btn-primary desktop-nav-button">Accedi</a>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <nav id="mobileNavMenu">
+            <ul>
+                <li><a href="index.html#about">Scopri di più</a></li>
+                <li><a href="index.html#features">Funzionalità</a></li>
+                <li><a href="index.html#security">Sicurezza</a></li>
+                <li><a href="index.html#pricing">Prezzi</a></li>
+            </ul>
+            <a href="accedi.html" class="btn btn-primary mobile-nav-button">Accedi</a>
+        </nav>
+    </header>
+
+    <div class="page-title-section">
+        <div class="container">
+            <h1><i class="fas fa-book-open"></i> Guida Utente Harzafi Cloud</h1>
+            <p class="page-subtitle">La tua bussola per navigare ed utilizzare al meglio tutte le funzionalità sicure e intuitive di Harzafi Cloud. Inizia il tuo viaggio verso una gestione dei file semplice ed efficiente!</p>
+        </div>
+    </div>
+
+    <main class="guide-main-content">
+        <div class="container">
+            <section class="guide-section" id="introduzione">
+                <div class="guide-section-header">
+                    <span class="section-icon"><i class="fas fa-rocket"></i></span>
+                    <h2>Benvenuto/a in Harzafi Cloud!</h2>
+                </div>
+                <p>Harzafi Cloud è il tuo spazio digitale personale, sicuro e affidabile, progettato per semplificare la gestione dei tuoi file. Che tu abbia bisogno di archiviare documenti importanti, foto di famiglia o progetti di lavoro, Harzafi Cloud ti offre gli strumenti per farlo con facilità e tranquillità. Il nostro impegno è fornirti un servizio cloud gratuito (piano base da 5 GB), potente e intuitivo.</p>
+                <p>Questa guida ti accompagnerà passo dopo passo attraverso tutte le funzionalità principali di Harzafi Cloud, dalla creazione del tuo account alla gestione avanzata dei file. Se sei pronto, iniziamo questo viaggio insieme!</p>
+            </section>
+
+            <section class="guide-section" id="getting-started">
+                <div class="guide-section-header">
+                    <span class="section-icon"><i class="fas fa-user-plus"></i></span>
+                    <h2>Primi Passi: Creazione e Accesso</h2>
+                </div>
+                <h3>1. Creazione del Tuo Account Gratuito</h3>
+                <p>Iniziare con Harzafi Cloud è un processo rapido e semplice. Ecco come creare il tuo account in pochi minuti:</p>
+                <ol>
+                    <li>Visita la nostra pagina di <a href="registrazione.html" title="Vai alla pagina di registrazione">registrazione</a> (File: <code class="code-inline">registrazione.html</code>).</li>
+                    <li><strong>Compila i dati personali:</strong> Ti chiederemo il tuo nome, cognome e data di nascita. Ricorda, devi avere almeno 18 anni per registrarti, come indicato dal controllo di validità nel modulo.</li>
+                    <li><strong>Indirizzo Email e Password:</strong> Fornisci un indirizzo email valido (sarà il tuo username per il login) e crea una password sicura. La pagina di registrazione (<code class="code-inline">registrazione.html</code>) presenta un indicatore di robustezza della password e i criteri da rispettare:
+                        <ul>
+                            <li>Almeno 8 caratteri</li>
+                            <li>Almeno una lettera maiuscola</li>
+                            <li>Almeno una lettera minuscola</li>
+                            <li>Almeno un numero</li>
+                            <li>Almeno un carattere speciale (es. !@#$%)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Immagine del Profilo (Opzionale ma consigliato!):</strong> Personalizza il tuo account caricando un'immagine del profilo. Puoi trascinare un file immagine nell'area designata o cliccare su "Scegli File...". Supportiamo formati comuni come PNG, JPG, GIF, con una dimensione massima di 5MB. Dopo aver selezionato l'immagine, potrai utilizzare il nostro strumento di ritaglio e aggiustamento per perfezionarla (basato su Cropper.js).</li>
+                    <li><strong>Località:</strong> Seleziona il tuo Paese ed eventualmente la Regione/Stato dai menu a tendina. La selezione del paese abiliterà il menu delle regioni, se applicabile.</li>
+                    <li><strong>Conferma:</strong> Dopo aver compilato tutti i campi obbligatori e, se lo desideri, l'immagine del profilo, clicca sul pulsante "Registrati". Il server (<code class="code-inline">server.js</code>) verificherà i dati (ad es. se l'email è già in uso).</li>
+                    <li>Se la registrazione va a buon fine, visualizzerai un messaggio di successo e sarai pronto per accedere.</li>
+                </ol>
+                <div class="screenshot-placeholder"><i class="fas fa-camera"></i> Placeholder: Screenshot animato del processo di registrazione, evidenziando i vari campi.</div>
+                <div class="tip-box">
+                    <strong><i class="fas fa-lightbulb"></i> Consiglio per la Password:</strong> Utilizza un gestore di password per creare e memorizzare password complesse e uniche per ogni servizio, incluso Harzafi Cloud. Non usare mai la stessa password su più siti!
+                </div>
+
+                <h3>2. Accedere al Tuo Account</h3>
+                <p>Una volta che il tuo account è stato creato con successo, accedere è semplice:</p>
+                <ol>
+                    <li>Naviga alla <a href="accedi.html" title="Vai alla pagina di login">pagina di login</a> (File: <code class="code-inline">accedi.html</code>).</li>
+                    <li>Inserisci l'<strong>indirizzo email</strong> e la <strong>password</strong> che hai utilizzato durante la registrazione. Entrambi i campi sono obbligatori e validati.</li>
+                    <li><strong>Opzione "Ricordami":</strong> Se stai utilizzando un dispositivo privato e sicuro, puoi spuntare la casella "Ricordami". Questo, tipicamente, imposta un cookie di sessione più duraturo (la logica esatta dipende dall'implementazione del server <code class="code-inline">server.js</code> e dalla configurazione di <code class="code-inline">express-session</code>). È sconsigliato su computer condivisi.</li>
+                    <li>Clicca sul pulsante "Accedi". Il server (<code class="code-inline">server.js</code>) verificherà le tue credenziali confrontando la password fornita con l'hash memorizzato (utilizzando bcryptjs).</li>
+                </ol>
+                <p>Se le credenziali sono corrette, sarai reindirizzato alla tua Dashboard personale di Harzafi Cloud (<code class="code-inline">Harzafi Cloud.html</code>).</p>
+                 <div class="screenshot-placeholder"><i class="fas fa-camera"></i> Placeholder: Screenshot della pagina di login con campi compilati e pulsante evidenziato.</div>
+                <h4>Password Dimenticata? Nessun Problema!</h4>
+                <p>Se hai dimenticato la tua password, sulla pagina di login, clicca sul link <a href="password_dimenticata.html" title="Recupera la tua password">Password dimenticata?</a> (File: <code class="code-inline">password_dimenticata.html</code>).</p>
+                <ol>
+                    <li>Ti verrà chiesto di inserire il tuo indirizzo email associato all'account.</li>
+                    <li>Una volta inviata l'email, il sistema (attualmente simulato in <code class="code-inline">password_dimenticata.html</code>) ti presenterà un campo per inserire un codice OTP (One-Time Password) a 6 cifre che "sarebbe stato inviato" alla tua email.</li>
+                    <li>Inserisci il codice OTP. Se corretto (simulazione), ti verrà data la possibilità di impostare una nuova password (questa parte non è implementata nella demo).</li>
+                </ol>
+                <div class="info-box">
+                    <strong><i class="fas fa-info-circle"></i> Nota sulla Demo:</strong> La funzionalità di invio email e reimpostazione password effettiva non è implementata nel <code class="code-inline">server.js</code> fornito. La pagina <code class="code-inline">password_dimenticata.html</code> simula il processo lato client.
+                </div>
+            </section>
+
+            <section class="guide-section" id="dashboard">
+                <div class="guide-section-header">
+                    <span class="section-icon"><i class="fas fa-columns"></i></span>
+                    <h2>Esplorare la Dashboard Intuitiva</h2>
+                </div>
+                <p>La Dashboard (<code class="code-inline">Harzafi Cloud.html</code>) è il tuo centro di comando personalizzato e dinamico. Dopo il login, verrai accolto da un messaggio di benvenuto con il tuo nome, recuperato dinamicamente tramite una chiamata API a <code class="code-inline">/api/user-info</code> gestita da <code class="code-inline">server.js</code>. La dashboard è organizzata in pratici riquadri (tile) interattivi:</p>
+                <div class="screenshot-placeholder"><i class="fas fa-camera"></i> Placeholder: Screenshot completo della Dashboard di Harzafi Cloud, evidenziando i vari riquadri e il menu utente.</div>
+                
+                <h4>Riquadro Profilo Utente</h4>
+                <p>Questo riquadro mostra un riepilogo del tuo profilo:</p>
+                <ul>
+                    <li><strong>Immagine del Profilo:</strong> Visualizza l'immagine che hai caricato. Se non ne hai caricata una o se c'è un errore nel caricarla, mostra un'immagine placeholder (<code class="code-inline">index.png</code>).</li>
+                    <li><strong>Nome e Email:</strong> Il tuo nome completo e l'indirizzo email associato al tuo account, anch'essi caricati dinamicamente.</li>
+                    <li><strong>Stato del Servizio:</strong> Un messaggio informativo "Harzafi Cloud disponibile solo da web".</li>
+                </ul>
+
+                <h4>Riquadro "I Tuoi File"</h4>
+                <p>L'area principale per la gestione dei tuoi contenuti digitali:</p>
+                <ul>
+                    <li><strong>Barra degli Strumenti:</strong> Contiene il pulsante <code class="code-inline"><i class="fas fa-upload"></i> Carica File</code> per aggiungere nuovi file al tuo cloud.</li>
+                    <li><strong>Griglia dei File:</strong> Visualizza i file che hai caricato. Ogni file è rappresentato da un elemento che include:
+                        <ul>
+                            <li>Un'icona specifica per tipo di file (es. <i class="fas fa-file-image"></i> per immagini, <i class="fas fa-file-pdf"></i> per PDF) o un'anteprima per le immagini (se il file è un'immagine e il suo dataUrl è disponibile).</li>
+                            <li>Il nome del file.</li>
+                            <li>La dimensione del file, formattata in modo leggibile (Bytes, KB, MB, etc.).</li>
+                            <li>Un pulsante <i class="fas fa-times"></i> per eliminare il file (visibile al passaggio del mouse).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Messaggio Griglia Vuota:</strong> Se non hai ancora caricato file, vedrai un messaggio incoraggiante con un'icona <i class="fas fa-cloud-upload-alt"></i> e un pulsante <code class="code-inline"><i class="fas fa-plus-circle"></i> Aggiungi File</code> per iniziare subito.</li>
+                </ul>
+
+                <h4>Riquadro "Note" (Funzionalità Concettuale)</h4>
+                <p>Questo riquadro è pensato per permetterti di creare e organizzare note, appunti e idee direttamente all'interno di Harzafi Cloud. Attualmente, in <code class="code-inline">Harzafi Cloud.html</code>, il riquadro "Note" presenta un'icona <i class="fas fa-sticky-note"></i>, una descrizione e un link placeholder <code class="code-inline"><i class="fas fa-plus-circle"></i> Crea la tua prima nota</code>. L'implementazione effettiva di un sistema di note non è presente.</p>
+
+                <h4>Riquadro "Impostazioni" (Funzionalità Concettuale)</h4>
+                <p>Da qui potrai accedere a tutte le configurazioni per personalizzare il tuo account e le preferenze del servizio. Il riquadro "Impostazioni" in <code class="code-inline">Harzafi Cloud.html</code> mostra un'icona <i class="fas fa-cog"></i>, una descrizione e un link placeholder <code class="code-inline"><i class="fas fa-sliders-h"></i> Vai alle impostazioni</code>. L'implementazione di una pagina o sezione di impostazioni dettagliate non è inclusa.</p>
+                
+                <h3>Menu Utente Intelligente (Header)</h3>
+                <p>Nell'angolo in alto a destra dell'header, il tuo avatar (o le tue iniziali se l'immagine non è disponibile/caricata) funge da accesso a un menu a tendina contestuale. Cliccandoci sopra, si rivelano le seguenti opzioni rapide:</p>
+                <ul>
+                    <li><i class="fas fa-cog"></i> <strong>Impostazioni:</strong> Link diretto alla (futura) pagina delle impostazioni del tuo account.</li>
+                    <li><i class="fas fa-user-circle"></i> <strong>Profilo:</strong> Link diretto alla (futura) pagina del tuo profilo utente.</li>
+                    <li><i class="fas fa-sign-out-alt"></i> <strong>Logout:</strong> Per disconnetterti in modo sicuro dal tuo account Harzafi Cloud. Questa azione distrugge la sessione sul server (<code class="code-inline">server.js</code>) e reindirizza alla pagina <code class="code-inline">index.html</code>.</li>
+                </ul>
+                <p>Il menu mostra anche il tuo nome e l'email per una rapida identificazione.</p>
+                 <div class="screenshot-placeholder"><i class="fas fa-camera"></i> Placeholder: Zoom sul menu utente nell'header, mostrandone le opzioni.</div>
+            </section>
+
+            <section class="guide-section" id="file-management">
+                <div class="guide-section-header">
+                    <span class="section-icon"><i class="fas fa-folder-open"></i></span>
+                    <h2>Gestione Dettagliata dei File</h2>
+                </div>
+                <p>Harzafi Cloud ti offre strumenti intuitivi per gestire i tuoi file in modo efficiente. Tutte le operazioni sui file avvengono principalmente nel riquadro "I Tuoi File" sulla dashboard.</p>
+                <div class="warning-box">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Importante Riguardo la Versione Demo:</strong> Come menzionato, nella versione attuale (<code class="code-inline">Harzafi Cloud.html</code>), i file che carichi sono gestiti utilizzando <strong>localStorage</strong> nel tuo browser. Questo significa che:
+                    <ul>
+                        <li>I file sono memorizzati <strong>localmente</strong> sul tuo computer, all'interno del browser che stai utilizzando.</li>
+                        <li>Sono accessibili solo da quella specifica sessione del browser e su quel dispositivo.</li>
+                        <li><strong>Non vengono inviati o archiviati su un server cloud remoto persistente.</strong></li>
+                        <li>L'eliminazione dei dati del browser, l'utilizzo di una finestra di navigazione in incognito, o l'accesso da un altro browser/dispositivo comporterà la "perdita" di questi file dalla vista della dashboard.</li>
+                    </ul>
+                    Questa è una limitazione della demo attuale; un servizio cloud completo garantirebbe la persistenza dei dati su server remoti.
+                </div>
+                <h3>1. Caricare File sul Tuo Spazio Cloud</h3>
+                <p>Aggiungere file al tuo Harzafi Cloud è un'operazione semplice. Puoi farlo in due modi principali:</p>
+                <ol>
+                    <li><strong>Tramite il Pulsante "Carica File":</strong>
+                        <ul>
+                            <li>All'interno del riquadro "I Tuoi File" sulla tua dashboard, individua e clicca il pulsante <code class="code-inline"><i class="fas fa-upload"></i> Carica File</code>. Se il tuo spazio file è vuoto, potresti vedere un pulsante alternativo come <code class="code-inline"><i class="fas fa-plus-circle"></i> Aggiungi File</code>.</li>
+                            <li>Questa azione aprirà la finestra di dialogo standard del tuo sistema operativo per la selezione dei file.</li>
+                            <li>Naviga tra le tue cartelle locali, seleziona uno o più file che desideri caricare, e conferma la selezione.</li>
+                            <li>I file scelti verranno processati (localmente nella demo) e appariranno come nuovi elementi nella griglia dei file sulla tua dashboard.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Funzionalità Drag & Drop (Tipica dei Sistemi Cloud):</strong>
+                        <p>Molti servizi cloud moderni permettono di trascinare file direttamente dal desktop o da una cartella del computer sull'interfaccia web per caricarli. Sebbene questa specifica interazione non sia esplicitamente codificata per la griglia dei file in <code class="code-inline">Harzafi Cloud.html</code>, la pagina di registrazione (<code class="code-inline">registrazione.html</code>) implementa il drag & drop per l'immagine del profilo, suggerendo che tale intuitiva funzionalità è considerata nel design complessivo di Harzafi Cloud.</p>
+                    </li>
+                </ol>
+                <div class="info-box">
+                    <strong><i class="fas fa-info-circle"></i> Tipi di File Supportati e Anteprime:</strong>
+                    <p>Puoi caricare qualsiasi tipo di file. Per i file immagine (come .png, .jpg, .gif) di dimensioni contenute (sotto i 5MB, per motivi di performance del localStorage e della generazione di dataURL), Harzafi Cloud cercherà di mostrare un'anteprima visiva direttamente nella griglia dei file. Per altri tipi di file, o immagini più grandi, verrà visualizzata un'icona generica rappresentativa del tipo di file (es. <i class="fas fa-file-pdf"></i> per PDF, <i class="fas fa-file-word"></i> per documenti Word, <i class="fas fa-file-archive"></i> per archivi ZIP, ecc.).</p>
+                </div>
+                <div class="screenshot-placeholder"><i class="fas fa-camera"></i> Placeholder: Animazione che mostra il processo di upload, prima cliccando il pulsante e poi con un esempio di drag & drop (se fosse implementato).</div>
+
+                <h3>2. Visualizzare e Organizzare i Tuoi File</h3>
+                <ul>
+                    <li><strong>Layout a Griglia Intuitivo:</strong> I tuoi file sono presentati in una chiara e ordinata vista a griglia, rendendo facile localizzare ciò che cerchi.</li>
+                    <li><strong>Dettagli Rapidi del File:</strong> Per ogni file nella griglia, puoi visualizzare immediatamente:
+                        <ul>
+                            <li>Il <strong>nome completo</strong> del file (con tooltip al passaggio del mouse se il nome è troppo lungo).</li>
+                            <li>L'<strong>icona</strong> o l'<strong>anteprima</strong> dell'immagine.</li>
+                            <li>La <strong>dimensione</strong> del file, formattata in modo comprensibile (es., 1.2 MB, 250 KB).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ordinamento e Filtri (Funzionalità Avanzate Future):</strong> Sebbene non presenti nella demo attuale, versioni future di Harzafi Cloud potrebbero includere opzioni avanzate per ordinare i file (per nome, data di modifica, dimensione, tipo) e filtri per restringere la visualizzazione a specifici tipi di file o criteri di ricerca.</li>
+                    <li><strong>Organizzazione in Cartelle (Funzionalità Avanzate Future):</strong> La capacità di creare, rinominare ed eliminare cartelle per raggruppare logicamente i tuoi file è una caratteristica fondamentale pianificata per migliorare l'organizzazione del tuo spazio cloud.</li>
+                </ul>
+                
+                <h3>3. Anteprime dei File Dettagliate</h3>
+                <p>Come menzionato, Harzafi Cloud si impegna a fornire anteprime utili. Nella versione demo (<code class="code-inline">Harzafi Cloud.html</code>), le anteprime dirette nella griglia sono principalmente per file immagine di piccole dimensioni, grazie alla generazione di `dataUrl` via JavaScript. La pagina principale del servizio (<code class="code-inline">index.html</code>) promuove "Anteprime Avanzate", indicando l'intenzione di supportare anteprime integrate per una gamma più vasta di formati (documenti, PDF, video, audio) in una versione completa, permettendoti di visualizzare i contenuti senza doverli necessariamente scaricare.</p>
+
+                <h3>4. Condivisione Sicura dei File (Funzionalità Chiave Futura)</h3>
+                <p>La condivisione è essenziale. La pagina promozionale <code class="code-inline">index.html</code> evidenzia "Condivisione Sicura" come una delle funzionalità principali di Harzafi Cloud. Questo implica che in una versione completa del servizio potrai:</p>
+                <ul>
+                    <li>Generare link condivisibili per i tuoi file e cartelle.</li>
+                    <li>Proteggere questi link con password.</li>
+                    <li>Impostare date di scadenza per i link di condivisione.</li>
+                    <li>Definire permessi specifici per gli utenti con cui condividi (es. sola lettura, modifica).</li>
+                </ul>
+                <p>Queste importanti funzionalità di condivisione non sono implementate nella dashboard demo attuale (<code class="code-inline">Harzafi Cloud.html</code>).</p>
+
+                <h3>5. Eliminare File dal Tuo Spazio</h3>
+                <p>Rimuovere file che non ti servono più è un'operazione semplice e diretta:</p>
+                <ol>
+                    <li>All'interno della griglia dei file, individua il file che desideri eliminare.</li>
+                    <li>Porta il cursore del mouse sopra l'elemento del file. Noterai che appare un piccolo pulsante rosso con un'icona a forma di croce (<i class="fas fa-times"></i>) nell'angolo in alto a destra dell'elemento del file.</li>
+                    <li>Clicca su questo pulsante di eliminazione.</li>
+                    <li>Per prevenire eliminazioni accidentali, il sistema ti chiederà una conferma esplicita: "Sei sicuro di voler rimuovere "[nome file]"? L'azione è limitata a questa sessione del browser.".</li>
+                    <li>Se confermi la tua intenzione, il file sarà rimosso dalla griglia e, nella demo attuale, dal LocalStorage del tuo browser.</li>
+                </ol>
+                 <div class="tip-box">
+                    <strong><i class="fas fa-trash-alt"></i> Funzionalità "Cestino" e Versionamento (Pianificate):</strong>
+                    <p>Come menzionato in <code class="code-inline">index.html</code> ("Versionamento File"), Harzafi Cloud mira a offrire funzionalità avanzate come il versionamento dei file (per ripristinare versioni precedenti) e un "Cestino" da cui recuperare file eliminati accidentalmente entro un certo periodo. Queste funzionalità non sono presenti nella demo attuale.</p>
+                </div>
+            </section>
+            
+            <section class="guide-section" id="account-management">
+                <div class="guide-section-header">
+                    <span class="section-icon"><i class="fas fa-user-shield"></i></span>
+                    <h2>Gestione Sicura del Tuo Account</h2>
+                </div>
+                <p>Mantenere il tuo account Harzafi Cloud aggiornato, personalizzato e sicuro è fondamentale. Puoi accedere alle principali opzioni di gestione dell'account tramite il menu a tendina del tuo avatar, situato nell'header della pagina.</p>
+                
+                <h3>1. Modificare le Informazioni del Profilo (Funzionalità Futura)</h3>
+                <p>Anche se una pagina "Profilo" dedicata non è esplicitamente implementata nei file correnti, le informazioni fondamentali del tuo profilo sono gestite e visualizzate. In una versione completa del servizio, la sezione Profilo (accessibile dal menu utente) ti permetterebbe di:</p>
+                <ul>
+                    <li><strong>Aggiornare Nome e Cognome:</strong> Modificare i dati personali visualizzati.</li>
+                    <li><strong>Cambiare l'Immagine del Profilo:</strong> Caricare una nuova immagine o rimuovere quella esistente. L'attuale <code class="code-inline">registrazione.html</code> già include un sofisticato uploader e cropper per l'immagine del profilo.</li>
+                    <li><strong>Modificare l'Indirizzo Email (con cautela):</strong> Cambiare l'email associata al tuo account, solitamente previa verifica del nuovo indirizzo.</li>
+                    <li><strong>Aggiornare la Data di Nascita o la Località:</strong> Se necessario.</li>
+                </ul>
+                <div class="screenshot-placeholder"><i class="fas fa-camera"></i> Placeholder: Mockup di una possibile pagina "Modifica Profilo".</div>
+
+                <h3>2. Configurare le Impostazioni dell'Account (Funzionalità Futura)</h3>
+                <p>Il link "Impostazioni" nel menu utente e il riquadro "Impostazioni" sulla dashboard sono placeholder per una futura sezione completa dove potrai personalizzare vari aspetti del tuo account Harzafi Cloud:</p>
+                <ul>
+                    <li><strong>Sicurezza dell'Account:</strong>
+                        <ul>
+                            <li><strong>Cambio Password:</strong> È una buona pratica cambiare la password regolarmente.</li>
+                            <li><strong>Autenticazione a Due Fattori (2FA):</strong> Come menzionato in <code class="code-inline">index.html</code>, prevediamo di supportare la 2FA per un livello di sicurezza aggiuntivo. Qui potresti abilitarla e configurare i metodi di verifica (es. app authenticator, SMS).</li>
+                            <li><strong>Sessioni Attive:</strong> Visualizzare e gestire i dispositivi da cui hai effettuato l'accesso.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Preferenze di Notifica:</strong> Scegliere quali tipi di notifiche desideri ricevere (es. aggiornamenti sul servizio, avvisi di sicurezza, attività di condivisione) e come (es. email, notifiche in-app).</li>
+                    <li><strong>Gestione dello Spazio di Archiviazione:</strong>
+                        <ul>
+                            <li>Visualizzare un dettaglio dello spazio di archiviazione utilizzato rispetto al totale disponibile (il piano base offre 5 GB gratuiti).</li>
+                            <li>Opzioni per gestire o liberare spazio, o per passare a piani con maggiore capienza (se disponibili).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Preferenze Lingua e Aspetto:</strong> Scegliere la lingua dell'interfaccia e, eventualmente, temi visivi.</li>
+                    <li><strong>Collegamenti ad App Esterne (se applicabile):</strong> Gestire integrazioni con altri servizi.</li>
+                </ul>
+
+                <h3>3. Logout Sicuro dal Tuo Account</h3>
+                <p>È di cruciale importanza disconnettersi correttamente da Harzafi Cloud, specialmente se accedi al servizio da computer condivisi o reti pubbliche, per proteggere la privacy e la sicurezza dei tuoi dati.</p>
+                <ol>
+                    <li>Individua e clicca sul tuo <strong>avatar</strong> (o le tue iniziali) nell'angolo in alto a destra dell'header della pagina.</li>
+                    <li>Si aprirà un menu a tendina. Seleziona l'opzione <code class="code-inline"><i class="fas fa-sign-out-alt"></i> Logout</code>.</li>
+                    <li>Questa azione invierà una richiesta al server (<code class="code-inline">server.js</code>) per distruggere la tua sessione corrente. Il server, a sua volta, pulirà il cookie di sessione (<code class="code-inline">connect.sid</code>) dal tuo browser.</li>
+                    <li>Verrai automaticamente reindirizzato alla pagina principale di Harzafi Cloud (<code class="code-inline">index.html</code>), confermando che la disconnessione è avvenuta con successo.</li>
+                </ol>
+                <div class="warning-box">
+                    <strong><i class="fas fa-exclamation-triangle"></i> Non chiudere semplicemente la scheda del browser!</strong> Chiudere la scheda o il browser senza effettuare il logout potrebbe non terminare immediatamente la tua sessione sul server, specialmente se hai selezionato "Ricordami". Usa sempre il pulsante Logout per la massima sicurezza.
+                </div>
+            </section>
+
+            <section class="guide-section" id="security-tips">
+                <div class="guide-section-header">
+                    <span class="section-icon"><i class="fas fa-user-lock"></i></span>
+                    <h2>Consigli Proattivi per la Sicurezza</h2>
+                </div>
+                <p>In Harzafi Cloud, la sicurezza dei tuoi dati è una priorità assoluta. Come descritto ampiamente nella nostra <a href="index.html#security">sezione Sicurezza</a> sulla pagina principale (<code class="code-inline">index.html</code>), implementiamo tecnologie e protocolli avanzati, tra cui:</p>
+                <ul>
+                    <li><strong>Crittografia Robusta:</strong> Utilizzo di standard come AES-256 bit per i file archiviati (at rest) e durante il trasferimento (in transit).</li>
+                    <li><strong>Trasferimenti Sicuri:</strong> Comunicazioni tramite protocolli sicuri TLS/SSL.</li>
+                    <li><strong>Autenticazione Forte:</strong> Meccanismi robusti e il previsto supporto per l'Autenticazione a Due Fattori (2FA).</li>
+                    <li><strong>Infrastruttura Resiliente:</strong> Data center protetti e ridondanza dei dati.</li>
+                    <li><strong>Monitoraggio Continuo:</strong> Sistemi attivi 24/7 per rilevare e mitigare minacce.</li>
+                    <li><strong>Privacy Garantita:</strong> Policy trasparenti e nessun utilizzo dei tuoi file per scopi pubblicitari.</li>
+                </ul>
+                <p>Tuttavia, la sicurezza è una responsabilità condivisa. Ecco alcuni consigli proattivi che puoi adottare per rafforzare ulteriormente la protezione del tuo account e dei tuoi dati:</p>
+                
+                <h4>Gestione delle Password</h4>
+                <ul>
+                    <li><strong>Crea Password Forti e Uniche:</strong> Utilizza password di almeno 12-16 caratteri, combinando lettere maiuscole, minuscole, numeri e simboli. Evita parole comuni, date di nascita o sequenze facili da indovinare. La pagina di registrazione (<code class="code-inline">registrazione.html</code>) ti aiuta con i criteri minimi.</li>
+                    <li><strong>Non Riutilizzare le Password:</strong> Usa una password diversa per Harzafi Cloud rispetto agli altri tuoi account online. Se una password viene compromessa su un altro sito, il tuo account Harzafi Cloud rimarrà protetto.</li>
+                    <li><strong>Utilizza un Gestore di Password:</strong> Considera l'uso di un gestore di password affidabile per generare e memorizzare password complesse in modo sicuro.</li>
+                    <li><strong>Cambia la Password Periodicamente:</strong> O immediatamente se sospetti che possa essere stata compromessa.</li>
+                </ul>
+
+                <h4>Autenticazione e Accesso</h4>
+                <ul>
+                    <li><strong>Abilita l'Autenticazione a Due Fattori (2FA):</strong> Non appena questa funzionalità sarà disponibile su Harzafi Cloud (come pianificato), abilitala. Aggiunge un ulteriore livello di verifica oltre alla tua password.</li>
+                    <li><strong>Logout Sistematico:</strong> Effettua sempre il logout dal tuo account Harzafi Cloud quando hai finito di usarlo, specialmente se accedi da computer pubblici, condivisi o reti Wi-Fi non protette.</li>
+                    <li><strong>Riconosci Tentativi di Phishing:</strong>
+                        <ul>
+                            <li>Sii scettico nei confronti di email, messaggi o chiamate non richieste che ti chiedono le tue credenziali di Harzafi Cloud o informazioni personali.</li>
+                            <li>Harzafi Cloud non ti chiederà <strong>MAI</strong> la tua password via email o telefono.</li>
+                            <li>Verifica sempre l'indirizzo del mittente e l'URL dei link prima di cliccare. Accedi a Harzafi Cloud digitando direttamente l'indirizzo nel browser o usando i tuoi segnalibri fidati.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4>Sicurezza del Dispositivo e della Rete</h4>
+                <ul>
+                    <li><strong>Mantieni Aggiornati Software e Dispositivi:</strong> Assicurati che il tuo sistema operativo, browser web e software antivirus/antimalware siano sempre aggiornati alle ultime versioni per proteggerti dalle vulnerabilità note.</li>
+                    <li><strong>Utilizza Reti Sicure:</strong> Evita di accedere a informazioni sensibili o al tuo account Harzafi Cloud quando sei connesso a reti Wi-Fi pubbliche o non protette, poiché potrebbero essere più vulnerabili alle intercettazioni. Se devi farlo, considera l'uso di una VPN (Virtual Private Network).</li>
+                    <li><strong>Attenzione ai Malware:</strong> Installa software solo da fonti attendibili e fai attenzione agli allegati email sospetti per evitare malware che potrebbero compromettere le tue credenziali o i tuoi file.</li>
+                </ul>
+                <div class="tip-box">
+                    <strong><i class="fas fa-shield-alt"></i> La tua Vigilanza è Fondamentale:</strong> Monitora regolarmente l'attività del tuo account (quando saranno disponibili i log di attività) e segnalaci immediatamente qualsiasi attività sospetta.
+                </div>
+            </section>
+
+            <section class="guide-section" id="troubleshooting">
+                <div class="guide-section-header">
+                    <span class="section-icon"><i class="fas fa-wrench"></i></span>
+                    <h2>Risoluzione dei Problemi Comuni</h2>
+                </div>
+                <p>Anche con un servizio intuitivo come Harzafi Cloud, a volte possono sorgere piccoli intoppi. Ecco una guida per risolvere i problemi più comuni che potresti incontrare.</p>
+
+                <h3>Problemi di Accesso (Login e Registrazione)</h3>
+                <ul>
+                    <li><strong>Errore: "Email o password non corretti"</strong> (<code class="code-inline">accedi.html</code>)
+                        <ul>
+                            <li><strong>Soluzione:</strong> Verifica attentamente che l'indirizzo email e la password inseriti siano corretti. Presta attenzione a maiuscole/minuscole, spazi accidentali e caratteri speciali. Assicurati che il tasto "Bloc Maiusc" non sia attivo. Se sei sicuro delle credenziali, prova a reimpostare la password.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Errore: "Utente già registrato con questa email"</strong> (durante la registrazione in <code class="code-inline">registrazione.html</code>)
+                        <ul>
+                            <li><strong>Soluzione:</strong> Questo messaggio indica che un account con l'indirizzo email fornito esiste già. Prova ad accedere con quell'email. Se hai dimenticato la password, utilizza la funzione "Password dimenticata?" sulla pagina di login.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Errore: "Devi avere almeno 18 anni per registrarti"</strong> (<code class="code-inline">registrazione.html</code>)
+                        <ul>
+                            <li><strong>Soluzione:</strong> Il sistema ha calcolato che la data di nascita inserita corrisponde a un'età inferiore ai 18 anni. Verifica la data inserita. Harzafi Cloud richiede che gli utenti abbiano almeno 18 anni.</li>
+                        </ul>
+                    </li>
+                     <li><strong>Errore: "Password debole. Controlla i criteri."</strong> (<code class="code-inline">registrazione.html</code>)
+                        <ul>
+                            <li><strong>Soluzione:</strong> La password che hai scelto non soddisfa i requisiti di sicurezza minimi. Assicurati che la tua password includa almeno 8 caratteri, una lettera maiuscola, una minuscola, un numero e un simbolo speciale. L'interfaccia di registrazione fornisce un feedback visivo sui criteri soddisfatti.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Non ricevo il codice OTP per la reimpostazione della password</strong> (<code class="code-inline">password_dimenticata.html</code>)
+                        <ul>
+                            <li><strong>Soluzione (Demo):</strong> Nella versione demo attuale, il codice OTP viene visualizzato direttamente sulla pagina a scopo di test e non viene inviato via email. Assicurati di copiare correttamente quel codice.</li>
+                            <li><strong>Soluzione (Sistema Reale Futuro):</strong> Controlla la cartella Spam o Posta Indesiderata della tua casella email. Assicurati di aver inserito l'indirizzo email corretto. Attendi qualche minuto, a volte le email possono subire ritardi. Se il problema persiste, potrebbe esserci un'opzione per richiedere un nuovo codice.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>Problemi con i File (Specifici della Versione Demo con LocalStorage)</h3>
+                <ul>
+                    <li><strong>I miei file non sono visibili dopo aver chiuso il browser o cambiato dispositivo.</strong>
+                        <ul>
+                            <li><strong>Causa:</strong> Nella versione demo (<code class="code-inline">Harzafi Cloud.html</code>), i file vengono memorizzati nel LocalStorage del browser. Questa memoria è locale al browser e al dispositivo specifico.</li>
+                            <li><strong>Soluzione:</strong> Purtroppo, con l'attuale implementazione demo, i file non sono persistenti tra sessioni diverse su browser diversi o dopo la cancellazione dei dati del browser. Per accedere ai file, devi utilizzare lo stesso browser e profilo utente sul medesimo dispositivo in cui li hai caricati, senza aver cancellato i dati del sito.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Errore durante il caricamento di file di grandi dimensioni.</strong>
+                        <ul>
+                            <li><strong>Causa:</strong> LocalStorage ha limiti di dimensione (generalmente 5-10 MB per dominio, a seconda del browser). File più grandi potrebbero non essere memorizzabili. Anche l'uploader dell'immagine del profilo in <code class="code-inline">registrazione.html</code> ha un limite implicito di 5MB per la gestione client-side.</li>
+                            <li><strong>Soluzione:</strong> Prova a caricare file più piccoli. In un servizio cloud completo, i limiti di dimensione dei file sarebbero significativamente più alti e gestiti lato server.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Le anteprime dei file non vengono visualizzate correttamente.</strong>
+                        <ul>
+                            <li><strong>Causa:</strong> Nella demo, le anteprime dirette nella griglia sono generate via JavaScript principalmente per file immagine comuni e di dimensioni ridotte (che permettono la creazione di un `dataUrl` efficiently).</li>
+                            <li><strong>Soluzione:</strong> Per altri tipi di file, vedrai un'icona generica. Verifica che il file immagine sia in un formato supportato (PNG, JPG, GIF) e non eccessivamente grande.</li>
+                        </ul>
+                    </li>
+                     <li><strong>Il pulsante "Elimina File" non funziona o il file riappare.</strong>
+                        <ul>
+                            <li><strong>Causa:</strong> Potrebbe esserci un problema temporaneo con lo script JavaScript che gestisce la rimozione da LocalStorage, oppure un'interferenza da estensioni del browser.</li>
+                            <li><strong>Soluzione:</strong> Prova a ricaricare la pagina. Se il problema persiste, prova a disabilitare temporaneamente le estensioni del browser per vedere se una di esse sta causando un conflitto. In ultima istanza, puoi cancellare manualmente il LocalStorage per il sito tramite gli strumenti per sviluppatori del browser, ma questo eliminerà tutti i file "caricati" nella demo.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="info-box">
+                    <strong><i class="fas fa-tools"></i> Strumenti per Sviluppatori del Browser:</strong> Se sei un utente tecnico, puoi usare gli strumenti per sviluppatori del tuo browser (solitamente accessibili con F12) per controllare la console JavaScript per eventuali messaggi di errore, o per ispezionare il LocalStorage e vedere cosa vi è memorizzato.
+                </div>
+            </section>
+
+            <section class="guide-section" id="contact">
+                <div class="guide-section-header">
+                    <span class="section-icon"><i class="fas fa-headset"></i></span>
+                    <h2>Supporto Dedicato e Contatti</h2>
+                </div>
+                <p>In Harzafi Cloud, ci teniamo a offrirti la migliore esperienza possibile. Se hai bisogno di ulteriore assistenza, hai riscontrato un problema non trattato in questa guida, o hai suggerimenti per migliorare il nostro servizio, il nostro team è pronto ad ascoltarti.</p>
+                
+                <h4>Come Contattarci:</h4>
+                <ul>
+                    <li><strong>Link "Contattaci":</strong> Troverai un link "Contattaci" nel footer di ogni pagina del nostro sito, inclusa questa guida. Cliccandolo, in una versione completa del servizio, saresti indirizzato a:
+                        <ul>
+                            <li>Un modulo di contatto online per inviare la tua richiesta direttamente.</li>
+                            <li>Un indirizzo email dedicato al supporto clienti.</li>
+                            <li>Eventualmente, una sezione FAQ (Domande Frequenti) più estesa.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Feedback tramite il Servizio (Futuro):</strong> Potremmo implementare funzionalità di feedback diretto all'interno della piattaforma Harzafi Cloud.</li>
+                </ul>
+                <p>Quando ci contatti, cerca di fornire quante più informazioni possibili riguardo al tuo problema o alla tua domanda, ad esempio:</p>
+                <ul>
+                    <li>L'indirizzo email associato al tuo account Harzafi Cloud.</li>
+                    <li>Una descrizione dettagliata del problema (cosa stavi cercando di fare, cosa è successo, eventuali messaggi di errore specifici).</li>
+                    <li>Il tipo di dispositivo e browser che stavi utilizzando.</li>
+                    <li>Eventuali screenshot che possano aiutare a illustrare il problema.</li>
+                </ul>
+                <p>Ci impegniamo a rispondere a tutte le richieste nel più breve tempo possibile. La tua soddisfazione è la nostra priorità!</p>
+                <div class="tip-box">
+                    <strong><i class="fas fa-hands-helping"></i> Contributo della Community:</strong> Considera anche la possibilità (in futuro) di forum della community o gruppi di utenti dove potresti trovare risposte o condividere la tua esperienza con altri utenti di Harzafi Cloud.
+                </div>
+                <p>Grazie per aver scelto Harzafi Cloud! Siamo qui per supportarti.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+             <div class="logo-footer">
+                <a href="index.html" style="text-decoration:none; display: flex; align-items: center;">
+                    <img src="index.png" alt="Harzafi Cloud Logo">
+                    <span>Harzafi Cloud</span>
+                </a>
+            </div>
+            <p class="footer-links">
+                <a href="index.html">Home</a> |
+                <a href="privacy.html">Privacy</a> |
+                <a href="guida.html" class="active-link">Guida</a> |
+                <a href="termini.html">Termini</a> |
+                <a href="#contact">Contattaci</a>
+            </p>
+            <p>&copy; <span id="currentYear"></span> Harzafi Cloud. Realizzato con <i class="fas fa-heart" style="color:var(--primary-accent);"></i> da Harzafi. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const menuToggleGuide = document.getElementById('menuToggle');
+        const mobileNavMenuGuide = document.getElementById('mobileNavMenu');
+        if (menuToggleGuide && mobileNavMenuGuide) {
+            const navLinksInMobileMenuGuide = mobileNavMenuGuide.querySelectorAll('ul a, .mobile-nav-button');
+
+            menuToggleGuide.addEventListener('click', () => {
+                const isExpanded = menuToggleGuide.getAttribute('aria-expanded') === 'true' || false;
+                menuToggleGuide.setAttribute('aria-expanded', !isExpanded);
+                mobileNavMenuGuide.classList.toggle('active');
+                
+                const icon = menuToggleGuide.querySelector('i');
+                if (mobileNavMenuGuide.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                    document.body.style.overflow = 'hidden'; 
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                    document.body.style.overflow = ''; 
+                }
+            });
+
+            navLinksInMobileMenuGuide.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileNavMenuGuide.classList.contains('active')) {
+                         if (!link.classList.contains('mobile-nav-button') || link.getAttribute('href').startsWith('#') || link.getAttribute('href').startsWith('index.html#')) {
+                             menuToggleGuide.click(); 
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harzafi Cloud - Dashboard</title>
+    <link rel="icon" href="index.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-color: #0f172a; /* Sfondo principale scuro */
+            --bg-color-light-blend: #131c31; /* Sfumatura più chiara per lo sfondo */
+            --primary-accent: #3A8DFF; /* Blu primario per accenti */
+            --secondary-accent: #2563eb; /* Blu secondario, leggermente più scuro */
+            --highlight-accent: #60a5fa; /* Blu chiaro per evidenziazioni */
+            --text-light: #f1f5f9; /* Testo chiaro, quasi bianco */
+            --text-medium: #94a3b8; /* Testo medio, grigio-azzurro */
+            --text-dark: #1e293b; /* Testo scuro (usato raramente su sfondo chiaro) */
+            
+            --tile-bg: rgba(20, 28, 46, 0.85); /* Sfondo dei riquadri, leggermente trasparente */
+            --tile-bg-hover: rgba(30, 41, 59, 0.95); /* Sfondo dei riquadri al passaggio del mouse */
+            --tile-border-color: rgba(59, 130, 246, 0.3); /* Colore bordo dei riquadri */
+            --tile-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); /* Ombra dei riquadri */
+
+            --card-bg: #1e293b; /* Sfondo per card interne o elementi simili */
+            --border-color: rgba(59, 130, 246, 0.2); /* Colore generico per bordi */
+            --input-bg: #2d3748; /* Sfondo per input */
+            --header-height: 70px; /* Altezza dell'header */
+            --button-border-radius: 8px; /* Raggio bordo per i bottoni */
+            --tile-border-radius: 20px; /* Raggio bordo per i riquadri */
+            --transition-speed: 0.3s; /* Velocità delle transizioni */
+            --danger-color: #e53e3e; /* Rosso per azioni pericolose (es. elimina) */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(ellipse at top left, var(--bg-color-light-blend) 0%, var(--bg-color) 60%),
+                              radial-gradient(ellipse at bottom right, rgba(37, 99, 235, 0.2) 0%, var(--bg-color) 70%);
+            background-attachment: fixed;
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden; 
+            overflow-y: auto;
+        }
+
+        /* Header */
+        .cloud-header {
+            background-color: rgba(15, 23, 42, 0.7); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 0 35px; 
+            height: var(--header-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky; 
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo-cloud { display: flex; align-items: center; gap: 15px; }
+        .logo-cloud img { height: 32px; width: auto; border-radius: 50%; }
+        .welcome-message { font-size: 1.2em; font-weight: 500; color: var(--text-light); }
+        .welcome-message .user-name { font-weight: 700; color: var(--primary-accent); }
+
+        /* Menu Utente nell'Header */
+        .user-menu { position: relative; }
+        .user-avatar {
+            width: 42px; height: 42px; border-radius: 50%; background-color: var(--primary-accent);
+            color: var(--text-light); display: flex; align-items: center; justify-content: center;
+            font-weight: 600; cursor: pointer; text-transform: uppercase; border: 2px solid var(--highlight-accent);
+            font-size: 1.2em; overflow: hidden; transition: transform var(--transition-speed);
+        }
+        .user-avatar:hover { transform: scale(1.1); }
+        .user-avatar img.profile-picture { width: 100%; height: 100%; object-fit: cover; }
+        
+        .dropdown-menu {
+            display: none; position: absolute; top: calc(var(--header-height) - 10px); right: 0;
+            background-color: var(--card-bg); border-radius: var(--button-border-radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1001;
+            width: 240px; border: 1px solid var(--border-color); overflow: hidden;
+            animation: fadeInDropdown 0.25s ease-out;
+        }
+        @keyframes fadeInDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .dropdown-menu.show { display: block; }
+        .dropdown-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); text-align: center; }
+        .dropdown-header strong { display: block; font-size: 1.05em; color: var(--text-light); margin-bottom: 4px; }
+        .dropdown-header .user-email { font-size: 0.85em; color: var(--text-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .dropdown-menu a { display: flex; align-items: center; padding: 12px 20px; text-decoration: none; color: var(--text-medium); font-size: 0.95em; transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; }
+        .dropdown-menu a:hover { background-color: var(--primary-accent); color: var(--text-light); }
+        .dropdown-menu a i { margin-right: 12px; width: 18px; text-align: center; font-size: 1em; }
+        .dropdown-divider { height: 1px; background-color: var(--border-color); margin: 6px 0; }
+
+        /* Contenitore principale della Dashboard */
+        .cloud-dashboard-container {
+            padding: 30px;
+            width: 100%;
+            max-width: 1600px; 
+            margin: 0 auto; 
+            flex-grow: 1;
+        }
+
+        /* Griglia della Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobile-first: una colonna */
+            gap: 30px; 
+        }
+
+        /* Stile base per i riquadri (tile) */
+        .dashboard-tile {
+            background-color: var(--tile-bg);
+            border: 1px solid var(--tile-border-color);
+            border-radius: var(--tile-border-radius);
+            padding: 30px;
+            box-shadow: var(--tile-shadow);
+            display: flex;
+            flex-direction: column;
+            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            min-height: 280px; /* Altezza minima base per i riquadri */
+        }
+        .dashboard-tile:hover {
+            background-color: var(--tile-bg-hover);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Riquadro Profilo Utente (specifico) */
+        .profile-card-tile {
+            align-items: center; 
+            text-align: center;
+            padding: 35px 30px;
+            justify-content: center; 
+        }
+        .profile-picture-area {
+            width: 140px; 
+            height: 140px;
+            border-radius: 50%;
+            margin-bottom: 25px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, var(--secondary-accent), var(--primary-accent));
+            box-shadow: 0 0 20px rgba(var(--primary-accent), 0.4), inset 0 0 10px rgba(0,0,0,0.3);
+        }
+        .profile-picture-area img#profileCardUserImage {
+            width: calc(100% - 20px); /* Immagine leggermente più piccola del contenitore per effetto bordo */
+            height: calc(100% - 20px);
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-color); 
+        }
+        .profile-card-tile .profile-name {
+            font-size: 2.2em; 
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        .profile-card-tile .profile-email {
+            font-size: 1em;
+            color: var(--text-medium);
+            margin-bottom: 20px;
+            word-break: break-all; /* Per email lunghe */
+        }
+        .profile-card-tile .profile-status {
+            font-size: 0.9em;
+            color: var(--text-medium);
+            opacity: 0.8;
+            background-color: rgba(0,0,0,0.15);
+            padding: 8px 15px;
+            border-radius: var(--button-border-radius);
+            display: inline-block;
+        }
+
+        /* Riquadro File (specifico) */
+        .files-tile {
+            min-height: 450px; /* Dà più spazio verticale al riquadro file */
+        }
+        .tile-header { display: flex; align-items: center; margin-bottom: 20px; }
+        .tile-icon { font-size: 2.2em; color: var(--highlight-accent); margin-right: 18px; width: 40px; text-align: center; }
+        .tile-title { font-size: 1.6em; font-weight: 600; color: var(--text-light); }
+        .tile-content { flex-grow: 1; display: flex; flex-direction: column; }
+        .tile-description, .tile-call-to-action { font-size: 0.95em; color: var(--text-medium); line-height: 1.6; margin-bottom: 15px; }
+        .tile-call-to-action { margin-top: auto; font-weight: 500; }
+        .tile-call-to-action a { color: var(--text-medium); text-decoration: none; display: inline-flex; align-items: center;}
+        .tile-call-to-action a:hover { color: var(--highlight-accent); }
+        .tile-call-to-action i { margin-right: 8px; color: var(--primary-accent); }
+        
+        .files-tile .tile-content { justify-content: space-between; }
+        .files-tile-toolbar { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+        .btn-tile-action { /* Classe generica per bottoni nei riquadri */
+            display: inline-flex; align-items: center; padding: 10px 20px;
+            background-color: var(--primary-accent); color: var(--text-light);
+            border: none; border-radius: var(--button-border-radius);
+            font-size: 0.9em; font-weight: 500; cursor: pointer;
+            transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+            box-shadow: 0 3px 8px rgba(var(--primary-accent), 0.2);
+        }
+        .btn-tile-action:hover { background-color: var(--secondary-accent); transform: translateY(-2px); box-shadow: 0 5px 12px rgba(var(--secondary-accent), 0.3); }
+        .btn-tile-action i { margin-right: 8px; }
+
+        .file-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); 
+            gap: 18px; overflow-y: auto; max-height: 350px; /* Aumentata altezza max */
+            padding: 10px; flex-grow: 1;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: var(--button-border-radius);
+        }
+        .file-item {
+            background-color: var(--input-bg); 
+            border-radius: 12px; padding: 18px 15px;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            border: 1px solid var(--border-color); 
+            transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .file-item:hover { 
+            background-color: var(--card-bg); 
+            transform: translateY(-4px) scale(1.02); 
+            border-color: var(--primary-accent);
+            box-shadow: 0 8px 20px rgba(var(--primary-accent),0.2);
+        }
+        .file-item .file-icon-area { 
+            font-size: 2.8em; margin-bottom: 12px; width: 55px; height: 55px; 
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 8px;
+            background-color: rgba(var(--primary-accent-rgb), 0.1); /* Sfondo leggero per l'icona */
+        }
+        .file-item .file-icon-area img.file-preview-image { 
+            width: 100%; height: 100%; object-fit: cover; border-radius: 6px; 
+        }
+        .file-item .file-name { 
+            font-size: 0.85em; -webkit-line-clamp: 2; margin-bottom: 5px; color: var(--text-light); 
+            font-weight: 500; width: 100%; overflow: hidden; text-overflow: ellipsis;
+        }
+        .file-item .file-info { font-size: 0.75em; color: var(--text-medium); }
+        .file-item .file-delete-btn {
+            position: absolute; width: 28px; height: 28px; font-size: 0.85em; top: 8px; right: 8px;
+            background-color: rgba(var(--danger-color), 0.7); color: var(--text-light);
+            border:none; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0; transition: opacity var(--transition-speed), background-color var(--transition-speed);
+        }
+        .file-item:hover .file-delete-btn { opacity: 1; }
+        .file-item .file-delete-btn:hover { background-color: var(--danger-color); }
+
+        .empty-tile-content {
+            display: none; 
+            flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; color: var(--text-medium); font-size: 1.1em;
+            height: 100%; padding: 20px; flex-grow: 1;
+        }
+        .empty-tile-content.visible { display: flex; } 
+        .empty-tile-content .empty-icon { font-size: 4em; margin-bottom: 20px; color: var(--primary-accent); opacity: 0.5; }
+        .empty-tile-content p { max-width: 320px; line-height: 1.65; margin-bottom: 25px;}
+        
+        #hiddenFileInput { display: none; }
+
+        /* Media Queries per Layout */
+        @media (min-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: minmax(340px, 1.5fr) 2.5fr; /* Profilo | File */
+            }
+            .profile-card-tile {
+                /* Occupa la prima colonna */
+                grid-row: 1 / span 2; /* Può estendersi su più righe se altre tile sono più corte */
+            }
+            .files-tile {
+                /* Occupa la seconda colonna */
+            }
+             /* Gli altri riquadri (Note, Impostazioni) si disporranno nelle colonne successive o righe */
+            .notes-tile { /* Esempio se si vuole posizionare specificamente */
+                grid-column: 1 / 2; /* Sotto il profilo */
+            }
+            .settings-tile-placeholder { /* Esempio */
+                grid-column: 2 / 3; /* Sotto i file, o accanto alle note */
+            }
+        }
+
+        @media (max-width: 991px) { /* Tablet e sotto */
+            .dashboard-grid {
+                grid-template-columns: 1fr; /* Tutti i riquadri in una colonna */
+            }
+            .profile-card-tile { order: -1; /* Profilo sempre in cima su mobile/tablet */}
+            .files-tile { min-height: 400px; }
+            .file-grid { max-height: 300px; }
+        }
+
+        @media (max-width: 768px) { /* Mobile */
+            .cloud-header { padding: 0 20px; }
+            .cloud-dashboard-container { padding: 20px; }
+            .dashboard-tile { padding: 25px; min-height: 250px;} 
+            .profile-card-tile { min-height: auto; padding: 30px 25px; } 
+            .profile-picture-area { width: 120px; height: 120px; margin-bottom: 20px;}
+            .profile-picture-area img#profileCardUserImage { width: calc(100% - 16px); height: calc(100% - 16px);}
+            .profile-card-tile .profile-name { font-size: 1.8em; }
+            .profile-card-tile .profile-email { font-size: 0.95em; }
+
+            .tile-title { font-size: 1.5em; }
+            .tile-icon { font-size: 2em; }
+            .file-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; max-height: 280px; }
+            .file-item { padding: 15px 12px; }
+            .file-item .file-icon-area { width: 50px; height: 50px; font-size: 2.5em; }
+        }
+        @media (max-width: 480px) {
+            .cloud-header { padding: 0 15px; }
+            .welcome-message { font-size: 1em; }
+            .welcome-message .user-name { font-weight: 600; }
+            .cloud-dashboard-container { padding: 15px; }
+            .dashboard-tile { padding: 20px; }
+            .profile-picture-area { width: 100px; height: 100px;}
+            .profile-picture-area img#profileCardUserImage { width: calc(100% - 12px); height: calc(100% - 12px); border-width: 3px;}
+            .profile-card-tile .profile-name { font-size: 1.6em; }
+            .profile-card-tile .profile-email { font-size: 0.9em; }
+            .profile-card-tile .profile-status { font-size: 0.8em; padding: 6px 10px;}
+
+            .tile-title { font-size: 1.35em; }
+            .tile-icon { font-size: 1.8em; margin-right: 12px; }
+            .files-tile-toolbar { margin-bottom: 15px; }
+            .btn-tile-action { padding: 8px 15px; font-size: 0.85em; }
+            .file-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; }
+            .file-item { padding: 12px 10px; }
+            .file-item .file-icon-area { width: 45px; height: 45px; font-size: 2.2em; margin-bottom: 10px; }
+            .file-item .file-name { font-size: 0.8em; }
+            .file-item .file-info { font-size: 0.7em; }
+            .empty-tile-content .empty-icon { font-size: 3em; }
+            .empty-tile-content p { font-size: 0.95em; }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="cloud-header">
+        <div class="logo-cloud">
+            <img src="index.png" alt="Harzafi Cloud Logo"> <div class="welcome-message">Benvenuto/a, <span class="user-name">Caricamento...</span>!</div>
+        </div>
+        <div class="user-menu">
+            <div class="user-avatar" id="userAvatarHeader">
+                </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-header">
+                    <strong id="dropdownUserName">Caricamento...</strong>
+                    <div class="user-email" id="dropdownUserEmail">Caricamento...</div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <a href="#" id="settingsLink"><i class="fas fa-cog"></i> Impostazioni</a>
+                <a href="#" id="profileLink"><i class="fas fa-user-circle"></i> Profilo</a>
+                <div class="dropdown-divider"></div>
+                <a href="/logout" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="cloud-dashboard-container">
+        <div class="dashboard-grid">
+            <div class="dashboard-tile profile-card-tile" id="userProfileTile">
+                <div class="profile-picture-area">
+                    <img id="profileCardUserImage" src="index.png" alt="Immagine Profilo"> </div>
+                <h3 id="profileCardUserName" class="profile-name">Caricamento...</h3>
+                <p id="profileCardUserEmail" class="profile-email">Caricamento...</p>
+                <p class="profile-status"><i class="fas fa-info-circle"></i> Harzafi Cloud disponibile solo da web.</p>
+            </div>
+
+            <div class="dashboard-tile files-tile" id="userFilesTile">
+                <div class="tile-header">
+                    <i class="fas fa-hdd tile-icon"></i>
+                    <h3 class="tile-title">I Tuoi File</h3>
+                </div>
+                <div class="tile-content">
+                    <div class="files-tile-toolbar">
+                        <button class="btn-tile-action" id="uploadFileButton"><i class="fas fa-upload"></i> Carica File</button>
+                    </div>
+                    <div class="file-grid" id="fileGrid">
+                        </div>
+                    <div class="empty-tile-content" id="emptyGridMessage"> 
+                        <i class="fas fa-cloud-upload-alt empty-icon"></i>
+                        <p>Il tuo spazio cloud è vuoto. Inizia caricando il tuo primo file!</p>
+                        <button class="btn-tile-action" id="uploadFileButtonEmpty"><i class="fas fa-plus-circle"></i> Aggiungi File</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-tile notes-tile">
+                <div class="tile-header">
+                    <i class="fas fa-sticky-note tile-icon"></i>
+                    <h3 class="tile-title">Note</h3>
+                </div>
+                <div class="tile-content">
+                    <p class="tile-description">Organizza i tuoi pensieri, appunti e idee direttamente nel cloud.</p>
+                    <p class="tile-call-to-action"><a href="#"><i class="fas fa-plus-circle"></i> Crea la tua prima nota</a></p>
+                </div>
+            </div>
+            
+            <div class="dashboard-tile settings-tile-placeholder">
+                <div class="tile-header">
+                    <i class="fas fa-cog tile-icon"></i>
+                    <h3 class="tile-title">Impostazioni</h3>
+                </div>
+                <div class="tile-content">
+                    <p class="tile-description">Personalizza il tuo account, le preferenze di sicurezza e molto altro.</p>
+                    <p class="tile-call-to-action"><a href="#"><i class="fas fa-sliders-h"></i> Vai alle impostazioni</a></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <input type="file" id="hiddenFileInput" multiple>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Elementi UI per info utente
+            const welcomeMessageSpan = document.querySelector('.welcome-message .user-name');
+            const userAvatarHeaderDiv = document.getElementById('userAvatarHeader'); 
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownUserName = document.getElementById('dropdownUserName');
+            const dropdownUserEmail = document.getElementById('dropdownUserEmail');
+
+            const profileCardUserImage = document.getElementById('profileCardUserImage');
+            const profileCardUserName = document.getElementById('profileCardUserName');
+            const profileCardUserEmail = document.getElementById('profileCardUserEmail');
+
+            // Elementi UI per gestione file
+            const uploadFileButton = document.getElementById('uploadFileButton');
+            const uploadFileButtonEmpty = document.getElementById('uploadFileButtonEmpty');
+            const hiddenFileInput = document.getElementById('hiddenFileInput');
+            
+            const fileGrid = document.getElementById('fileGrid');
+            const emptyGridMessage = document.getElementById('emptyGridMessage'); 
+
+            let filesArray = []; 
+            const STORAGE_KEY = 'harzafiCloudFiles_v2'; // Chiave per localStorage
+
+            // --- Gestione Informazioni Utente ---
+            function fetchUserInfo() {
+                fetch('/api/user-info') // Assicurati che questo endpoint sia corretto e funzionante
+                    .then(response => {
+                        if (!response.ok) {
+                            if (response.status === 401) { // Non autorizzato
+                                console.warn('Utente non autenticato. Reindirizzamento alla pagina di login.'); 
+                                window.location.href = 'accedi.html'; // Reindirizza se non loggato
+                            } else {
+                                throw new Error(\`Errore HTTP \${response.status} nel recupero informazioni utente.\`);
+                            }
+                            return null; 
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data && data.success) {
+                            const name = data.name || 'Utente';
+                            const email = data.email || 'N/D';
+                            const profilePicUrl = data.profilePicUrl || 'index.png'; // URL immagine profilo o fallback
+
+                            // Aggiorna header
+                            if (welcomeMessageSpan) welcomeMessageSpan.textContent = name;
+                            if (dropdownUserName) dropdownUserName.textContent = name;
+                            if (dropdownUserEmail) dropdownUserEmail.textContent = email;
+
+                            // Avatar nell'header
+                            if (userAvatarHeaderDiv) {
+                                userAvatarHeaderDiv.innerHTML = ''; // Pulisci avatar precedente
+                                if (profilePicUrl && profilePicUrl !== 'index.png') {
+                                    const img = document.createElement('img');
+                                    img.src = profilePicUrl;
+                                    img.alt = name;
+                                    img.classList.add('profile-picture');
+                                    img.onerror = () => { // Fallback se l'immagine non carica
+                                        userAvatarHeaderDiv.textContent = name.charAt(0).toUpperCase();
+                                        userAvatarHeaderDiv.style.backgroundColor = 'var(--primary-accent)';
+                                    };
+                                    userAvatarHeaderDiv.appendChild(img);
+                                    userAvatarHeaderDiv.style.backgroundColor = 'transparent';
+                                } else { // Se non c'è URL o è il fallback, mostra iniziale
+                                    userAvatarHeaderDiv.textContent = name.charAt(0).toUpperCase();
+                                    userAvatarHeaderDiv.style.backgroundColor = 'var(--primary-accent)';
+                                }
+                            }
+
+                            // Riquadro profilo
+                            if (profileCardUserName) profileCardUserName.textContent = name;
+                            if (profileCardUserEmail) profileCardUserEmail.textContent = email;
+                            if (profileCardUserImage) {
+                                profileCardUserImage.src = profilePicUrl;
+                                profileCardUserImage.onerror = () => { 
+                                    profileCardUserImage.src = 'index.png'; // Fallback statico se l'immagine profilo non carica
+                                };
+                            }
+
+                        } else if (data) { 
+                            console.warn('Recupero info utente fallito:', data ? data.message : "Dati non ricevuti.");
+                            // Fallback UI se il recupero dati non va a buon fine ma non è un 401
+                            const defaultName = "Utente";
+                            if (welcomeMessageSpan) welcomeMessageSpan.textContent = defaultName;
+                            if (dropdownUserName) dropdownUserName.textContent = defaultName;
+                            if (userAvatarHeaderDiv) userAvatarHeaderDiv.textContent = defaultName.charAt(0).toUpperCase();
+                            if (profileCardUserName) profileCardUserName.textContent = defaultName;
+                            if (profileCardUserEmail) profileCardUserEmail.textContent = "Email non disponibile";
+                            if (profileCardUserImage) profileCardUserImage.src = 'index.png';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Errore critico nel fetch user-info:', error);
+                        // Gestione errore UI più generale
+                        const errorName = "Errore";
+                        if (welcomeMessageSpan) welcomeMessageSpan.textContent = errorName;
+                        if (dropdownUserName) dropdownUserName.textContent = errorName;
+                        if (userAvatarHeaderDiv) userAvatarHeaderDiv.textContent = 'X';
+                        if (profileCardUserName) profileCardUserName.textContent = "Impossibile caricare";
+                        if (profileCardUserEmail) profileCardUserEmail.textContent = "Controlla la connessione";
+                        if (profileCardUserImage) profileCardUserImage.src = 'index.png';
+                    });
+            }
+            fetchUserInfo();
+
+            // Gestione dropdown menu utente
+            if (userAvatarHeaderDiv) {
+                userAvatarHeaderDiv.addEventListener('click', (event) => {
+                    event.stopPropagation(); 
+                    if (dropdownMenu) dropdownMenu.classList.toggle('show');
+                });
+            }
+            document.addEventListener('click', (event) => { // Chiudi dropdown se si clicca fuori
+                if (dropdownMenu && dropdownMenu.classList.contains('show') && 
+                    userAvatarHeaderDiv && !userAvatarHeaderDiv.contains(event.target) && 
+                    !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+            
+            // --- Gestione File (localStorage) ---
+            // NOTA: Questa è una DEMO. I file sono salvati in localStorage e sono locali al browser.
+            // Per un vero servizio cloud, è necessario un backend per l'upload e storage persistente.
+
+            function loadFilesFromLocalStorage() {
+                const storedFiles = localStorage.getItem(STORAGE_KEY);
+                if (storedFiles) {
+                    try {
+                        filesArray = JSON.parse(storedFiles);
+                        if (!Array.isArray(filesArray)) filesArray = [];
+                    } catch (e) {
+                        console.error("Errore nel parsing dei file da localStorage:", e);
+                        filesArray = [];
+                    }
+                }
+                renderAllFiles();
+                updateEmptyGridMessageVisibility();
+            }
+
+            function saveFilesToLocalStorage() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(filesArray));
+                updateEmptyGridMessageVisibility();
+            }
+
+            function getFileIconDetails(fileType) {
+                fileType = fileType ? fileType.toLowerCase() : '';
+                if (fileType.startsWith('image/')) return { type: 'image', iconClass: 'fas fa-file-image', color: 'var(--highlight-accent)' };
+                if (fileType === 'application/pdf') return { type: 'pdf', iconClass: 'fas fa-file-pdf', color: '#f40f02' };
+                if (fileType.includes('wordprocessingml') || fileType === 'application/msword') return { type: 'doc', iconClass: 'fas fa-file-word', color: '#2b579a' };
+                if (fileType.includes('spreadsheetml') || fileType === 'application/vnd.ms-excel') return { type: 'excel', iconClass: 'fas fa-file-excel', color: '#217346' };
+                if (fileType.includes('presentationml') || fileType === 'application/vnd.ms-powerpoint') return { type: 'ppt', iconClass: 'fas fa-file-powerpoint', color: '#d24726' };
+                if (fileType.startsWith('text/')) return { type: 'text', iconClass: 'fas fa-file-alt', color: '#5f6368' };
+                if (fileType === 'application/zip' || fileType.includes('archive') || fileType.includes('compressed')) return { type: 'archive', iconClass: 'fas fa-file-archive', color: '#fbbc04' };
+                if (fileType.startsWith('audio/')) return { type: 'audio', iconClass: 'fas fa-file-audio', color: '#9c27b0' };
+                if (fileType.startsWith('video/')) return { type: 'video', iconClass: 'fas fa-file-video', color: '#e53935' };
+                return { type: 'default', iconClass: 'fas fa-file', color: 'var(--text-medium)' }; // Icona generica
+            }
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            function renderFileItem(file) {
+                const item = document.createElement('div');
+                item.classList.add('file-item');
+                item.dataset.fileId = file.id;
+                item.title = \`Nome: \${file.name}\nTipo: \${file.type || 'Sconosciuto'}\nDimensione: \${formatFileSize(file.size)}\`;
+
+                const iconDetails = getFileIconDetails(file.type);
+                const iconArea = document.createElement('div');
+                iconArea.classList.add('file-icon-area');
+
+                if (iconDetails.type === 'image' && file.dataUrl) {
+                    const imgPreview = document.createElement('img');
+                    imgPreview.src = file.dataUrl;
+                    imgPreview.alt = file.name;
+                    imgPreview.classList.add('file-preview-image');
+                    imgPreview.onerror = () => { // Fallback se l'anteprima immagine non carica
+                        iconArea.innerHTML = \`<i class="\${iconDetails.iconClass}" style="color: \${iconDetails.color};"></i>\`;
+                    };
+                    iconArea.appendChild(imgPreview);
+                } else {
+                    iconArea.innerHTML = \`<i class="\${iconDetails.iconClass}" style="color: \${iconDetails.color};"></i>\`;
+                }
+                
+                const nameElement = document.createElement('div');
+                nameElement.classList.add('file-name');
+                nameElement.textContent = file.name;
+
+                const infoElement = document.createElement('div');
+                infoElement.classList.add('file-info');
+                infoElement.textContent = formatFileSize(file.size);
+                
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('file-delete-btn');
+                deleteButton.innerHTML = '<i class="fas fa-times"></i>';
+                deleteButton.title = 'Rimuovi file';
+                deleteButton.setAttribute('aria-label', \`Rimuovi \${file.name}\`);
+                deleteButton.addEventListener('click', (e) => {
+                    e.stopPropagation(); 
+                    // Qui sarebbe meglio usare un modale custom invece di confirm()
+                    if (confirm(\`Sei sicuro di voler rimuovere "\${file.name}"? L'azione è limitata a questa sessione del browser.\`)) {
+                        removeFile(file.id);
+                    }
+                });
+
+                item.appendChild(iconArea);
+                item.appendChild(nameElement); 
+                item.appendChild(infoElement);
+                item.appendChild(deleteButton);
+                if(fileGrid) fileGrid.appendChild(item); 
+            }
+
+            function renderAllFiles() {
+                if(fileGrid) fileGrid.innerHTML = ''; 
+                if (Array.isArray(filesArray)) {
+                    filesArray.forEach(renderFileItem);
+                }
+                updateEmptyGridMessageVisibility();
+            }
+            
+            function removeFile(fileId) {
+                filesArray = filesArray.filter(f => f.id !== fileId);
+                saveFilesToLocalStorage(); 
+                renderAllFiles(); 
+            }
+
+            function handleFileUpload(event) {
+                const selectedFiles = Array.from(event.target.files);
+                selectedFiles.forEach(file => {
+                    // Limite dimensione per dataUrl (es. 5MB) per performance
+                    const MAX_SIZE_FOR_PREVIEW = 5 * 1024 * 1024; 
+                    const fileData = {
+                        id: 'file_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9),
+                        name: file.name,
+                        type: file.type || 'application/octet-stream',
+                        size: file.size,
+                        dataUrl: null 
+                    };
+
+                    if (fileData.type.startsWith('image/') && file.size < MAX_SIZE_FOR_PREVIEW) { 
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            fileData.dataUrl = e.target.result;
+                            filesArray.push(fileData);
+                            renderFileItem(fileData); 
+                            saveFilesToLocalStorage(); 
+                        };
+                        reader.onerror = () => { // Se la lettura fallisce, aggiungi senza dataUrl
+                            console.error("Errore durante la lettura del file immagine per l'anteprima.");
+                            filesArray.push(fileData); // Aggiungi comunque il file senza anteprima
+                            renderFileItem(fileData);
+                            saveFilesToLocalStorage();
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        filesArray.push(fileData);
+                        renderFileItem(fileData); 
+                        saveFilesToLocalStorage(); 
+                    }
+                });
+                if(hiddenFileInput) hiddenFileInput.value = ''; // Resetta l'input per permettere di caricare lo stesso file di nuovo
+            }
+            
+            function updateEmptyGridMessageVisibility() {
+                if (!fileGrid || !emptyGridMessage) return;
+                if (filesArray.length === 0) {
+                    emptyGridMessage.classList.add('visible'); 
+                    fileGrid.style.display = 'none'; 
+                } else {
+                    emptyGridMessage.classList.remove('visible'); 
+                    fileGrid.style.display = 'grid'; 
+                }
+            }
+
+            // Event listener per i bottoni di upload
+            if (uploadFileButton) {
+                uploadFileButton.addEventListener('click', () => hiddenFileInput.click());
+            }
+            if (uploadFileButtonEmpty) {
+                uploadFileButtonEmpty.addEventListener('click', () => hiddenFileInput.click());
+            }
+            if (hiddenFileInput) {
+                hiddenFileInput.addEventListener('change', handleFileUpload);
+            }
+
+            // Caricamento iniziale dei file e setup UI
+            loadFilesFromLocalStorage(); 
+
+        });
+    </script>
+</body>
+</html>
